@@ -20,6 +20,6 @@ preprocessing script, activate the environment and run:
 python preprocessing/preprocessing.py
 ```
 
-The script expects `RAW_recipes.csv` and `RAW_interactions.csv` in `data/`.
-If the dataset is elsewhere, update the paths in the script or copy the files
-into `data/`.
+The script locates `RAW_recipes.csv` and `RAW_interactions.csv` in a `data*`
+directory under the project root, so it can also use the provided nested
+dataset folder.
