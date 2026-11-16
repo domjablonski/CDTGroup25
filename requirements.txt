@@ -6,3 +6,13 @@ pandas
 scikit-learn
 scipy
 seaborn
+
+# added with the project skeleton (plan v2.0)
+pyarrow>=14
+numba>=0.59
+networkx>=3.2
+jupyter
+kaggle>=1.6
+datasketch>=1.6
+mlxtend>=0.23
+pytest>=8

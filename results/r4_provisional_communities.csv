@@ -1,0 +1,22 @@
+weighting,community,size,top_ingredients,dominant_cuisine
+count,0,292,"garlic, onion, water, olive oil, pepper, salt and pepper, parmesan cheese, lemon juice, vegetable oil, black pepper",italian
+count,1,268,"salt, butter, sugar, eggs, flour, milk, vanilla, brown sugar, baking powder, baking soda",southern-united-states
+lift,0,178,"garlic, onion, olive oil, parmesan cheese, extra virgin olive oil, fresh ground black pepper, mozzarella cheese, fresh basil, fresh ground pepper, sea salt",italian
+lift,1,167,"salt, butter, sugar, eggs, flour, milk, vanilla, brown sugar, baking powder, baking soda",southern-united-states
+lift,2,69,"pepper, salt and pepper, black pepper, garlic powder, oil, onions, celery, paprika, chicken broth, fresh parsley",italian
+lift,3,47,"tomatoes, sour cream, cheddar cheese, chili powder, ground cumin, ground beef, red onion, red bell pepper, fresh cilantro, balsamic vinegar",mexican
+lift,4,30,"vegetable oil, honey, soy sauce, cornstarch, green onions, green onion, orange juice, fresh ginger, lime juice, sesame oil",asian
+lift,5,24,"lemon juice, mayonnaise, worcestershire sauce, dijon mustard, fresh lemon juice, ketchup, vinegar, dry mustard, cider vinegar, sharp cheddar cheese",southern-united-states
+lift,6,17,"water, warm water, active dry yeast, rice, cooking oil, bread flour, yeast, cinnamon stick, baby carrots, cinnamon sticks",indian
+lift,7,2,"plain flour, caster sugar",
+pmi,0,173,"salt, butter, sugar, eggs, flour, milk, vanilla, brown sugar, baking powder, baking soda",southern-united-states
+pmi,1,164,"garlic, olive oil, parmesan cheese, lemon juice, extra virgin olive oil, fresh ground black pepper, dijon mustard, kosher salt, fresh lemon juice, mozzarella cheese",italian
+pmi,2,112,"onion, pepper, salt and pepper, black pepper, garlic powder, onions, celery, mayonnaise, paprika, chicken broth",southern-united-states
+pmi,3,46,"tomatoes, sour cream, cheddar cheese, chili powder, ground cumin, ground beef, red onion, red bell pepper, fresh cilantro, cumin",mexican
+pmi,4,39,"water, vegetable oil, oil, honey, soy sauce, cornstarch, green onions, green onion, canola oil, fresh ginger",asian
+npmi,0,148,"garlic, olive oil, parmesan cheese, lemon juice, tomatoes, extra virgin olive oil, fresh parsley, fresh ground black pepper, red onion, dijon mustard",italian
+npmi,1,147,"salt, butter, sugar, eggs, flour, milk, vanilla, brown sugar, baking powder, baking soda",southern-united-states
+npmi,2,81,"onion, pepper, salt and pepper, onions, celery, mayonnaise, chicken broth, worcestershire sauce, carrots, parsley",southern-united-states
+npmi,3,64,"black pepper, sour cream, garlic powder, cheddar cheese, paprika, chili powder, cayenne pepper, ground cumin, ground beef, dried oregano",mexican
+npmi,4,34,"vegetable oil, oil, honey, soy sauce, cornstarch, green onions, green onion, orange juice, canola oil, fresh ginger",asian
+npmi,5,13,"water, warm water, active dry yeast, bread flour, yeast, cinnamon stick, cinnamon sticks, cloves, whole cloves, long grain rice",indian

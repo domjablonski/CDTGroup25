@@ -1,3 +1,34 @@
 /data/
 /data /
 /.venv/
+
+# Data: the licence ("© Original Authors") does not allow republishing it
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+# ...and wherever someone puts a copy (GitHub refuses files > 100 MB)
+RAW_recipes.csv
+RAW_interactions.csv
+PP_*.csv
+interactions_*.csv
+ingr_map.pkl
+*.parquet
+*.zip
+*.pkl
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets and personal settings
+kaggle.json
+.claude/settings.local.json
