@@ -1,0 +1,13 @@
+user_id,recipe_id,date,rating,review
+10,101,2006-01-01,5,loved it
+10,101,2006-02-01,4,made it again
+11,102,2004-02-02,5,great
+12,102,2005-03-03,0,"no rating, just a note"
+11,103,2009-04-04,4,good copy
+2,104,2005-05-05,5,my own recipe
+13,104,2005-06-06,5,kids loved them
+14,104,2006-07-07,3,
+13,106,2008-08-08,5,spicy
+14,108,2011-09-09,2,too salty
+15,999,2012-10-10,4,recipe missing
+5,106,2008-01-01,5,self review

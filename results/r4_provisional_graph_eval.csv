@@ -1,0 +1,5 @@
+weighting,method,k,n_communities,modularity,null_modularity,nmi,nodes,edges,min_weight
+count,louvain,,2,0.2312,0.3444,0.1618,560,4802,0.0000
+lift,louvain,,8,0.5421,0.3524,0.4206,534,2878,1.4142
+pmi,louvain,,5,0.5057,0.2804,0.4295,534,2878,0.5000
+npmi,louvain,,6,0.5312,0.2962,0.4044,487,2136,0.1000

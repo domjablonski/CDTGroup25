@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pytest *)",
+      "Bash(python -m pytest *)",
+      "Bash(python -m foodcom.*)",
+      "Bash(python scripts/*)",
+      "Bash(pip install *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git switch *)",
+      "Bash(git checkout *)",
+      "Bash(git branch *)",
+      "Bash(git merge *)",
+      "Bash(git fetch *)",
+      "Bash(git pull *)"
+    ],
+    "ask": [
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Edit(/src/foodcom/config.py)",
+      "Edit(/src/foodcom/schemas.py)",
+      "Edit(/tests/conftest.py)",
+      "Edit(/tests/fixtures/**)",
+      "Edit(/tests/test_contract.py)",
+      "Edit(/docs/CONTRACT.md)"
+    ]
+  }
+}

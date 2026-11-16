@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Food.com project - Project plan</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Food.com · Project plan</h1>
+<p class="subtitle">Ingredient pairing and recipe similarity: organisation, roles, sprints, verification and the Claude Code workflow ·
+Computational Tools for Data Science (DTU 02807) · version 2.0, 10 November 2026</p>
+
+<table class="meta">
+<tr><td>Team</td><td><span class="tag r1">R1</span> data + ingredients &nbsp; <span class="tag r2">R2</span> MinHash/LSH &nbsp; <span class="tag r3">R3</span> PCY/A-Priori &nbsp; <span class="tag r4">R4</span> PMI graph + Louvain &nbsp; <span class="tag r5">R5</span> calorie classifier + report</td></tr>
+<tr><td>Project</td><td>"Ingredient pairing and recipe similarity on Food.com" (topic decided 10 Nov): 231,637 recipes (Kaggle, Majumder et al. 2019); PCY and MinHash + LSH implemented from scratch, a PMI-weighted ingredient graph with Louvain, a calorie-level classifier from LSH neighbours</td></tr>
+<tr><td>Files</td><td><code>docs/CONTRACT.md</code> (shared spec, v2.0) · <code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code> (what Claude reads) · <code>docs/backlog.md</code> (issues) · this PDF</td></tr>
+<tr><td>Key dates</td><td>hand-offs <b>Thu 12 / Thu 19 Nov</b> · experiment freeze <b>Tue 24 Nov</b> · full draft <b>Sun 29 Nov</b> · submission <b>Thu 3 Dec</b> (DTU Learn deadline Fri 4 Dec, 23:59)</td></tr>
+</table>
+
+<div class="box">
+<h4>The plan in 10 lines</h4>
+<ol>
+<li>One main question: <b>what structure do the ingredient combinations of 231,637 recipes reveal, and can it be exploited at scale?</b> Four sub-questions, one per course or outside method.</li>
+<li>Same method as the Agile Hardware project: a <b>frozen contract</b> (<code>config.py</code>, <code>schemas.py</code>, the function signatures, <code>CONTRACT.md</code> v2.0), <b>5 roles that own separate files</b>, one instructions file that Claude Code follows.</li>
+<li>The skeleton already runs: 53 tests green (10 Nov); the cleaning ran on all 231,637 recipes (about 1 min) and produced the calorie labels (tertiles at 217.7 and 431.7 kcal).</li>
+<li><span class="r1">R1</span> data + ingredient normalisation · <span class="r2">R2</span> MinHash + LSH, "recipes like this one" · <span class="r3">R3</span> PCY vs A-Priori, ingredient pairing · <span class="r4">R4</span> PMI-weighted graph + Louvain, cuisine discovery · <span class="r5">R5</span> calorie-level classifier from LSH neighbours, report editor.</li>
+<li><b>Three course topics</b> (two implemented from scratch: PCY, MinHash/LSH; plus Louvain) and <b>two outside-course methods</b> (PMI weighting, kNN classification): the ~25 % extra a group of 5 must deliver.</li>
+<li>4 one-week sprints (S1 to S4), Tuesday to Tuesday. The Tuesday exercise session (20:00) is our weekly review + planning. Experiments freeze on <b>Tue 24 Nov</b>.</li>
+<li><b>One story = one fresh Claude session = one branch = one pull request.</b> Each member just types <code>Do story R2-S1.</code></li>
+<li>Two hand-offs only: <b>H1 Thu 12</b> (normalised ingredients + calorie levels, everyone depends on it) and <b>H2 Thu 19</b> (neighbours, duplicates, pairs). Before them, everyone works on the 1 % sample.</li>
+<li>Every score has a reference: LSH vs exact Jaccard, PCY = A-Priori, PMI graph vs raw counts and a null graph, kNN vs majority / logistic / exact kNN, with <b>no leakage through copies</b>.</li>
+<li>Tests first, never weakened; every report number comes from a <code>results/*.csv</code> written by code; everyone can explain every section (Prompt E each sprint).</li>
+</ol>
+</div>
+
+<h3>Contents</h3>
+<ol class="toc">
+<li>What we must deliver (traceability)</li>
+<li>Calendar</li>
+<li>Pipeline, questions and design decisions</li>
+<li>The shared contract</li>
+<li>Team, roles and load</li>
+<li>Sprint backlog (stories S1 to S4)</li>
+<li>How we work: board and Git</li>
+<li>Working with Claude Code</li>
+<li>How we verify everything</li>
+<li>Prompts, ready to paste</li>
+<li>Risks, plan B and scope cuts</li>
+<li>Likely bugs and fixes</li>
+<li>Checklists</li>
+</ol>
+
+<!-- ============================================================== 1 -->
+<h2 class="newpage">1. What we must deliver (traceability)</h2>
+<p>From the course page (courses.compute.dtu.dk/02807/2026) and the project description (project.pdf). Each requirement points to the story that covers it.</p>
+<table>
+<thead><tr><th style="width:36%">Course requirement</th><th style="width:16%">Source</th><th>Covered by</th></tr></thead>
+<tr><td>A relevant, <b>technically challenging</b> problem, motivated in the report</td><td>project.pdf p.1, p.3</td><td>Main question + RQ1–RQ4 (§3); Introduction R5-S3</td></tr>
+<tr><td>At least one, <b>preferably two</b> course topics, <b>essential</b> to the solution</td><td>p.1, p.3</td><td>Three: frequent itemsets (PCY, R3), similar items (MinHash/LSH, R2), graph clustering (Louvain, R4)</td></tr>
+<tr><td>"You will likely need to <b>implement some things yourself</b>"</td><td>p.1</td><td>PCY, A-Priori and MinHash/LSH written from scratch; libraries only in comparison tests</td></tr>
+<tr><td>At least one technique <b>not taught</b>, clearly identified and briefly explained</td><td>p.1, p.2</td><td>Two: PMI/NPMI weighting (R4), kNN classification on LSH neighbours (R5); optional Node2Vec</td></tr>
+<tr><td>Groups of 5 do <b>~25 % more</b></td><td>p.2</td><td>3 course topics + 2 outside methods; benchmark, tuning and baselines for each</td></tr>
+<tr><td>Describe the data, how it was obtained, the preprocessing</td><td>p.2</td><td>R1-S1b (normalisation, calorie levels), R1-S3 (section), <code>data_summary.csv</code></td></tr>
+<tr><td><b>Argue every choice</b> (no re-explaining course material)</td><td>p.3</td><td>Support and buckets (R3-S2), (b, r) via the S-curve (R2-S2), weighting and threshold (R4-S2), k and voting (R5-S2)</td></tr>
+<tr><td><b>Evaluate</b> the solution and reflect on why it worked or not</td><td>p.2, p.3</td><td>§9: exact Jaccard ground truth, PCY = A-Priori, null graph, classifier baselines, cuisine labels</td></tr>
+<tr><td>Report ≤ <b>12,500 characters</b> (group of 5), names on the title page, summary/outline at the start</td><td>p.2</td><td><code>report/outline.md</code> budgets, <code>scripts/count_chars.py</code>, R5-S3/S4</td></tr>
+<tr><td>Jupyter notebook in appendix, <b>well documented</b>, easy to run</td><td>p.2, p.3</td><td>R1-S2 (run_all), R1-S3 (assembly, Run All), R1-S4 (fresh clone)</td></tr>
+<tr><td>Outline of <b>each member's contribution</b></td><td>p.2</td><td><code>report/contributions.md</code> (owner + reviewer per task)</td></tr>
+<tr><td>Data too large / not shareable → link</td><td>p.2</td><td>Licence forbids re-publishing: Kaggle link + script (confirm with the TA), R1-S4</td></tr>
+<tr><td>Bonus: very large data handled <b>effectively</b></td><td>p.3</td><td>Full data at every step; PCY and LSH make it tractable; <code>runtime.csv</code>, <code>search_latency.csv</code></td></tr>
+</table>
+
+<table>
+<thead><tr><th style="width:36%">What the group decided (10 Nov)</th><th style="width:16%">Delivered by</th><th>Evidence for the grader</th></tr></thead>
+<tr><td>Implement PCY ourselves for frequent ingredient combinations and association rules</td><td>R3-S1/S2</td><td><code>rules_top.csv</code>; PCY returns exactly A-Priori's pairs (tests)</td></tr>
+<tr><td>Benchmark PCY against A-Priori on memory and time</td><td>R3-S2</td><td><code>itemsets_bench.csv</code>: 3 supports × 3 bucket counts, seconds, peak MB, pairs counted</td></tr>
+<tr><td>Implement MinHash + LSH ourselves; a "recipes like this one" search</td><td>R2-S1/S2</td><td><code>search_latency.csv</code> (LSH vs brute force), 3 example queries</td></tr>
+<tr><td>Tune bands and rows against an exact-Jaccard sample (precision and recall)</td><td>R2-S2</td><td><code>lsh_eval.csv</code>: 4 (b, r) × 4 thresholds on 5,000 recipes</td></tr>
+<tr><td>PMI-weighted ingredient graph with Louvain for cuisine discovery</td><td>R4-S2</td><td><code>graph_eval.csv</code> (4 weightings, null graph, NMI), <code>communities.csv</code></td></tr>
+<tr><td>Calorie-level classifier using the LSH neighbours</td><td>R5-S2</td><td><code>classifier_eval.csv</code> vs 3 baselines, <code>confusion_matrix.csv</code></td></tr>
+</table>
+
+<!-- ============================================================== 2 -->
+<h2>2. Calendar</h2>
+<!--FIG:timeline-->
+<p class="caption">Sprints run Tuesday to Tuesday (the exercise session, 20:00–22:00; weeks 10–13 are project weeks). There is no exam: the report is the grade.</p>
+<table>
+<thead><tr><th style="width:8%">Sprint</th><th style="width:17%">Dates</th><th style="width:38%">Sprint goal</th><th>What we show at the Tuesday review</th></tr></thead>
+<tr><td><b>S1</b></td><td>Tue 10 – Tue 17 Nov</td><td>Skeleton in the group repo (Wed 11); ingredients v2 (Thu 12); every algorithm <b>correct on toy examples and the 1 % sample</b></td><td>Tests green; comparisons with datasketch / mlxtend; provisional outputs on the sample</td></tr>
+<tr><td><b>S2</b></td><td>→ Tue 24 Nov</td><td><b>Full data</b>; hand-off H2 (Thu 19); integration (Fri 20); every results file and figure v1 (Sun 22). <b>Freeze at the session</b></td><td>All 10 results files of CONTRACT 3.6</td></tr>
+<tr><td><b>S3</b></td><td>Wed 25 – Sun 29 Nov</td><td>Sections within budget (Fri 27); full draft (Sun 29); final notebook Run All</td><td>The draft, read by everyone before Tue 1 Dec</td></tr>
+<tr><td><b>S4</b></td><td>Mon 30 Nov – Thu 3 Dec</td><td>Review at the session (Tue 1), fresh clone (Wed 2), submission (Thu 3)</td><td>Submitted on DTU Learn Thu 3 Dec (one day of margin)</td></tr>
+</table>
+
+<h3>The hand-offs (the only dependencies between roles)</h3>
+<table>
+<thead><tr><th style="width:26%">File (config name)</th><th style="width:16%">From → to</th><th style="width:14%">Due</th><th>Until it arrives</th></tr></thead>
+<tr><td><code>RECIPES</code> v2 (ingredients v2, calorie_level)</td><td>R1 → all</td><td>Thu 12 Nov</td><td>Skeleton normalisation (already usable); calorie levels already in the skeleton</td></tr>
+<tr><td><code>NEIGHBOURS</code> + <code>DUPLICATES</code></td><td>R2 → R5, R3</td><td>Thu 19 Nov</td><td>R5 uses brute-force exact neighbours on the sample; R3 uses all recipes</td></tr>
+<tr><td><code>PAIRS</code> v1 (all recipes)</td><td>R3 → R4</td><td>Thu 19 Nov</td><td>R4 uses R3's provisional pairs on the sample (Sun 15)</td></tr>
+<tr><td><code>PAIRS</code> v2 (without duplicates)</td><td>R3 → R4</td><td>Sun 22 Nov</td><td>R4 reruns its notebook (minutes)</td></tr>
+</table>
+
+<!-- ============================================================== 3 -->
+<h2 class="newpage">3. Pipeline, questions and design decisions</h2>
+<!--FIG:pipeline-->
+<p class="caption">Colours = owner. Plain arrows are the hand-off files; dashed arrows are labels read from <code>recipes.parquet</code> (calorie level for R5, cuisine tags for R4's NMI).</p>
+
+<table>
+<thead><tr><th style="width:8%">RQ</th><th style="width:46%">Question</th><th style="width:26%">Method</th><th>Owner</th></tr></thead>
+<tr><td>RQ1</td><td>Which ingredients go together beyond chance (rules, lift), and how much memory and time does PCY save over A-Priori?</td><td>PCY + A-Priori (own code)</td><td><span class="tag r3">R3</span></td></tr>
+<tr><td>RQ2</td><td>How accurately and how fast can MinHash + LSH retrieve similar recipes ("recipes like this one"), compared with exact Jaccard?</td><td>MinHash + LSH (own code)</td><td><span class="tag r2">R2</span></td></tr>
+<tr><td>RQ3</td><td>Does a PMI-weighted ingredient graph reveal cuisines better than raw co-occurrence?</td><td>Louvain / spectral + PMI (outside)</td><td><span class="tag r4">R4</span></td></tr>
+<tr><td>RQ4</td><td>Can a recipe's calorie level be predicted from its LSH neighbours, and how close is it to exact kNN and a supervised baseline?</td><td>kNN on LSH neighbours (outside)</td><td><span class="tag r5">R5</span></td></tr>
+</table>
+
+<h3>Design decisions (and why)</h3>
+<table>
+<thead><tr><th style="width:30%">Decision</th><th style="width:44%">Why</th><th>Rejected alternative</th></tr></thead>
+<tr><td><b>Ingredient normalisation first</b>, shared by everyone (H1, Thu 12)</td><td>PCY, LSH and the graph all count the same ingredients; "garlic" vs "garlic cloves" would split counts and lower similarities</td><td>Each role cleans its own way</td></tr>
+<tr><td>Calorie level = <b>tertiles</b> (0–218 / 218–432 / 432–4,998 kcal)</td><td>Balanced classes (≈ 76,900 each), so accuracy is readable; recipes over 5,000 kcal are flagged and left out</td><td>Fixed kcal thresholds (unbalanced) or regression on noisy values</td></tr>
+<tr><td>Own MinHash: <code>(a·x + b) mod (2^31−1)</code>, tokens hashed with <b>CRC32</b></td><td>Reproducible on every laptop (Python's <code>hash()</code> is randomised); vectorised NumPy is fast enough</td><td>datasketch in the pipeline (not our implementation)</td></tr>
+<tr><td>(b, r) chosen with the S-curve <b>and</b> measured precision/recall</td><td>The S-curve predicts, the 5,000-recipe exact-Jaccard sample (12.5 M pairs) checks</td><td>A textbook default without measurement</td></tr>
+<tr><td><b>Near-duplicates</b> (Jaccard ≥ 0.9) out of PCY baskets and never split between train and test</td><td>3,988 recipes share an exact ingredient set: copies inflate pair counts and would leak labels in RQ4</td><td>Keep them (biased counts, optimistic accuracy)</td></tr>
+<tr><td>Support 0.1 % (1,021 frequent items, 520,710 candidate pairs)</td><td>Large enough for PCY's memory saving to be measurable; rich enough for cuisine-specific rules</td><td>1 % (only 227 frequent pairs, nothing to save)</td></tr>
+<tr><td><b>PMI / NPMI</b> edge weights</td><td>Raw counts are dominated by salt, butter and sugar; NPMI is bounded in [−1, 1] and compares pairs fairly</td><td>Weight = count only (kept as a comparison)</td></tr>
+<tr><td>kNN votes from <b>training neighbours only</b></td><td>A test recipe must not be voted by other test recipes or by its own copy</td><td>Vote with every neighbour (leakage)</td></tr>
+<tr><td>A reference next to every score</td><td>Precision, modularity or accuracy mean nothing alone</td><td>Absolute scores only</td></tr>
+<tr><td>Data never in git; private repo</td><td>Licence "© Original Authors"; Kaggle link + script instead</td><td>Data on GitHub</td></tr>
+</table>
+
+<h3>Choosing LSH parameters (R2-S2)</h3>
+<!--FIG:scurve-->
+<p class="caption">P(candidate) = 1 − (1 − s<sup>r</sup>)<sup>b</sup> for 128 hashes. A knee near the target threshold keeps most similar recipes and few false candidates; R2 picks (b, r) with precision and recall measured against exact Jaccard on 5,000 recipes.</p>
+
+<!-- ============================================================== 4 -->
+<h2>4. The shared contract</h2>
+<p>As in the Agile Hardware project, the only things the five roles share are <b>frozen</b> files and <code>docs/CONTRACT.md</code>. Everyone codes against them, so nobody waits for anybody. A change needs a PR labelled <code>contract</code> and <b>five approvals</b>; Claude is told to stop rather than change them.</p>
+
+<div class="box ok"><h4>Already verified (10 Nov)</h4>
+<p><code>config.py</code>, <code>schemas.py</code> and the stub modules <code>lsh</code>, <code>itemsets</code>, <code>graphs</code>, <code>classify</code> import; <b>53 tests green</b> (the contract test checks every function's parameter names, every path and schema; the cleaning tests check parsing, flags, normalisation, cuisine and calorie labels, the sample). <code>clean_recipes</code> ran on all <b>231,637</b> recipes in about 1 min and follows the schema; calorie levels: low ≤ 217.7 kcal (76,905), medium (76,827), high ≥ 431.8 kcal (76,856), 1,049 flagged recipes without a level.</p></div>
+
+<table>
+<thead><tr><th style="width:30%">Frozen file</th><th>What it fixes</th></tr></thead>
+<tr><td><code>src/foodcom/config.py</code></td><td>Paths (raw, processed, the 4 exchanged files, results, figures), <code>SEED = 42</code>, <code>SAMPLE_FRAC = 0.01</code>, nutrition columns, flag thresholds, <code>CALORIE_LEVELS = 3</code>, <code>DUPLICATE_JACCARD = 0.9</code>, cuisine tags</td></tr>
+<tr><td><code>src/foodcom/schemas.py</code></td><td>Columns of the 6 exchanged files + <code>validate(df, name)</code>, called before every save</td></tr>
+<tr><td>Signatures + docstrings in <code>src/foodcom/*.py</code></td><td>Parameter names and behaviour of every function (bodies belong to the owner)</td></tr>
+<tr><td><code>tests/conftest.py</code>, <code>tests/fixtures/</code>, <code>tests/test_contract.py</code></td><td>Shared mini data (8 recipes with a copy, a 6,200 kcal recipe, the overflow duration…) and the test that freezes the above</td></tr>
+</table>
+
+<table>
+<thead><tr><th style="width:24%">Exchanged file</th><th style="width:12%">Producer</th><th style="width:14%">Consumers</th><th>Columns</th></tr></thead>
+<tr><td><code>recipes.parquet</code></td><td><span class="tag r1">R1</span></td><td>all</td><td>recipe_id, name, minutes, submitted, tags, steps, ingredients, <b>ingredients_norm</b>, <b>cuisine</b>, <b>calorie_level</b>, nutrition columns, flag_*</td></tr>
+<tr><td><code>duplicates.parquet</code></td><td><span class="tag r2">R2</span></td><td>R3, R5</td><td>recipe_id, canonical_id, similarity</td></tr>
+<tr><td><code>neighbours.parquet</code></td><td><span class="tag r2">R2</span></td><td>R5</td><td>recipe_id, neighbour_id, similarity, rank (top 20)</td></tr>
+<tr><td><code>pairs.parquet</code></td><td><span class="tag r3">R3</span></td><td>R4</td><td>item_a, item_b, pair_count, count_a, count_b, n_baskets</td></tr>
+<tr><td><code>rules.parquet</code></td><td><span class="tag r3">R3</span></td><td>(results)</td><td>antecedent, consequent, support, confidence, lift, group</td></tr>
+<tr><td><code>interactions.parquet</code></td><td><span class="tag r1">R1</span></td><td>(descriptive)</td><td>user_id, recipe_id, date, rating, review, rated, flags</td></tr>
+</table>
+
+<pre>NEIGHBOURS = DATA_PROCESSED / "neighbours.parquet"       # R2 -> R5        (config.py, frozen)
+NEIGHBOURS = ["recipe_id", "neighbour_id", "similarity", "rank"]                 (schemas.py, frozen)
+
+def neighbours_table(index: LSHIndex, k: int = 20) -> pd.DataFrame:   # lsh.py: signature frozen, body R2
+    """For every recipe, its k most similar other recipes among the LSH candidates.
+    schemas.NEIGHBOURS ... similarity = exact Jaccard. Written to config.NEIGHBOURS for R5."""</pre>
+<p>The contract also fixes the behaviour of each module (CONTRACT 3.4: normalisation rules, MinHash hashing, PCY bucket hash, rule metrics, PMI/NPMI formulas, the no-leakage split), the test conventions (3.5), the 10 results files and their columns (3.6), and the ownership and review circle (3.7).</p>
+
+<!-- ============================================================== 5 -->
+<h2>5. Team, roles and load</h2>
+<table>
+<thead><tr><th style="width:15%">Role</th><th style="width:30%">Owns (code)</th><th style="width:37%">Also responsible for</th><th>Reviews PRs of</th></tr></thead>
+<tr><td><span class="tag r1">R1</span><br>data + ingredients</td><td>download.py, cleaning.py, test_cleaning, run_all.py, notebook 01, final notebook, CI, CLAUDE.md, backlog</td><td>Coordinator: skeleton in the group repo, board, merges, <b>ingredients v2 (H1)</b>, integration day (Fri 20), fresh-clone check, hand-in package; Data section</td><td>R2</td></tr>
+<tr><td><span class="tag r2">R2</span><br>MinHash + LSH</td><td>lsh.py, test_lsh, notebook 02</td><td>RQ2 section; NEIGHBOURS and DUPLICATES (H2); the 30 example queries</td><td>R3</td></tr>
+<tr><td><span class="tag r3">R3</span><br>PCY + A-Priori</td><td>itemsets.py, test_itemsets, notebook 03</td><td>RQ1 section; benchmark; PAIRS (H2) and rules</td><td>R4</td></tr>
+<tr><td><span class="tag r4">R4</span><br>PMI graph + Louvain</td><td>graphs.py, test_graphs, notebook 04</td><td>RQ3 section; 4 weightings, null graph, communities</td><td>R5</td></tr>
+<tr><td><span class="tag r5">R5</span><br>calorie classifier + report</td><td>classify.py, test_classify, notebook 05, scripts/count_chars.py</td><td>Report editor: document, budgets, Introduction, RQ4, conclusion, final grader review</td><td>R1</td></tr>
+</table>
+<p><b>Why this split:</b> (1) each role owns separate files, so there are no merge conflicts; (2) each method has one owner who can defend it, which makes "essential, not incidental" visible in the report; (3) the two from-scratch course algorithms (R2, R3) feed the two outside-course methods (R5, R4), so the report tells one story; (4) the reviewer of a role knows its code and takes over if needed.</p>
+
+<h3>Light Scrum</h3>
+<ul>
+<li><b>Coordinator: R1.</b> Orders the backlog, accepts a story when its PR is merged, talks to the TA about scope and the data hand-in.</li>
+<li><b>Facilitator: rotating, never R1.</b> S1 R2, S2 R3, S3 R4, S4 R5. Runs the Tuesday meeting, keeps the board honest, chases blockers.</li>
+<li><b>Report editor: R5.</b> Owns the document and the character budget; each owner writes their own section.</li>
+</ul>
+
+<h3>Estimated load per person (hours of work with Claude, excluding meetings)</h3>
+<table>
+<thead><tr><th>Sprint</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Total</th></tr></thead>
+<tr><td><span class="tag r1">R1</span></td><td>7</td><td>5</td><td>4</td><td>3</td><td>≈ 19 h</td></tr>
+<tr><td><span class="tag r2">R2</span></td><td>7</td><td>8</td><td>4</td><td>2</td><td>≈ 21 h</td></tr>
+<tr><td><span class="tag r3">R3</span></td><td>7</td><td>8</td><td>4</td><td>2</td><td>≈ 21 h</td></tr>
+<tr><td><span class="tag r4">R4</span></td><td>6</td><td>8</td><td>4</td><td>2</td><td>≈ 20 h</td></tr>
+<tr><td><span class="tag r5">R5</span></td><td>6</td><td>6</td><td>7</td><td>3</td><td>≈ 22 h</td></tr>
+</table>
+<p class="small">Estimates assume Claude writes most of the code and we review it, as in the Agile Hardware project. Add the Tuesday meeting (~1 h/week) and the MMDS chapter of your topic (3, 6 or 10).</p>
+
+<!-- ============================================================== 6 -->
+<h2 class="newpage">6. Sprint backlog (stories S1 to S4)</h2>
+<p>Each row is a GitHub issue (<code>docs/backlog.md</code>, ready to paste). Acceptance criteria are tests or a <code>results/</code> file. Full steps for Claude are in the instructions file, PARTS 4–8. Estimates are in hours.</p>
+
+<div class="sprint-head"><h3>S1 · Algorithms correct</h3><span class="dates">Tue 10 – Tue 17 Nov (H1 Thu 12)</span></div>
+<p class="goal"><b>Goal:</b> every algorithm gives the known answer on toy examples and agrees with a reference library on the 1 % sample.</p>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Acceptance criteria</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S1a</span></td><td>Skeleton into the group repo (PR); board, milestones, issues</td><td>53 tests green in CI; everyone posts "pytest: 53 passed | data: ok" (Wed 11)</td><td>2</td></tr>
+<tr><td><span class="tag r1">R1-S1b</span></td><td>Ingredient normalisation v2 — <b>hand-off H1 Thu 12</b></td><td>One test per rule (plurals with exceptions, adjectives, synonyms); labels before/after and calorie bounds in <code>data_summary.csv</code>; 30 examples in the PR</td><td>5</td></tr>
+<tr><td><span class="tag r2">R2-S1</span></td><td>Shingles, MinHash (vectorised), banding, index, <code>similar_recipes</code></td><td>Identical sets → identical signatures; |estimate − Jaccard| &lt; 0.1 on 200 pairs; exact band candidates; 103 found for 102 on mini data; overlap with datasketch on the sample</td><td>7</td></tr>
+<tr><td><span class="tag r3">R3-S1</span></td><td>A-Priori, PCY, rules, pair table</td><td>Known counts on 8 hand-made baskets; support boundary; PCY = A-Priori with forced collisions (7 buckets); = mlxtend on the sample</td><td>7</td></tr>
+<tr><td><span class="tag r4">R4-S1</span></td><td>PMI/NPMI weights, graph functions</td><td>Hand-computed pair (lift 4, PMI 2); two cliques → 2 communities, modularity &gt; 0.4; spectral same split; null keeps degrees; NMI = 1 on perfect labels</td><td>6</td></tr>
+<tr><td><span class="tag r5">R5-S1</span></td><td>Classifier functions; report document</td><td>6-recipe neighbour table with known votes; only training neighbours vote; NA → coverage; copies never split; document shared</td><td>6</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S2 · Full data + evaluation</h3><span class="dates">→ Tue 24 Nov (H2 Thu 19, FREEZE Tue 24)</span></div>
+<p class="goal"><b>Goal:</b> every results file and figure of the report exists, on the full data, produced by code.</p>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Acceptance criteria</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S2</span></td><td><code>run_all.py</code>; integration on the full data (Fri 20); 3 descriptive figures</td><td><code>runtime.csv</code>; breakages reported to their owners with file:line</td><td>5</td></tr>
+<tr><td><span class="tag r2">R2-S2</span></td><td>Tuning vs exact Jaccard; full index; NEIGHBOURS + DUPLICATES (<b>H2 Thu 19</b>); latency</td><td><code>lsh_eval.csv</code> (4 (b, r) × 4 thresholds); (b, r) argued; <code>search_latency.csv</code>; 3 example queries</td><td>8</td></tr>
+<tr><td><span class="tag r3">R3-S2</span></td><td>Benchmark A-Priori vs PCY; PAIRS v1 (<b>H2 Thu 19</b>), v2 (Sun 22); rules</td><td><code>itemsets_bench.csv</code> (3 × 3, seconds, peak MB, pairs counted); <code>rules_top.csv</code> overall and per cuisine</td><td>8</td></tr>
+<tr><td><span class="tag r4">R4-S2</span></td><td>4 weightings × Louvain/spectral; null graph; NMI vs cuisine</td><td><code>graph_eval.csv</code>; <code>communities.csv</code> for the best weighting; 5 lines of interpretation</td><td>8</td></tr>
+<tr><td><span class="tag r5">R5-S2</span></td><td>kNN on the full data; baselines</td><td><code>classifier_eval.csv</code> (k sweep, weighted or not, majority, logistic, exact kNN on 5,000); <code>confusion_matrix.csv</code></td><td>6</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S3 · Writing</h3><span class="dates">Wed 25 – Sun 29 Nov (sections Fri 27)</span></div>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Acceptance criteria</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S3</span> <span class="tag r2">R2-S3</span> <span class="tag r3">R3-S3</span> <span class="tag r4">R4-S3</span></td><td>Own section (Data 1,500 · RQ2 2,000 · RQ1 2,000 · RQ3 1,800 characters) + its figures; R1 assembles the final notebook</td><td>Within budget (<code>count_chars.py</code>); every number from <code>results/</code>; final notebook Run All on sample and full data</td><td>4</td></tr>
+<tr><td><span class="tag r5">R5-S3</span></td><td>Introduction + abstract, RQ4, conclusion; assembly</td><td>Full draft ≤ 12,500 characters on Sun 29; one answer per RQ</td><td>7</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S4 · Polish and hand-in</h3><span class="dates">Mon 30 Nov – Thu 3 Dec</span></div>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Acceptance criteria</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S4</span></td><td>Fresh-clone check; hand-in package; tag v1.0</td><td>A clean clone installs, runs <code>run_all.py</code> and the notebook end to end</td><td>3</td></tr>
+<tr><td><span class="tag r2">R2-S4</span> <span class="tag r3">R3-S4</span> <span class="tag r4">R4-S4</span></td><td>Cross-review: Prompt E on the next module of the circle; comments on the next section</td><td>Comments resolved or answered</td><td>2</td></tr>
+<tr><td><span class="tag r5">R5-S4</span></td><td>Prompt R (review as the grader); names, contributions; submission</td><td>Prompt R list empty or justified; submitted Thu 3 Dec</td><td>3</td></tr>
+</table>
+
+<!-- ============================================================== 7 -->
+<h2 class="newpage">7. How we work: board and Git</h2>
+<h3>The board (GitHub Projects)</h3>
+<p>Columns <b>Backlog → Sprint TODO → In progress → Review → Done</b>. One card = one issue = one story (template <code>.github/ISSUE_TEMPLATE/story.md</code>). Labels: <code>R1</code>…<code>R5</code>, <code>contract</code>, <code>bug</code>, <code>hand-off</code>; milestones S1…S4 with the dates. A card moves to Done only when its PR is merged.</p>
+<div class="two">
+<div class="box"><h4>Definition of Ready (before a story enters a sprint)</h4>
+<ul><li>Acceptance criteria written as tests or as a <code>results/</code> file</li><li>The functions and files it needs are in the contract</li><li>One owner, an estimate ≤ 8 h (else split it)</li><li>Inputs available, or a provisional version on the sample</li></ul></div>
+<div class="box ok"><h4>Definition of Done</h4>
+<ul><li>Tests written first, green locally and in CI</li><li>Only owned files changed; frozen files and signatures untouched</li><li>PR reviewed by the next person in the circle + <code>/code-review</code></li><li>Results file + AI_USAGE entry committed; the owner can explain every line and every number</li></ul></div>
+</div>
+
+<h3>Weekly rhythm</h3>
+<table>
+<thead><tr><th style="width:24%">When</th><th style="width:22%">What</th><th>How</th></tr></thead>
+<tr><td>Tuesday 20:00 (exercise session)</td><td>Review (20 min)</td><td>Each role shows what is merged on <code>main</code> (only merged work counts) and the new numbers in <code>results/</code>.</td></tr>
+<tr><td>Tuesday 20:20</td><td>Retro + planning (20 min)</td><td>Keep / stop / try, one line each; pick the next stories; confirm the hand-off dates.</td></tr>
+<tr><td>Tuesday 20:40–22:00</td><td>Work together</td><td>Pair debugging, integration, questions to the TA.</td></tr>
+<tr><td>Every day by 10:00</td><td>Async stand-up</td><td>In the chat: yesterday / today / blocked? + the status line <code>R2-S1 | tests: 14 passed | results: lsh_eval.csv</code></td></tr>
+<tr><td>Friday, 20 min call</td><td>Mid-sprint sync</td><td>Hand-offs on track? Re-plan if a story slips.</td></tr>
+<tr><td>Sunday evening</td><td>Push day</td><td>Everyone pushes their branch, so PRs are reviewed on Monday.</td></tr>
+</table>
+
+<h3>Git rules</h3>
+<ul>
+<li><code>main</code> is protected: changes only by PR, <b>1 approval + CI green</b>, no force push, squash merge. Tag <code>sprint-N</code> at each review and <code>v1.0</code> at submission. (On a private repo, branch protection needs GitHub Team or the free Education pack; otherwise it is a team rule.)</li>
+<li>Branch per story: <code>r&lt;k&gt;/s&lt;n&gt;-&lt;slug&gt;</code>, e.g. <code>r2/s1-minhash</code>. Small PRs, merged within 2 days.</li>
+<li>Review circle: R1's PRs → R5, R2's → R1, R3's → R2, R4's → R3, R5's → R4. The reviewer runs Prompt P and reads the diff.</li>
+<li>A red <code>main</code> stops the line: whoever broke it fixes it first.</li>
+<li>Never commit data (<code>data/</code> is git-ignored), notebooks with huge outputs, or <code>kaggle.json</code>.</li>
+</ul>
+<div class="figwrap"><!--FIG:flow-->
+<p class="caption">The life of a story. Green steps are done by Claude Code, grey steps by the story owner, purple steps by the team and CI.</p></div>
+
+<!-- ============================================================== 8 -->
+<h2>8. Working with Claude Code</h2>
+<h3>What Claude reads</h3>
+<table>
+<thead><tr><th style="width:44%">File</th><th>Role</th></tr></thead>
+<tr><td><code>CLAUDE.md</code> (repo root)</td><td>Loaded in every session: commands, the rules, imports CONTRACT.md</td></tr>
+<tr><td><code>docs/CONTRACT.md</code></td><td>Frozen files, schemas, behaviour of every module, tests, results files, ownership</td></tr>
+<tr><td><code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code></td><td>Every story step by step (PARTS 4–8), report format, known bugs</td></tr>
+<tr><td><code>.claude/settings.json</code></td><td>Allows pytest, python and git (no push); asks before <code>git push</code>; denies edits on the frozen files</td></tr>
+</table>
+
+<h3>One story, step by step</h3>
+<ol>
+<li>Move the card to "In progress". In the repo root, open a <b>fresh</b> Claude Code session and type: <code>Do story R2-S1. Instructions are in docs/.</code> For a story over ~1 h, switch to <b>plan mode</b> first (Shift+Tab) and check the plan against the contract.</li>
+<li>Claude reads the contract and the story, creates the branch and a task list.</li>
+<li>Claude writes the <b>tests first</b> (toy examples with a known answer) and shows them failing for the right reason.</li>
+<li>Claude implements, runs pytest until green, writes the <code>results/</code> file if the story has one, commits, appends to <code>docs/AI_USAGE.md</code>, and ends with a report + the status line.</li>
+<li><b>You</b> read the whole <code>git diff main</code>, run <code>pytest</code> yourself, and ask Claude to explain anything unclear (Prompt E). Don't push code or numbers you can't explain.</li>
+<li>You push, open the PR (template), run <code>/code-review</code>, fix the findings in the same session, then ask your reviewer.</li>
+<li>CI green + approval → squash merge → card to Done → status line in the chat → <code>/clear</code> before the next story.</li>
+</ol>
+<div class="two">
+<div class="box"><h4>Rules for Claude (in CLAUDE.md)</h4>
+<ul><li>Never edit the frozen files or signatures; stop and explain instead</li><li>Only the files of the story's role</li><li>Tests first; <b>never weaken, skip or delete a test</b></li><li>PCY, A-Priori, MinHash and LSH are our own code</li><li>No hard-coded paths, seeds, columns</li><li>RQ4: only training neighbours vote; copies never split</li><li>3 failed fixes → stop, 3 hypotheses, 3 experiments</li><li>Commit on the branch; never push without asking</li></ul></div>
+<div class="box trap"><h4>Rules for us</h4>
+<ul><li>One story per session; <code>/clear</code> between stories</li><li>Read every diff; run the tests yourself</li><li>If Claude "fixes" a test instead of the code: reject it</li><li>Paste full errors, never summaries</li><li>Check every number of your section against its CSV</li><li>Log AI use honestly; check DTU's rules on AI</li><li>Never paste tokens (Kaggle, GitHub) into a session</li></ul></div>
+</div>
+<h3>What only humans can do</h3>
+<p>Merge the skeleton into the group repo, manage the board and issues; push and merge; look at the 30 "recipes like this one" results by eye (R2-S2); decide what the results mean; write and own the report; submit on DTU Learn. Claude prepares each of these (exact commands, checklists, drafts) but does not do them.</p>
+
+<!-- ============================================================== 9 -->
+<h2 class="newpage">9. How we verify everything</h2>
+<!--FIG:pyramid-->
+<p class="caption">Six levels. The lower ones are fast and run in CI on every push (mini fixtures only, the real data is never in CI); the upper ones run locally on the real data and give the evidence the report needs.</p>
+<table>
+<thead><tr><th style="width:20%">Level</th><th style="width:19%">Tool</th><th style="width:37%">What it proves</th><th style="width:10%">Owner</th><th>When</th></tr></thead>
+<tr><td>1 Unit tests on toy examples</td><td>pytest</td><td>Known answers on hand-made inputs: identical sets, 8 baskets, a hand-computed PMI, two cliques, a 6-recipe neighbour table</td><td>module owner</td><td>every story / CI</td></tr>
+<tr><td>2 Contract tests</td><td>test_contract.py</td><td>Signatures, paths and schemas unchanged; cleaned fixtures follow the schemas</td><td>all</td><td>always / CI</td></tr>
+<tr><td>3 Reference libraries</td><td>datasketch, mlxtend</td><td>Our MinHash/LSH and A-Priori agree with established implementations on the 1 % sample</td><td>R2, R3</td><td>S1 / @data</td></tr>
+<tr><td>4 Exact ground truth</td><td>all-pairs Jaccard, A-Priori, exact kNN</td><td>LSH precision/recall on 5,000 recipes; PCY = A-Priori exactly; LSH-kNN vs exact kNN on the same recipes</td><td>R2, R3, R5</td><td>S2 / @data</td></tr>
+<tr><td>5 Null models and baselines</td><td>rewired graph, raw counts, majority, logistic</td><td>PMI communities beat a null graph and raw counts; kNN beats the majority class and is compared with a supervised model</td><td>R4, R5</td><td>S2</td></tr>
+<tr><td>6 Labels + human checks</td><td>cuisine tags, calorie levels, 30 queries</td><td>Results mean something real: NMI vs cuisines, confusion between calorie levels, similar recipes that look similar</td><td>R2, R4, R5</td><td>S2</td></tr>
+</table>
+<div class="two">
+<div><h4>Properties checked by tests (examples)</h4>
+<ul><li>MinHash: identical sets → identical signatures; estimate within 0.1 of the true Jaccard</li><li>LSH: a pair is a candidate ⇔ one band is identical</li><li>PCY returns exactly the pairs of A-Priori, even with forced collisions</li><li>PMI = 2 and lift = 4 on the hand-computed pair; NPMI in [−1, 1]</li><li>Louvain finds 2 communities on two cliques; null graph keeps every degree</li><li>kNN: test recipes never vote; a copy is always in its original's split</li></ul></div>
+<div><h4>Checked against the real data</h4>
+<ul><li>Cleaning counts (231,637 recipes, flags, calorie tertiles) match this plan</li><li>Ingredient labels before/after normalisation reported</li><li>PAIRS v2 and rules recomputed without duplicates</li><li>Every modularity has its null value; every accuracy its baselines</li><li>Coverage of the kNN classifier reported, never hidden</li><li>Every report number exists in a <code>results/*.csv</code></li></ul></div>
+</div>
+<div class="box trap"><h4>What we can honestly claim (use these words in the report)</h4>
+<ul>
+<li><b>Measured:</b> LSH precision and recall against exact Jaccard on a 5,000-recipe sample; not on all 2.7 × 10<sup>10</sup> pairs.</li>
+<li><b>Tested:</b> our PCY = our A-Priori = mlxtend on the sample; our MinHash ≈ datasketch.</li>
+<li><b>Association, not causation:</b> a high-lift pair means "cooked together on Food.com", not a culinary rule.</li>
+<li><b>Imperfect labels:</b> cuisine tags are chosen by users (only 46,028 recipes have one); NMI against them is a sanity check, not a ground truth.</li>
+<li><b>Hard task:</b> ingredient lists have no quantities, so predicting calories from them is limited; a moderate accuracy, well explained, is a valid result.</li>
+</ul></div>
+<h3>Keeping the checks independent of the code</h3>
+<ul>
+<li>Tests come from the contract <b>before</b> the implementation, so they describe the spec, not the code.</li>
+<li>Reference libraries and exact computations check our course algorithms; they are never part of the pipeline.</li>
+<li>Every PR is reviewed by a member of another role, and Claude's <code>/code-review</code> runs too. CI decides: nothing merges red.</li>
+<li>R5's classifier consumes R2's neighbours: a leakage bug would show up as a suspiciously high accuracy, checked against the exact-kNN baseline.</li>
+</ul>
+<h3>Evidence to attach to PRs</h3>
+<p>The pytest summary line; for a results file, the command that produced it and its first lines; for a library comparison, the overlap numbers; for a figure, the PNG and the CSV it reads.</p>
+
+<!-- ============================================================== 10 -->
+<h2 class="newpage">10. Prompts, ready to paste</h2>
+<p>Inside the repo, the instructions file holds all the details, so the main prompt is one line. The other prompts are for specific situations. Always paste <b>full</b> errors.</p>
+
+<div class="prompt"><div class="ptitle">PROMPT S · Do a story (everyone, every story)</div>
+<div class="pwhen">Fresh session in the repo root. Plan mode first if the story is over ~1 h.</div>
+<pre>Do story R2-S1. Instructions are in docs/.</pre>
+<pre>(French also works: "Fais la story R2-S1, les instructions sont dans docs/.")</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT S1a · Skeleton into the group repo (R1, Tue 10 – Wed 11 Nov)</div>
+<pre>Do story R1-S1a. Instructions are in docs/. The group repo is cloned at [path]; the skeleton folder is [path]. I am on [Windows 11 / macOS / Linux]. List any file name clash before copying, then give me the exact steps to push, open the PR, create the board, milestones and issues from docs/backlog.md.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT C · Resume after /clear or the next day</div>
+<pre>Continue story R3-S2 from docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt. State: [what works]. Failing: [test name or script]. Last error: [paste in full]. Check git log and git status first, then go on from the first step that is not done.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT I · Integration day (R1, Fri 20 Nov)</div>
+<pre>Integration of sprint 2. git pull main. Run pytest, then python scripts/run_all.py on the full data. For every failure: which module disagrees with which CONTRACT section, file:line, one-sentence cause. Fix only glue in my files; for a teammate's logic, write the bug report for them. Goal: run_all.py finishes and writes every results file that exists so far, with runtime.csv.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT P · Review a teammate's PR (reviewer)</div>
+<pre>Review branch r2/s2-tuning against docs/CONTRACT.md (section 3.4.2) and the "Done when" of story R2-S2 in the instructions file. Do NOT modify files. Check: tests derived from the contract (not from the code), toy examples with known answers, our own implementation of the course algorithm, no hard-coded path/seed/column, only the owner's files, no weakened/deleted test, schemas.validate before saving, results CSV produced by code. Run pytest. Answer: blocking / should fix / nice to have, each with file:line and a one-line reason.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT D · Debug a failing test</div>
+<pre>Full error of `pytest tests/test_itemsets.py -q`: [paste everything, traceback included]
+Expected behaviour (CONTRACT section [x]): [one sentence]
+First explain the cause in 2-3 sentences, THEN give the minimal fix. Do not rewrite what works, do not touch the test unless you show the contract says the test is wrong.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT D3 · Claude is going in circles (3 fixes without success)</div>
+<pre>Stop. Your last 3 fixes did not solve [problem]. Start from the last green commit (git log) + the current error + the expected behaviour (CONTRACT [x]).
+1. List 3 different possible causes, ranked by likelihood.
+2. For each, a tiny experiment (one test, one print, a 100-row input) that confirms or rules it out. Run them. Don't write a fix before the results.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT V · Verify a result (reference, baseline or null model)</div>
+<pre>For [results/graph_eval.csv, Louvain on the NPMI graph]: (1) recompute the key number with an independent method on the 1 % sample and show both values; (2) compute the same score on its reference from CONTRACT 3.4 [null graph / raw-count weighting / majority baseline / exact kNN]; (3) tell me in 5 lines whether the result is real, weak or an artefact (leakage?), and which sentence I can honestly write in the report.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT E · Understand a teammate's code (15 min each, every sprint)</div>
+<pre>Explain src/foodcom/lsh.py function by function, in simple terms, linked to MMDS chapter 3 and to CONTRACT section 3.4.2. Then ask me 5 questions a grader could ask about it, and wait for my answers before correcting.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT F · Make a figure for the report</div>
+<pre>From results/[file].csv only, write scripts/fig_[name].py that saves report/figures/[name].png (one figure, readable in a 2-column report: 8 cm wide, font >= 8 pt, no title inside, axis labels with units). Give me a 2-line caption that states what the reader should see.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT W · Write a report section from facts</div>
+<pre>Write the report section "[RQ1 – Ingredient pairing]" in [N] characters without spaces, from results/[files].csv, the notebook outputs and CONTRACT section [x]. Every number must come from a file (cite it in a comment). Do not re-explain algorithms taught in class; argue our choices (thresholds, parameters); end with what worked, what did not and why. Plain academic English.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT K · Fit a section to its budget</div>
+<pre>Here is my section ([N] characters without spaces, budget [B]): [paste]. Cut it to the budget without losing any number, argument or figure reference. Remove repetitions and filler first. Show the new count (python scripts/count_chars.py).</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT R · Review the whole project as the grader (R5, S4; anyone before Tue 1 Dec)</div>
+<pre>Review this project as a 02807 grader would (project.pdf criteria): relevant and challenging problem; course topics essential, not incidental; things implemented ourselves; choices argued; evaluation and reflection; outside-course methods identified and explained; data source and preprocessing; report <= 12,500 characters, concise; notebook documented and easy to run; contributions. Read report/, notebooks/final_notebook.ipynb, results/ and src/. Run the README commands. Give a prioritised list, no edits.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT Q · Tuesday review draft (facilitator)</div>
+<pre>From `git log --since="[last Tuesday]" --oneline`, the merged PRs and the board, draft our review: stories done / not done (and why), new numbers in results/, hand-offs on time or late, hours vs estimate. Then 3 keep / 3 stop / 3 try for the retrospective. Short, factual.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT Z · Plan B (a story slips or a member is unavailable)</div>
+<pre>Story [R?-S?] is late by [n] days because [reason]. Using docs/backlog.md, the ownership in CONTRACT 3.1/3.7 and the scope-cut order of the plan (section 11), propose: what to cut or move, who takes which file (never two people on the same file), and what changes in the report.</pre></div>
+
+<!-- ============================================================== 11 -->
+<h2 class="newpage">11. Risks, plan B and scope cuts</h2>
+<table>
+<thead><tr><th style="width:20%">Risk</th><th style="width:8%">Prob.</th><th style="width:8%">Impact</th><th style="width:30%">Prevention</th><th>Plan B · owner</th></tr></thead>
+<tr><td>Ingredient normalisation late or weak (everyone depends on it)</td><td>medium</td><td>high</td><td>R1-S1b is the first priority; top 300 labels checked by eye; deadline Thu 12</td><td>Keep the skeleton normalisation, rerun everything after v2 · R1</td></tr>
+<tr><td>Hand-off H2 late (NEIGHBOURS, PAIRS)</td><td>medium</td><td>high</td><td>Provisional outputs on the sample (Sun 15); Friday sync</td><td>R5 uses exact neighbours on a sample, R4 the sample pairs; rerun after H2 · facilitator</td></tr>
+<tr><td>Own LSH / PCY too slow in Python</td><td>medium</td><td>medium</td><td>Vectorised NumPy; Numba for loops; profile on the sample</td><td>Run the full data overnight; report runtimes honestly · R2, R3</td></tr>
+<tr><td>Laptop memory (8 GB)</td><td>medium</td><td>medium</td><td>int32 buckets; signatures as uint32; exact Jaccard on 5,000 recipes only</td><td>Run on the laptop with most RAM or DTU's computers · R1</td></tr>
+<tr><td>Communities do not match cuisines</td><td>medium</td><td>low</td><td>4 weightings, null graph, NMI planned from the start</td><td>Report it and explain (e.g. "baking" vs "savoury" families): reflection is graded · R4</td></tr>
+<tr><td>Classifier close to the majority baseline</td><td>medium</td><td>low</td><td>Logistic and exact-kNN baselines; confusion matrix</td><td>Explain why (no quantities in ingredient lists); compare with the supervised model · R5</td></tr>
+<tr><td>Leakage inflates the accuracy</td><td>medium</td><td>high</td><td>Train-only voting; copies never split (tests)</td><td>Prompt V on the classifier; rerun with the corrected split · R5, R2</td></tr>
+<tr><td>Report over 12,500 characters</td><td>high</td><td>medium</td><td>Budgets per section; count every Tuesday</td><td>Prompt K; move details to the notebook · R5</td></tr>
+<tr><td>A member is unavailable</td><td>low</td><td>high</td><td>Ownership + instructions let anyone run any story</td><td>The reviewer of that role takes over; Prompt Z · R1</td></tr>
+<tr><td>TA refuses a submission without data</td><td>low</td><td>medium</td><td>Ask at the exercise session on Tue 10 or 17</td><td>Share the processed sample privately with the graders if allowed · R1</td></tr>
+</table>
+<div class="two">
+<div class="box trap"><h4>Scope-cut order (cut from the top)</h4>
+<ol><li>Node2Vec embeddings (optional)</li><li>Steps-mode shingles (keep ingredients mode)</li><li>Multistage PCY (keep plain PCY)</li><li>Triples in A-Priori (keep pairs)</li><li>Spectral clustering (keep Louvain)</li><li>Rules per cuisine (keep overall rules)</li></ol></div>
+<div class="box ok"><h4>Never cut</h4>
+<ul><li>Our own PCY + A-Priori, and their benchmark</li><li>Our own MinHash/LSH, tuned against exact Jaccard</li><li>PMI weighting and the kNN classifier (the outside-course methods)</li><li>A baseline or null model next to every score; the no-leakage split</li><li>Every report number produced by code; notebook "Restart &amp; Run All"; names and contributions</li></ul></div>
+</div>
+
+<!-- ============================================================== 12 -->
+<h2 class="newpage">12. Likely bugs and fixes</h2>
+<p>The most likely errors with this stack. The first three were met while building the skeleton. If one shows up, apply the fix; otherwise use Prompt D with the full error.</p>
+<table>
+<thead><tr><th style="width:34%">Symptom</th><th style="width:30%">Cause</th><th>Fix</th></tr></thead>
+<tr><td>"truth value of an array is ambiguous" on a list column</td><td>Parquet returns NumPy arrays, not lists</td><td><code>cleaning.load_recipes()</code> (converts back)</td></tr>
+<tr><td><code>assert None == nan</code> on a missing cuisine</td><td>pandas 3 stores None as NaN in str columns</td><td><code>pd.isna(value)</code></td></tr>
+<tr><td>Parsing all recipes takes a minute</td><td><code>ast.literal_eval</code> on 3 list columns</td><td>Run cleaning once, then load the Parquet files</td></tr>
+<tr><td>scikit-learn error on <code>calorie_level</code></td><td>Int8 column with &lt;NA&gt;</td><td>Drop NA rows first; never fill them</td></tr>
+<tr><td>Different results on two laptops</td><td>Python's <code>hash()</code> is randomised per process</td><td><code>lsh.stable_hash</code> (CRC32)</td></tr>
+<tr><td>Wrong MinHash values, negative numbers</td><td>uint32 overflow in <code>a·x + b</code></td><td>Compute in int64 / uint64 with p = 2^31 − 1</td></tr>
+<tr><td>MemoryError when comparing recipes</td><td>All pairs materialised</td><td>LSH buckets; exact Jaccard with sparse matrices on 5,000 recipes only</td></tr>
+<tr><td>PCY ≠ A-Priori on a few pairs</td><td>Bitmap or pass-2 condition wrong</td><td>Both items frequent AND bucket frequent; bitmap threshold = support count</td></tr>
+<tr><td>PCY uses more memory than A-Priori</td><td>Python dict for buckets</td><td>NumPy int32 array of n_buckets</td></tr>
+<tr><td>Huge PMI on rare pairs</td><td>PMI favours rare co-occurrences</td><td>Frequent pairs only (PAIRS); prefer NPMI</td></tr>
+<tr><td>Louvain gives other communities each run</td><td>Random order</td><td><code>seed=config.SEED</code>; report the mean over 5 seeds</td></tr>
+<tr><td>SpectralClustering "graph is not connected"</td><td>Isolated ingredients</td><td>Largest connected component; say so</td></tr>
+<tr><td>kNN accuracy suspiciously high</td><td>Leakage (test neighbours or copies vote)</td><td>Train-only filter; check the split with Prompt V</td></tr>
+<tr><td><code>ModuleNotFoundError: foodcom</code></td><td>Package not installed in the venv</td><td><code>pip install -e .</code></td></tr>
+<tr><td>Notebook uses an old version of a module</td><td>Kernel cache</td><td>Restart the kernel, or <code>%autoreload 2</code></td></tr>
+</table>
+
+<!-- ============================================================== 13 -->
+<h2 class="newpage">13. Checklists</h2>
+<div class="two">
+<div>
+<h3>This week (before Thu 12 Nov)</h3>
+<ul class="check">
+<li>Fill in the 5 names (README, CONTRACT, instructions, contributions) · <b>R1</b></li>
+<li>R1-S1a: skeleton merged into the group repo; board and issues · <b>R1, Wed 11</b></li>
+<li><code>pytest</code> 53 passed and cleaning numbers checked · <b>everyone, Wed 11</b></li>
+<li>Ask the TA: topic OK? data hand-in without the CSVs? · <b>R1, Tue 10 or 17</b></li>
+<li>Ingredients v2 (H1) announced · <b>R1, Thu 12</b></li>
+<li>Report document created with budgets · <b>R5</b></li>
+<li>Integration Fri 20 and freeze Tue 24 in everyone's calendar</li>
+</ul>
+<h3>Freeze (Tue 24 Nov)</h3>
+<ul class="check">
+<li>The 10 results files of CONTRACT 3.6 exist on <code>main</code></li>
+<li>Every figure of the report in <code>report/figures/</code>, produced by a script</li>
+<li>PAIRS v2 and rules without duplicates; kNN without leakage</li>
+<li><code>run_all.py</code> finishes on the full data</li>
+</ul>
+</div>
+<div>
+<h3>Final hand-in (Thu 3 Dec)</h3>
+<ul class="check">
+<li>Names (and student numbers) of the 5 members on the title page</li>
+<li>Abstract + outline at the start; main question and RQ1–RQ4 answered in the conclusion</li>
+<li>Outside-course methods (PMI, kNN) identified and briefly explained</li>
+<li>Every choice argued; references and baselines; reflection on failures</li>
+<li>≤ 12,500 characters without spaces (<code>count_chars.py</code>)</li>
+<li>Notebook documented, instructions at the top, Run All on a fresh clone</li>
+<li>No data in the hand-in: Kaggle link + download script (as agreed with the TA)</li>
+<li>Contributions table (owner + reviewer per task) in appendix</li>
+<li>Uploaded on DTU Learn Thu 3 Dec; tag <code>v1.0</code></li>
+</ul>
+</div>
+</div>
+
+<h3>Files delivered with this plan</h3>
+<table>
+<thead><tr><th style="width:44%">File</th><th>Use</th></tr></thead>
+<tr><td><code>docs/FoodCom_Project_Plan_EN.pdf</code> / <code>FoodCom_Plan_Projet_FR.pdf</code></td><td>This plan, for the humans</td></tr>
+<tr><td><code>docs/CONTRACT.md</code> (v2.0)</td><td>The shared spec (frozen files, schemas, behaviour, tests, results, ownership)</td></tr>
+<tr><td><code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code></td><td>What Claude follows: setup, every story, report format, known bugs</td></tr>
+<tr><td><code>docs/backlog.md</code></td><td>One section per story, to paste as GitHub issues</td></tr>
+<tr><td><code>CLAUDE.md</code>, <code>.claude/settings.json</code>, <code>.github/</code></td><td>Claude's rules and permissions, CI, PR and issue templates</td></tr>
+<tr><td><code>src/</code>, <code>tests/</code>, <code>notebooks/</code>, <code>report/</code>, <code>scripts/</code></td><td>The skeleton: cleaning and calorie levels done, one stub module per role, 53 tests, final notebook and report outline</td></tr>
+<tr><td><code>docs/plan-src/</code></td><td>HTML sources + <code>build.py</code>: edit, then <code>python docs/plan-src/build.py</code> to regenerate both PDFs</td></tr>
+</table>
+
+</body>
+</html>
