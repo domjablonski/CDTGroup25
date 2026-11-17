@@ -3,6 +3,8 @@ jupyterlab
 matplotlib
 numpy
 pandas
+pyarrow
+sentence-transformers
 scikit-learn
 scipy
 seaborn

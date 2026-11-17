@@ -22,4 +22,15 @@ python preprocessing/preprocessing.py
 
 The script locates `RAW_recipes.csv` and `RAW_interactions.csv` in a `data*`
 directory under the project root, so it can also use the provided nested
-dataset folder.
+dataset folder. The output recipe table keeps the source `ingredients` column
+and adds `ingredients_v2`, with ingredient names lowercased and common plurals
+singularized (for example, `eggs` becomes `egg`). It also separates the common
+`salt and pepper` entry into two ingredients. Use `ingredients_v2` as the
+ingredient transaction for downstream analyses; MinHash prefers this normalized
+column when available and falls back to `ingredients` for older parquet files.
+Preprocessing also writes one normalized Sentence-BERT vector per unique
+ingredient to `processed/ingredient_embeddings.parquet`, keyed by the
+normalized ingredient text, using `sentence-transformers/all-MiniLM-L6-v2`.
+Ingredient descriptors such as `crushed` are preserved. Use `ingredients_v2`
+to look up which ingredients belong to each recipe. Rerun preprocessing to
+regenerate the embeddings with this format.
