@@ -70,39 +70,44 @@ def normalize_ingredients(ingredients):
 
 
 def write_ingredient_embeddings(recipes, output_path):
+    ingredients = list(dict.fromkeys(
+        ingredient
+        for recipe_ingredients in recipes["ingredients_v2"]
+        for ingredient in recipe_ingredients
+    ))
+    if not ingredients:
+        pq.write_table(
+            pa.table({
+                "ingredient": pa.array([], type=pa.string()),
+                "embedding": pa.array([], type=pa.list_(pa.float32())),
+            }),
+            output_path,
+        )
+        return
+
     model = SentenceTransformer(EMBEDDING_MODEL)
     writer = None
     try:
-        for start in range(0, len(recipes), EMBEDDING_BATCH_SIZE):
-            batch = recipes.iloc[start:start + EMBEDDING_BATCH_SIZE]
-            texts = [", ".join(items) for items in batch["ingredients_v2"]]
+        for start in range(0, len(ingredients), EMBEDDING_BATCH_SIZE):
+            batch = ingredients[start:start + EMBEDDING_BATCH_SIZE]
             vectors = model.encode(
-                texts,
+                batch,
                 batch_size=128,
                 convert_to_numpy=True,
                 normalize_embeddings=True,
                 show_progress_bar=False,
             )
             table = pa.table({
-                "id": batch["id"].tolist(),
+                "ingredient": batch,
                 "embedding": pa.array(vectors.tolist(), type=pa.list_(pa.float32())),
             })
             if writer is None:
                 writer = pq.ParquetWriter(output_path, table.schema)
             writer.write_table(table)
-            print(f"embedded {min(start + len(batch), len(recipes))} of {len(recipes)} recipes", flush=True)
+            print(f"embedded {min(start + len(batch), len(ingredients))} of {len(ingredients)} unique ingredients", flush=True)
     finally:
         if writer is not None:
             writer.close()
-
-    if writer is None:
-        pq.write_table(
-            pa.table({
-                "id": pa.array([], type=pa.int64()),
-                "embedding": pa.array([], type=pa.list_(pa.float32())),
-            }),
-            output_path,
-        )
 
 
 project_root = Path(__file__).resolve().parents[1]

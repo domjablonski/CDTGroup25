@@ -28,7 +28,9 @@ singularized (for example, `eggs` becomes `egg`). It also separates the common
 `salt and pepper` entry into two ingredients. Use `ingredients_v2` as the
 ingredient transaction for downstream analyses; MinHash prefers this normalized
 column when available and falls back to `ingredients` for older parquet files.
-Preprocessing also writes normalized Sentence-BERT ingredient vectors to
-`processed/ingredient_embeddings.parquet`, keyed by recipe `id`, using
-`sentence-transformers/all-MiniLM-L6-v2`. Ingredient descriptors such as
-`crushed` are preserved in the text and embeddings rather than stripped.
+Preprocessing also writes one normalized Sentence-BERT vector per unique
+ingredient to `processed/ingredient_embeddings.parquet`, keyed by the
+normalized ingredient text, using `sentence-transformers/all-MiniLM-L6-v2`.
+Ingredient descriptors such as `crushed` are preserved. Use `ingredients_v2`
+to look up which ingredients belong to each recipe. Rerun preprocessing to
+regenerate the embeddings with this format.
