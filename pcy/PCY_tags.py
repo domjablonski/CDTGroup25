@@ -43,7 +43,8 @@ for tags in df["tags"]:
     baskets.append(sorted(item_ids))
 
 #Starting parameters for PCY algorithm
-min_support = 1000  # Minimum number of occurrences for an ingredient to be considered frequent
+#Adjusted for tags instead of ingredients
+min_support = 10000  # Minimum number of occurrences for an ingredient to be considered frequent
 num_buckets = 100000  # Number of buckets for hashing pairs of tags (can be increased)
 #Additionally we need a hash-function to map pairs of tags to buckets.
 def hash_pair(i, j):
