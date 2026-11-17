@@ -22,4 +22,7 @@ python preprocessing/preprocessing.py
 
 The script locates `RAW_recipes.csv` and `RAW_interactions.csv` in a `data*`
 directory under the project root, so it can also use the provided nested
-dataset folder.
+dataset folder. The output recipe table keeps the source `ingredients` column
+and adds `ingredients_v2`, with ingredient names lowercased and common plurals
+singularized (for example, `eggs` becomes `egg`). Use `ingredients_v2` as the
+ingredient transaction for downstream analyses.

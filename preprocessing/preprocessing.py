@@ -1,7 +1,56 @@
 import ast
+import re
 from pathlib import Path
 
 import pandas as pd
+
+IRREGULAR_INGREDIENT_PLURALS = {
+    "leaves": "leaf",
+    "loaves": "loaf",
+    "knives": "knife",
+    "tomatoes": "tomato",
+    "potatoes": "potato",
+}
+SINGULAR_INGREDIENT_EXCEPTIONS = {
+    "asparagus",
+    "brownies",
+    "cookies",
+    "couscous",
+    "fries",
+    "glass",
+    "grass",
+    "hummus",
+    "molasses",
+    "pies",
+    "series",
+    "smoothies",
+    "species",
+    "zucchinis",
+}
+
+
+def singularize_ingredient_word(word):
+    if word in IRREGULAR_INGREDIENT_PLURALS:
+        return IRREGULAR_INGREDIENT_PLURALS[word]
+    if word in SINGULAR_INGREDIENT_EXCEPTIONS or len(word) <= 3:
+        return word
+    if word.endswith(("ches", "shes", "xes", "zes", "oes")):
+        return word[:-2]
+    if word.endswith("ies"):
+        return word[:-3] + "y"
+    if word.endswith("s") and not word.endswith(("ss", "us", "is")):
+        return word[:-1]
+    return word
+
+
+def normalize_ingredient(ingredient):
+    normalized = re.sub(
+        r"[a-z]+",
+        lambda match: singularize_ingredient_word(match.group()),
+        ingredient.lower().strip(),
+    )
+    return re.sub(r"\s+", " ", normalized)
+
 
 project_root = Path(__file__).resolve().parents[1]
 dataset_matches = [
@@ -37,6 +86,12 @@ inter = inter.drop_duplicates(subset=["user_id", "recipe_id"])
 # 3. Parse string-lists into real lists
 for col in ["tags", "ingredients", "steps", "nutrition"]:
     recipes[col] = recipes[col].apply(ast.literal_eval)
+
+# Keep the source ingredients while providing normalized, unique transactions
+# for ingredient-based analyses.
+recipes["ingredients_v2"] = recipes["ingredients"].apply(
+    lambda ingredients: list(dict.fromkeys(normalize_ingredient(item) for item in ingredients))
+)
 
 # 4. Split nutrition into columns
 nutr_cols = ["calories", "total_fat", "sugar", "sodium",
