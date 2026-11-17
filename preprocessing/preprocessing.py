@@ -110,7 +110,7 @@ def write_ingredient_embeddings(recipes, output_path):
             writer.close()
 
 
-project_root = Path(__file__).resolve().parents[1]
+project_root = Path(__file__).resolve().parents[2]
 dataset_matches = [
     recipes_path
     for recipes_path in project_root.glob("data*/**/RAW_recipes.csv")
