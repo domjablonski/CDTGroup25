@@ -3,6 +3,12 @@ import re
 from pathlib import Path
 
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
+from sentence_transformers import SentenceTransformer
+
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_BATCH_SIZE = 1024
 
 IRREGULAR_INGREDIENT_PLURALS = {
     "leaves": "leaf",
@@ -52,6 +58,53 @@ def normalize_ingredient(ingredient):
     return re.sub(r"\s+", " ", normalized)
 
 
+def normalize_ingredients(ingredients):
+    normalized = []
+    for ingredient in ingredients:
+        item = normalize_ingredient(ingredient)
+        if item in {"salt and pepper", "salt and pepper to taste"}:
+            normalized.extend(("salt", "pepper"))
+        else:
+            normalized.append(item)
+    return list(dict.fromkeys(normalized))
+
+
+def write_ingredient_embeddings(recipes, output_path):
+    model = SentenceTransformer(EMBEDDING_MODEL)
+    writer = None
+    try:
+        for start in range(0, len(recipes), EMBEDDING_BATCH_SIZE):
+            batch = recipes.iloc[start:start + EMBEDDING_BATCH_SIZE]
+            texts = [", ".join(items) for items in batch["ingredients_v2"]]
+            vectors = model.encode(
+                texts,
+                batch_size=128,
+                convert_to_numpy=True,
+                normalize_embeddings=True,
+                show_progress_bar=False,
+            )
+            table = pa.table({
+                "id": batch["id"].tolist(),
+                "embedding": pa.array(vectors.tolist(), type=pa.list_(pa.float32())),
+            })
+            if writer is None:
+                writer = pq.ParquetWriter(output_path, table.schema)
+            writer.write_table(table)
+            print(f"embedded {min(start + len(batch), len(recipes))} of {len(recipes)} recipes", flush=True)
+    finally:
+        if writer is not None:
+            writer.close()
+
+    if writer is None:
+        pq.write_table(
+            pa.table({
+                "id": pa.array([], type=pa.int64()),
+                "embedding": pa.array([], type=pa.list_(pa.float32())),
+            }),
+            output_path,
+        )
+
+
 project_root = Path(__file__).resolve().parents[1]
 dataset_matches = [
     recipes_path
@@ -88,10 +141,9 @@ for col in ["tags", "ingredients", "steps", "nutrition"]:
     recipes[col] = recipes[col].apply(ast.literal_eval)
 
 # Keep the source ingredients while providing normalized, unique transactions
-# for ingredient-based analyses.
-recipes["ingredients_v2"] = recipes["ingredients"].apply(
-    lambda ingredients: list(dict.fromkeys(normalize_ingredient(item) for item in ingredients))
-)
+# for ingredient-based analyses. Split the common combined seasoning phrase
+# so it matches recipes that list salt and pepper separately.
+recipes["ingredients_v2"] = recipes["ingredients"].apply(normalize_ingredients)
 
 # 4. Split nutrition into columns
 nutr_cols = ["calories", "total_fat", "sugar", "sodium",
@@ -114,3 +166,4 @@ print(recipes.shape, inter.shape)
 # 7. Save
 recipes.to_parquet(out_dir / "recipes.parquet")
 inter.to_parquet(out_dir / "interactions.parquet")
+write_ingredient_embeddings(recipes, out_dir / "ingredient_embeddings.parquet")

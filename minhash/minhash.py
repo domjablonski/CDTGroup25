@@ -19,7 +19,7 @@ import pyarrow.parquet as pq
 from datasketch import MinHash, MinHashLSH
 
 HERE = Path(__file__).resolve().parent
-CANDIDATE_COLUMNS = ["name", "description", "ingredients", "steps", "text"]
+CANDIDATE_COLUMNS = ["name", "description", "ingredients_v2", "ingredients", "steps", "text"]
 
 
 def parse_args():
@@ -30,7 +30,7 @@ def parse_args():
                     help="glob pattern for input files (default: recipes.parquet)")
     ap.add_argument("--output", type=Path, default=HERE / "deduped.parquet")
     ap.add_argument("--columns", nargs="+", default=None,
-                    help="columns to hash (default: auto-detect name/description/ingredients/steps/text)")
+                    help="columns to hash (default: auto-detect name/description/ingredients_v2 (or ingredients)/steps/text)")
     ap.add_argument("--threshold", type=float, default=0.8, help="Jaccard threshold for duplicates")
     ap.add_argument("--num-perm", type=int, default=128, help="MinHash permutations")
     ap.add_argument("--ngram", type=int, default=5, help="word n-gram size for shingles")
@@ -82,6 +82,8 @@ def pick_columns(schema: pa.Schema, requested):
         return requested
     cols = [c for c in CANDIDATE_COLUMNS if c in names]
     if cols:
+        if "ingredients_v2" in cols and "ingredients" in cols:
+            cols.remove("ingredients")
         return cols
     # fallback: every string or list-of-string column
     def is_texty(t):
