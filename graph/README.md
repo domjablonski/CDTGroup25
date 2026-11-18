@@ -13,11 +13,16 @@ From the repo root, after `python preprocessing/preprocessing.py` (needs `ingred
 pytest graph -q                                   # 33 tests on toy examples
 python graph/run_graph.py                         # pairs counted here (same definition as PCY)
 python graph/run_graph.py --pcy-dir <folder>      # pairs from R3's PCY output files
+python graph/sensitivity.py                       # robustness: 9 parameter settings (about 75 s)
 ```
 
+`graph_R4.ipynb` walks through the whole analysis with comments (for the appendix, about 1 min), and
+`report_RQ3.md` is the draft of the RQ3 section of the report (1,650 characters without spaces).
+
 `--pcy-dir` reads `frequent_ingredients_singles.parquet` and `frequent_ingredients_pairs.parquet`
-(R3's format) and converts them with `graphs.pairs_from_pcy`. PCY must run on `ingredients_v2` with the
-same support (0.1 % of recipes) to give the same pairs as the exact count.
+(R3's format) and converts them with `graphs.pairs_from_pcy`. Checked on R3's current script (raw
+ingredients, support 1000): the converted PCY output is identical to the exact count (735 pairs). PCY must
+run on `ingredients_v2` with support 0.1 % of the recipes to give the pairs used here.
 
 ## Method
 
@@ -38,5 +43,6 @@ same support (0.1 % of recipes) to give the same pairs as the exact count.
 | `results/graph_eval.csv` | one row per weighting and method: threshold, size, modularity, null modularities, NMI, AMI |
 | `results/communities.csv` | every community: size, 10 most frequent ingredients, dominant cuisine and its share |
 | `results/threshold_sweep.csv` | graph size and connectivity for each candidate threshold |
+| `results/sensitivity.csv` | Louvain AMI per weighting when support, connectivity rule or label share change |
 | `figures/graph_pmi.png`, `figures/graph_count.png` | 150 most frequent ingredients coloured by Louvain community |
 | `figures/degree_distribution.png` | degree distribution of each chosen graph |
