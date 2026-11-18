@@ -1,0 +1,27 @@
+weighting,community,size,top_ingredients,dominant_cuisine,cuisine_share,n_labelled
+count,0,367,"salt, onion, pepper, garlic clove, water, olive oil, garlic, parmesan cheese, lemon juice, carrot",italian,0.346,136
+count,1,132,"butter, egg, sugar, flour, milk, brown sugar, all-purpose flour, baking powder, baking soda, vanilla",southern-united-states,0.828,29
+count,2,16,"vegetable oil, honey, soy sauce, cornstarch, fresh ginger, scallion, ginger, sesame oil, sesame seed, peanut oil",asian,1.000,8
+lift,0,183,"onion, pepper, garlic clove, water, olive oil, parmesan cheese, carrot, celery, chicken broth, potato",italian,0.545,66
+lift,1,143,"butter, egg, sugar, flour, milk, brown sugar, all-purpose flour, baking powder, baking soda, vanilla",southern-united-states,0.800,40
+lift,2,70,"black pepper, tomato, sour cream, garlic powder, cheddar cheese, mayonnaise, paprika, worcestershire sauce, chili powder, cayenne pepper",mexican,0.595,37
+lift,3,50,"garlic, vegetable oil, green onion, oil, honey, soy sauce, cornstarch, ground cumin, boneless skinless chicken breast, fresh cilantro",asian,0.545,22
+lift,4,31,"lemon juice, extra virgin olive oil, fresh ground black pepper, red onion, dijon mustard, kosher salt, red bell pepper, fresh lemon juice, green bell pepper, balsamic vinegar",italian,0.778,9
+lift,5,19,"salt, whole wheat flour, warm water, active dry yeast, bread flour, yeast, unsweetened applesauce, dry yeast, white flour, salad oil",indian,0.800,5
+lift,6,6,"orange juice, lemon, orange, orange zest, pineapple juice, orange rind",,0.000,0
+lift,7,2,"plain flour, caster sugar",,0.000,0
+lift,8,2,"cinnamon stick, whole clove",,0.000,0
+pmi,0,148,"butter, egg, sugar, flour, milk, brown sugar, all-purpose flour, baking powder, baking soda, vanilla",southern-united-states,0.780,41
+pmi,1,125,"onion, pepper, carrot, black pepper, garlic powder, celery, potato, paprika, worcestershire sauce, parsley",southern-united-states,0.396,48
+pmi,2,119,"garlic clove, olive oil, garlic, parmesan cheese, lemon juice, chicken broth, extra virgin olive oil, fresh parsley, fresh ground black pepper, dijon mustard",italian,0.732,41
+pmi,3,52,"tomato, sour cream, cheddar cheese, mayonnaise, chili powder, red onion, ground cumin, red bell pepper, fresh cilantro, cumin",mexican,0.839,31
+pmi,4,28,"salt, water, warm water, cinnamon stick, active dry yeast, rice, cooking oil, bread flour, yeast, baby carrot",indian,0.833,6
+pmi,5,28,"vegetable oil, green onion, oil, honey, soy sauce, cornstarch, fresh ginger, scallion, ginger, vinegar",asian,1.000,12
+pmi,6,6,"orange juice, lemon, orange, orange zest, pineapple juice, orange rind",,0.000,0
+npmi,0,166,"salt, butter, egg, sugar, flour, milk, brown sugar, all-purpose flour, baking powder, baking soda",southern-united-states,0.689,45
+npmi,1,126,"onion, pepper, water, carrot, black pepper, celery, chicken broth, potato, worcestershire sauce, parsley",southern-united-states,0.439,41
+npmi,2,114,"garlic clove, olive oil, parmesan cheese, lemon juice, extra virgin olive oil, fresh parsley, fresh ground black pepper, dijon mustard, kosher salt, fresh lemon juice",italian,0.771,48
+npmi,3,58,"tomato, sour cream, garlic powder, cheddar cheese, mayonnaise, paprika, chili powder, red onion, cayenne pepper, ground cumin",mexican,0.788,33
+npmi,4,34,"garlic, vegetable oil, green onion, oil, honey, soy sauce, cornstarch, red bell pepper, boneless skinless chicken breast, fresh ginger",asian,1.000,12
+npmi,5,6,"orange juice, lemon, orange, orange zest, pineapple juice, orange rind",,0.000,0
+npmi,6,2,"cinnamon stick, whole clove",,0.000,0
