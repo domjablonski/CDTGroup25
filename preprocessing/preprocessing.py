@@ -110,18 +110,27 @@ def write_ingredient_embeddings(recipes, output_path):
             writer.close()
 
 
-project_root = Path(__file__).resolve().parents[2]
-dataset_matches = [
-    recipes_path
-    for recipes_path in project_root.glob("data*/**/RAW_recipes.csv")
-    if (recipes_path.parent / "RAW_interactions.csv").is_file()
-]
+# The data can be inside the repo (data/ next to preprocessing/) or next to the repo folder:
+# look inside the repo first, then one level up, and use the first place where it is found.
+repo_root = Path(__file__).resolve().parents[1]
+search_roots = [repo_root, repo_root.parent]
+dataset_matches = []
+for project_root in search_roots:
+    dataset_matches = [
+        recipes_path
+        for recipes_path in project_root.glob("data*/**/RAW_recipes.csv")
+        if (recipes_path.parent / "RAW_interactions.csv").is_file()
+    ]
+    if dataset_matches:
+        break
 
 if len(dataset_matches) != 1:
     raise FileNotFoundError(
         "Expected exactly one dataset containing RAW_recipes.csv and "
-        f"RAW_interactions.csv under {project_root}; found {len(dataset_matches)}."
+        f"RAW_interactions.csv under {project_root} (searched {', '.join(map(str, search_roots))}); "
+        f"found {len(dataset_matches)}."
     )
+print(f"dataset: {dataset_matches[0].parent}")
 
 dataset_dir = dataset_matches[0].parent
 out_dir = dataset_dir / "processed"
