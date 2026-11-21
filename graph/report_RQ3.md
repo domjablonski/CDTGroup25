@@ -22,4 +22,4 @@ the recipes carry a cuisine tag, and the normalisation still separates garlic an
 
 <!-- Sources: results/graph_eval.csv (AMI, modularity, null models, spectral), results/communities.csv
 (community names), results/sensitivity.csv (9 settings), run_graph.py output (5,203 pairs, 572 ingredients,
-179 labelled of 506). Figure X = figures/graph_pmi.png. Numbers to re-check after the PCY run of R3. -->
+179 labelled of 506). Figure X = figures/graph_pmi.png. Checked on 21 Nov: identical with R3's PCY pairs (ingredients_v2, support 0.1 %). -->

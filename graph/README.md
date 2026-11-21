@@ -22,7 +22,9 @@ python graph/sensitivity.py                       # robustness: 9 parameter sett
 `--pcy-dir` reads `frequent_ingredients_singles.parquet` and `frequent_ingredients_pairs.parquet`
 (R3's format) and converts them with `graphs.pairs_from_pcy`. Checked on R3's current script (raw
 ingredients, support 1000): the converted PCY output is identical to the exact count (735 pairs). PCY must
-run on `ingredients_v2` with support 0.1 % of the recipes to give the pairs used here.
+run on `ingredients_v2` with support 0.1 % of the recipes to give the pairs used here. Done on 21 Nov with
+`pcy/PCY_ingredients_structured.py` (unchanged, column ingredients_v2, support 229 recipes): 5,203 pairs, and
+`results/graph_eval.csv` and `results/communities.csv` are byte-for-byte identical to the exact-count run.
 
 ## Method
 
