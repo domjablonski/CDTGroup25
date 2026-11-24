@@ -1,0 +1,4 @@
+model,n_test,accuracy,macro_f1
+lightgbm,8182,0.7100,0.6534
+logistic_regression,8182,0.6805,0.6289
+majority_class,8182,0.1786,0.0275

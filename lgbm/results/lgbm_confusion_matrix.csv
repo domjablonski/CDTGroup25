@@ -1,0 +1,12 @@
+,pred_african,pred_asian,pred_caribbean,pred_chinese,pred_french,pred_greek,pred_indian,pred_italian,pred_mexican,pred_middle-eastern,pred_southern-united-states
+true_african,265,18,21,1,24,16,36,13,16,66,40
+true_asian,24,631,19,183,16,7,94,11,14,7,31
+true_caribbean,14,11,176,3,9,4,7,10,33,5,42
+true_chinese,4,148,3,216,6,0,2,2,4,4,7
+true_french,9,3,11,0,252,15,2,60,7,9,60
+true_greek,14,4,1,0,12,326,2,44,6,31,9
+true_indian,36,34,14,3,5,1,377,2,11,32,14
+true_italian,12,2,10,2,91,39,3,1205,12,22,63
+true_mexican,22,11,38,1,18,7,8,14,1117,12,72
+true_middle-eastern,63,6,3,2,7,31,21,14,9,208,18
+true_southern-united-states,22,22,21,9,72,10,6,82,60,10,1036
