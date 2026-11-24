@@ -1,0 +1,12 @@
+# What CI needs: no Kaggle, no Jupyter (the real data is never in CI)
+pandas>=2.0
+pyarrow>=14
+numpy>=1.26
+numba>=0.59
+scipy>=1.11
+scikit-learn>=1.4
+networkx>=3.2
+matplotlib>=3.8
+datasketch>=1.6
+mlxtend>=0.23
+pytest>=8

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Projet Food.com - Plan de projet</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Food.com · Plan de projet</h1>
+<p class="subtitle">Associations d'ingrédients et similarité de recettes : organisation, rôles, sprints, vérification et méthode de travail avec Claude Code ·
+Computational Tools for Data Science (DTU 02807) · version 2.0, 10 novembre 2026</p>
+
+<table class="meta">
+<tr><td>Équipe</td><td><span class="tag r1">R1</span> données + ingrédients &nbsp; <span class="tag r2">R2</span> MinHash/LSH &nbsp; <span class="tag r3">R3</span> PCY/A-Priori &nbsp; <span class="tag r4">R4</span> graphe PMI + Louvain &nbsp; <span class="tag r5">R5</span> classifieur de calories + rapport</td></tr>
+<tr><td>Projet</td><td>« Ingredient pairing and recipe similarity on Food.com » (sujet fixé le 10 nov.) : 231 637 recettes (Kaggle, Majumder et al. 2019) ; PCY et MinHash + LSH codés nous-mêmes, un graphe d'ingrédients pondéré par le PMI avec Louvain, un classifieur du niveau de calories à partir des voisins LSH</td></tr>
+<tr><td>Fichiers</td><td><code>docs/CONTRACT.md</code> (spécification commune, v2.0) · <code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code> (ce que Claude lit) · <code>docs/backlog.md</code> (issues) · ce PDF</td></tr>
+<tr><td>Dates clés</td><td>livraisons <b>jeu. 12 / jeu. 19 nov.</b> · gel des expériences <b>mar. 24 nov.</b> · brouillon complet <b>dim. 29 nov.</b> · rendu <b>jeu. 3 déc.</b> (échéance DTU Learn ven. 4 déc., 23:59)</td></tr>
+</table>
+
+<div class="box">
+<h4>Le plan en 10 lignes</h4>
+<ol>
+<li>Une question principale : <b>quelle structure révèlent les combinaisons d'ingrédients de 231 637 recettes, et peut-on l'exploiter à grande échelle ?</b> Quatre sous-questions, une par méthode du cours ou hors cours.</li>
+<li>Même méthode que le projet Agile Hardware : un <b>contrat figé</b> (<code>config.py</code>, <code>schemas.py</code>, les signatures des fonctions, <code>CONTRACT.md</code> v2.0), <b>5 rôles qui possèdent des fichiers séparés</b>, un fichier d'instructions que Claude Code suit.</li>
+<li>Le squelette tourne déjà : 53 tests verts (10 nov.) ; le nettoyage a tourné sur les 231 637 recettes (environ 1 min) et a produit les niveaux de calories (terciles à 217,7 et 431,7 kcal).</li>
+<li><span class="r1">R1</span> données + normalisation des ingrédients · <span class="r2">R2</span> MinHash + LSH, « recipes like this one » · <span class="r3">R3</span> PCY vs A-Priori, associations d'ingrédients · <span class="r4">R4</span> graphe pondéré par le PMI + Louvain, découverte des cuisines · <span class="r5">R5</span> classifieur du niveau de calories à partir des voisins LSH, rédaction du rapport.</li>
+<li><b>Trois thèmes du cours</b> (deux codés nous-mêmes : PCY, MinHash/LSH ; plus Louvain) et <b>deux méthodes hors cours</b> (pondération PMI, classification kNN) : les ~25 % de travail en plus attendus d'un groupe de 5.</li>
+<li>4 sprints d'une semaine (S1 à S4), de mardi à mardi. La séance d'exercices du mardi (20:00) sert de revue et de planification. Gel des expériences le <b>mar. 24 nov.</b></li>
+<li><b>Une story = une session Claude neuve = une branche = une pull request.</b> Chacun tape simplement <code>Fais la story R2-S1.</code></li>
+<li>Deux livraisons seulement : <b>H1 jeu. 12</b> (ingrédients normalisés + niveaux de calories, tout le monde en dépend) et <b>H2 jeu. 19</b> (voisins, doublons, paires). Avant, chacun travaille sur l'échantillon de 1 %.</li>
+<li>Chaque score a sa référence : LSH face au Jaccard exact, PCY = A-Priori, graphe PMI face aux comptages bruts et à un graphe nul, kNN face à la classe majoritaire / régression logistique / kNN exact, <b>sans fuite par les copies</b>.</li>
+<li>Tests d'abord, jamais affaiblis ; chaque chiffre du rapport vient d'un <code>results/*.csv</code> écrit par du code ; chacun peut expliquer chaque section (Prompt E à chaque sprint).</li>
+</ol>
+</div>
+
+<h3>Sommaire</h3>
+<ol class="toc">
+<li>Ce qu'on doit rendre (traçabilité)</li>
+<li>Calendrier</li>
+<li>Pipeline, questions et choix de conception</li>
+<li>Le contrat partagé</li>
+<li>Équipe, rôles et charge</li>
+<li>Backlog des sprints (stories S1 à S4)</li>
+<li>Comment on travaille : tableau et Git</li>
+<li>Travailler avec Claude Code</li>
+<li>Comment on vérifie tout</li>
+<li>Prompts prêts à coller</li>
+<li>Risques, plan B et coupes de périmètre</li>
+<li>Bugs probables et corrections</li>
+<li>Checklists</li>
+</ol>
+
+<!-- ============================================================== 1 -->
+<h2 class="newpage">1. Ce qu'on doit rendre (traçabilité)</h2>
+<p>D'après la page du cours (courses.compute.dtu.dk/02807/2026) et l'énoncé du projet (project.pdf). Chaque exigence renvoie à la story qui la couvre.</p>
+<table>
+<thead><tr><th style="width:36%">Exigence du cours</th><th style="width:16%">Source</th><th>Couverte par</th></tr></thead>
+<tr><td>Un problème pertinent et <b>techniquement difficile</b>, motivé dans le rapport</td><td>project.pdf p.1, p.3</td><td>Question principale + RQ1–RQ4 (§3) ; introduction R5-S3</td></tr>
+<tr><td>Au moins un, <b>de préférence deux</b> thèmes du cours, <b>essentiels</b> à la solution</td><td>p.1, p.3</td><td>Trois : itemsets fréquents (PCY, R3), éléments similaires (MinHash/LSH, R2), clustering de graphes (Louvain, R4)</td></tr>
+<tr><td>« Vous devrez probablement <b>implémenter certaines choses vous-mêmes</b> »</td><td>p.1</td><td>PCY, A-Priori et MinHash/LSH codés nous-mêmes ; librairies seulement dans les tests de comparaison</td></tr>
+<tr><td>Au moins une technique <b>non vue en cours</b>, clairement identifiée et brièvement expliquée</td><td>p.1, p.2</td><td>Deux : pondération PMI/NPMI (R4), classification kNN sur les voisins LSH (R5) ; Node2Vec en option</td></tr>
+<tr><td>Les groupes de 5 en font <b>~25 % de plus</b></td><td>p.2</td><td>3 thèmes du cours + 2 méthodes hors cours ; benchmark, réglage et baselines pour chacune</td></tr>
+<tr><td>Décrire les données, leur obtention, le prétraitement</td><td>p.2</td><td>R1-S1b (normalisation, niveaux de calories), R1-S3 (section), <code>data_summary.csv</code></td></tr>
+<tr><td><b>Justifier chaque choix</b> (sans réexpliquer le cours)</td><td>p.3</td><td>Support et buckets (R3-S2), (b, r) par la courbe en S (R2-S2), pondération et seuil (R4-S2), k et vote (R5-S2)</td></tr>
+<tr><td><b>Évaluer</b> la solution et expliquer pourquoi elle marche ou non</td><td>p.2, p.3</td><td>§9 : vérité exacte par Jaccard, PCY = A-Priori, graphe nul, baselines du classifieur, tags de cuisine</td></tr>
+<tr><td>Rapport ≤ <b>12 500 caractères</b> (groupe de 5), noms en page de titre, résumé/plan au début</td><td>p.2</td><td>Budgets de <code>report/outline.md</code>, <code>scripts/count_chars.py</code>, R5-S3/S4</td></tr>
+<tr><td>Notebook Jupyter en annexe, <b>bien documenté</b>, facile à exécuter</td><td>p.2, p.3</td><td>R1-S2 (run_all), R1-S3 (assemblage, Run All), R1-S4 (clone neuf)</td></tr>
+<tr><td>Description de la <b>contribution de chaque membre</b></td><td>p.2</td><td><code>report/contributions.md</code> (responsable + relecteur par tâche)</td></tr>
+<tr><td>Données trop grosses / non partageables → lien</td><td>p.2</td><td>La licence interdit de republier : lien Kaggle + script (à confirmer avec le TA), R1-S4</td></tr>
+<tr><td>Bonus : très gros volume traité <b>efficacement</b></td><td>p.3</td><td>Données complètes à chaque étape ; PCY et LSH rendent le calcul faisable ; <code>runtime.csv</code>, <code>search_latency.csv</code></td></tr>
+</table>
+
+<table>
+<thead><tr><th style="width:36%">Ce que le groupe a décidé (10 nov.)</th><th style="width:16%">Livré par</th><th>Preuve pour le correcteur</th></tr></thead>
+<tr><td>Coder PCY nous-mêmes pour les combinaisons fréquentes d'ingrédients et les règles d'association</td><td>R3-S1/S2</td><td><code>rules_top.csv</code> ; PCY renvoie exactement les paires d'A-Priori (tests)</td></tr>
+<tr><td>Comparer PCY à A-Priori en mémoire et en temps</td><td>R3-S2</td><td><code>itemsets_bench.csv</code> : 3 supports × 3 nombres de buckets, secondes, pic en Mo, paires comptées</td></tr>
+<tr><td>Coder MinHash + LSH nous-mêmes ; une recherche « recipes like this one »</td><td>R2-S1/S2</td><td><code>search_latency.csv</code> (LSH face à la force brute), 3 requêtes d'exemple</td></tr>
+<tr><td>Régler bandes et lignes face à un échantillon de Jaccard exact (précision et rappel)</td><td>R2-S2</td><td><code>lsh_eval.csv</code> : 4 (b, r) × 4 seuils sur 5 000 recettes</td></tr>
+<tr><td>Graphe d'ingrédients pondéré par le PMI avec Louvain pour découvrir les cuisines</td><td>R4-S2</td><td><code>graph_eval.csv</code> (4 pondérations, graphe nul, NMI), <code>communities.csv</code></td></tr>
+<tr><td>Classifieur du niveau de calories à partir des voisins LSH</td><td>R5-S2</td><td><code>classifier_eval.csv</code> face à 3 baselines, <code>confusion_matrix.csv</code></td></tr>
+</table>
+
+<!-- ============================================================== 2 -->
+<h2>2. Calendrier</h2>
+<!--FIG:timeline-->
+<p class="caption">Les sprints vont de mardi à mardi (séance d'exercices, 20:00–22:00 ; les semaines 10 à 13 sont réservées au projet). Pas d'examen : le rapport fait la note.</p>
+<table>
+<thead><tr><th style="width:8%">Sprint</th><th style="width:17%">Dates</th><th style="width:38%">Objectif du sprint</th><th>Ce qu'on montre à la revue du mardi</th></tr></thead>
+<tr><td><b>S1</b></td><td>mar. 10 – mar. 17 nov.</td><td>Squelette dans le dépôt du groupe (mer. 11) ; ingrédients v2 (jeu. 12) ; chaque algorithme <b>juste sur des exemples jouets et sur l'échantillon de 1 %</b></td><td>Tests verts ; comparaisons avec datasketch / mlxtend ; sorties provisoires sur l'échantillon</td></tr>
+<tr><td><b>S2</b></td><td>→ mar. 24 nov.</td><td><b>Données complètes</b> ; livraison H2 (jeu. 19) ; intégration (ven. 20) ; tous les fichiers de résultats et figures v1 (dim. 22). <b>Gel en séance</b></td><td>Les 10 fichiers de résultats de CONTRACT 3.6</td></tr>
+<tr><td><b>S3</b></td><td>mer. 25 – dim. 29 nov.</td><td>Sections dans le budget (ven. 27) ; brouillon complet (dim. 29) ; notebook final « Run All »</td><td>Le brouillon, lu par tous avant le mar. 1er déc.</td></tr>
+<tr><td><b>S4</b></td><td>lun. 30 nov. – jeu. 3 déc.</td><td>Relecture en séance (mar. 1er), clone neuf (mer. 2), rendu (jeu. 3)</td><td>Rendu sur DTU Learn le jeu. 3 déc. (un jour de marge)</td></tr>
+</table>
+
+<h3>Les livraisons (les seules dépendances entre rôles)</h3>
+<table>
+<thead><tr><th style="width:26%">Fichier (nom dans config)</th><th style="width:16%">De → vers</th><th style="width:14%">Échéance</th><th>En attendant</th></tr></thead>
+<tr><td><code>RECIPES</code> v2 (ingrédients v2, calorie_level)</td><td>R1 → tous</td><td>jeu. 12 nov.</td><td>Normalisation du squelette (déjà utilisable) ; niveaux de calories déjà dans le squelette</td></tr>
+<tr><td><code>NEIGHBOURS</code> + <code>DUPLICATES</code></td><td>R2 → R5, R3</td><td>jeu. 19 nov.</td><td>R5 utilise des voisins exacts calculés en force brute sur l'échantillon ; R3 prend toutes les recettes</td></tr>
+<tr><td><code>PAIRS</code> v1 (toutes les recettes)</td><td>R3 → R4</td><td>jeu. 19 nov.</td><td>R4 utilise les paires provisoires de R3 sur l'échantillon (dim. 15)</td></tr>
+<tr><td><code>PAIRS</code> v2 (sans doublons)</td><td>R3 → R4</td><td>dim. 22 nov.</td><td>R4 relance son notebook (quelques minutes)</td></tr>
+</table>
+
+<!-- ============================================================== 3 -->
+<h2 class="newpage">3. Pipeline, questions et choix de conception</h2>
+<!--FIG:pipeline-->
+<p class="caption">Couleurs = responsable. Les flèches pleines sont les fichiers livrés ; les flèches en pointillés sont des étiquettes lues dans <code>recipes.parquet</code> (niveau de calories pour R5, tags de cuisine pour la NMI de R4).</p>
+
+<table>
+<thead><tr><th style="width:8%">RQ</th><th style="width:46%">Question</th><th style="width:26%">Méthode</th><th>Responsable</th></tr></thead>
+<tr><td>RQ1</td><td>Quels ingrédients vont ensemble au-delà du hasard (règles, lift), et combien PCY économise-t-il en mémoire et en temps face à A-Priori ?</td><td>PCY + A-Priori (notre code)</td><td><span class="tag r3">R3</span></td></tr>
+<tr><td>RQ2</td><td>Avec quelle précision et quelle vitesse MinHash + LSH retrouvent-ils les recettes similaires (« recipes like this one »), face au Jaccard exact ?</td><td>MinHash + LSH (notre code)</td><td><span class="tag r2">R2</span></td></tr>
+<tr><td>RQ3</td><td>Un graphe d'ingrédients pondéré par le PMI fait-il apparaître les cuisines mieux que la co-occurrence brute ?</td><td>Louvain / spectral + PMI (hors cours)</td><td><span class="tag r4">R4</span></td></tr>
+<tr><td>RQ4</td><td>Peut-on prédire le niveau de calories d'une recette à partir de ses voisins LSH, et à quelle distance du kNN exact et d'une baseline supervisée ?</td><td>kNN sur les voisins LSH (hors cours)</td><td><span class="tag r5">R5</span></td></tr>
+</table>
+
+<h3>Choix de conception (et pourquoi)</h3>
+<table>
+<thead><tr><th style="width:30%">Choix</th><th style="width:44%">Pourquoi</th><th>Alternative rejetée</th></tr></thead>
+<tr><td><b>Normaliser les ingrédients d'abord</b>, pour tout le monde (H1, jeu. 12)</td><td>PCY, LSH et le graphe comptent les mêmes ingrédients ; « garlic » vs « garlic cloves » diviserait les comptages et baisserait les similarités</td><td>Chaque rôle nettoie à sa façon</td></tr>
+<tr><td>Niveau de calories = <b>terciles</b> (0–218 / 218–432 / 432–4 998 kcal)</td><td>Classes équilibrées (≈ 76 900 chacune), donc une accuracy lisible ; les recettes au-delà de 5 000 kcal sont signalées et écartées</td><td>Seuils fixes en kcal (déséquilibrés) ou régression sur des valeurs bruitées</td></tr>
+<tr><td>Notre MinHash : <code>(a·x + b) mod (2^31−1)</code>, jetons hachés en <b>CRC32</b></td><td>Reproductible sur chaque portable (le <code>hash()</code> de Python est aléatoire) ; NumPy vectorisé est assez rapide</td><td>datasketch dans le pipeline (pas notre implémentation)</td></tr>
+<tr><td>(b, r) choisis avec la courbe en S <b>et</b> la précision/rappel mesurés</td><td>La courbe en S prédit, l'échantillon de Jaccard exact sur 5 000 recettes (12,5 M paires) vérifie</td><td>Une valeur par défaut sans mesure</td></tr>
+<tr><td><b>Quasi-doublons</b> (Jaccard ≥ 0,9) retirés des paniers de PCY et jamais séparés entre train et test</td><td>3 988 recettes partagent exactement leur liste d'ingrédients avec une autre : les copies gonflent les comptages et fausseraient l'évaluation de RQ4</td><td>Les garder (comptages biaisés, accuracy trop optimiste)</td></tr>
+<tr><td>Support de 0,1 % (1 021 ingrédients fréquents, 520 710 paires candidates)</td><td>Assez grand pour que le gain mémoire de PCY soit mesurable ; assez riche pour des règles propres à chaque cuisine</td><td>1 % (seulement 227 paires fréquentes, rien à économiser)</td></tr>
+<tr><td>Arêtes pondérées par le <b>PMI / NPMI</b></td><td>Les comptages bruts sont dominés par le sel, le beurre et le sucre ; le NPMI est borné dans [−1, 1] et compare les paires équitablement</td><td>Poids = comptage seul (gardé comme comparaison)</td></tr>
+<tr><td>Le kNN ne fait voter que les <b>voisins du train</b></td><td>Une recette de test ne doit être votée ni par d'autres recettes de test, ni par sa propre copie</td><td>Faire voter tous les voisins (fuite)</td></tr>
+<tr><td>Une référence à côté de chaque score</td><td>Une précision, une modularité ou une accuracy seules ne veulent rien dire</td><td>Scores absolus seulement</td></tr>
+<tr><td>Données jamais dans git ; dépôt privé</td><td>Licence « © Original Authors » ; lien Kaggle + script à la place</td><td>Données sur GitHub</td></tr>
+</table>
+
+<h3>Choisir les paramètres de LSH (R2-S2)</h3>
+<!--FIG:scurve-->
+<p class="caption">P(candidate) = 1 − (1 − s<sup>r</sup>)<sup>b</sup> pour 128 hachages. Un coude proche du seuil visé garde la plupart des recettes similaires et peu de faux candidats ; R2 choisit (b, r) d'après la précision et le rappel mesurés face au Jaccard exact sur 5 000 recettes.</p>
+
+<!-- ============================================================== 4 -->
+<h2>4. Le contrat partagé</h2>
+<p>Comme dans le projet Agile Hardware, les cinq rôles ne partagent que des fichiers <b>figés</b> et <code>docs/CONTRACT.md</code>. Chacun code contre eux, donc personne n'attend personne. Un changement passe par une PR étiquetée <code>contract</code> et <b>cinq approbations</b> ; Claude a pour consigne de s'arrêter plutôt que de les modifier.</p>
+
+<div class="box ok"><h4>Déjà vérifié (10 nov.)</h4>
+<p><code>config.py</code>, <code>schemas.py</code> et les modules vides <code>lsh</code>, <code>itemsets</code>, <code>graphs</code>, <code>classify</code> s'importent ; <b>53 tests verts</b> (le test du contrat vérifie les noms de paramètres de chaque fonction, chaque chemin et chaque schéma ; les tests de nettoyage vérifient le parsing, les signalements, la normalisation, les étiquettes de cuisine et de calories, l'échantillon). <code>clean_recipes</code> a tourné sur les <b>231 637</b> recettes en environ 1 min et respecte le schéma ; niveaux de calories : bas ≤ 217,7 kcal (76 905), moyen (76 827), haut ≥ 431,8 kcal (76 856), 1 049 recettes signalées sans niveau.</p></div>
+
+<table>
+<thead><tr><th style="width:30%">Fichier figé</th><th>Ce qu'il fixe</th></tr></thead>
+<tr><td><code>src/foodcom/config.py</code></td><td>Chemins (bruts, traités, les 4 fichiers échangés, résultats, figures), <code>SEED = 42</code>, <code>SAMPLE_FRAC = 0.01</code>, colonnes nutritionnelles, seuils de signalement, <code>CALORIE_LEVELS = 3</code>, <code>DUPLICATE_JACCARD = 0.9</code>, tags de cuisine</td></tr>
+<tr><td><code>src/foodcom/schemas.py</code></td><td>Colonnes des 6 fichiers échangés + <code>validate(df, name)</code>, appelé avant chaque sauvegarde</td></tr>
+<tr><td>Signatures + docstrings de <code>src/foodcom/*.py</code></td><td>Noms des paramètres et comportement de chaque fonction (le corps appartient au responsable)</td></tr>
+<tr><td><code>tests/conftest.py</code>, <code>tests/fixtures/</code>, <code>tests/test_contract.py</code></td><td>Mini-données communes (8 recettes dont une copie, une recette à 6 200 kcal, la durée de débordement…) et le test qui fige tout cela</td></tr>
+</table>
+
+<table>
+<thead><tr><th style="width:24%">Fichier échangé</th><th style="width:12%">Producteur</th><th style="width:14%">Utilisateurs</th><th>Colonnes</th></tr></thead>
+<tr><td><code>recipes.parquet</code></td><td><span class="tag r1">R1</span></td><td>tous</td><td>recipe_id, name, minutes, submitted, tags, steps, ingredients, <b>ingredients_norm</b>, <b>cuisine</b>, <b>calorie_level</b>, colonnes nutritionnelles, flag_*</td></tr>
+<tr><td><code>duplicates.parquet</code></td><td><span class="tag r2">R2</span></td><td>R3, R5</td><td>recipe_id, canonical_id, similarity</td></tr>
+<tr><td><code>neighbours.parquet</code></td><td><span class="tag r2">R2</span></td><td>R5</td><td>recipe_id, neighbour_id, similarity, rank (top 20)</td></tr>
+<tr><td><code>pairs.parquet</code></td><td><span class="tag r3">R3</span></td><td>R4</td><td>item_a, item_b, pair_count, count_a, count_b, n_baskets</td></tr>
+<tr><td><code>rules.parquet</code></td><td><span class="tag r3">R3</span></td><td>(résultats)</td><td>antecedent, consequent, support, confidence, lift, group</td></tr>
+<tr><td><code>interactions.parquet</code></td><td><span class="tag r1">R1</span></td><td>(descriptif)</td><td>user_id, recipe_id, date, rating, review, rated, signalements</td></tr>
+</table>
+
+<pre>NEIGHBOURS = DATA_PROCESSED / "neighbours.parquet"       # R2 -> R5        (config.py, figé)
+NEIGHBOURS = ["recipe_id", "neighbour_id", "similarity", "rank"]                 (schemas.py, figé)
+
+def neighbours_table(index: LSHIndex, k: int = 20) -> pd.DataFrame:   # lsh.py : signature figée, corps R2
+    """For every recipe, its k most similar other recipes among the LSH candidates.
+    schemas.NEIGHBOURS ... similarity = exact Jaccard. Written to config.NEIGHBOURS for R5."""</pre>
+<p>Le contrat fixe aussi le comportement de chaque module (CONTRACT 3.4 : règles de normalisation, hachage MinHash, hachage des buckets PCY, métriques des règles, formules PMI/NPMI, découpage sans fuite), les conventions de test (3.5), les 10 fichiers de résultats et leurs colonnes (3.6), la répartition des fichiers et le cercle de relecture (3.7).</p>
+
+<!-- ============================================================== 5 -->
+<h2>5. Équipe, rôles et charge</h2>
+<table>
+<thead><tr><th style="width:15%">Rôle</th><th style="width:30%">Possède (code)</th><th style="width:37%">Responsable aussi de</th><th>Relit les PR de</th></tr></thead>
+<tr><td><span class="tag r1">R1</span><br>données + ingrédients</td><td>download.py, cleaning.py, test_cleaning, run_all.py, notebook 01, notebook final, CI, CLAUDE.md, backlog</td><td>Coordination : squelette dans le dépôt du groupe, tableau, fusions, <b>ingrédients v2 (H1)</b>, journée d'intégration (ven. 20), vérification sur clone neuf, dossier de rendu ; section Données</td><td>R2</td></tr>
+<tr><td><span class="tag r2">R2</span><br>MinHash + LSH</td><td>lsh.py, test_lsh, notebook 02</td><td>Section RQ2 ; NEIGHBOURS et DUPLICATES (H2) ; les 30 requêtes d'exemple</td><td>R3</td></tr>
+<tr><td><span class="tag r3">R3</span><br>PCY + A-Priori</td><td>itemsets.py, test_itemsets, notebook 03</td><td>Section RQ1 ; benchmark ; PAIRS (H2) et règles</td><td>R4</td></tr>
+<tr><td><span class="tag r4">R4</span><br>graphe PMI + Louvain</td><td>graphs.py, test_graphs, notebook 04</td><td>Section RQ3 ; 4 pondérations, graphe nul, communautés</td><td>R5</td></tr>
+<tr><td><span class="tag r5">R5</span><br>classifieur + rapport</td><td>classify.py, test_classify, notebook 05, scripts/count_chars.py</td><td>Rédaction : document, budgets, introduction, RQ4, conclusion, relecture finale « comme le correcteur »</td><td>R1</td></tr>
+</table>
+<p><b>Pourquoi ce découpage :</b> (1) chaque rôle possède des fichiers séparés, donc pas de conflit de fusion ; (2) chaque méthode a un responsable capable de la défendre, ce qui rend visible dans le rapport qu'elles sont « essentielles, pas accessoires » ; (3) les deux algorithmes du cours codés nous-mêmes (R2, R3) alimentent les deux méthodes hors cours (R5, R4), donc le rapport raconte une seule histoire ; (4) le relecteur d'un rôle connaît son code et le remplace si besoin.</p>
+
+<h3>Scrum allégé</h3>
+<ul>
+<li><b>Coordination : R1.</b> Ordonne le backlog, accepte une story quand sa PR est fusionnée, discute avec le TA du périmètre et du rendu des données.</li>
+<li><b>Animation : tournante, jamais R1.</b> S1 R2, S2 R3, S3 R4, S4 R5. Anime la réunion du mardi, garde le tableau à jour, relance sur les blocages.</li>
+<li><b>Rédaction : R5.</b> Possède le document et le budget de caractères ; chaque responsable écrit sa propre section.</li>
+</ul>
+
+<h3>Charge estimée par personne (heures de travail avec Claude, hors réunions)</h3>
+<table>
+<thead><tr><th>Sprint</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>Total</th></tr></thead>
+<tr><td><span class="tag r1">R1</span></td><td>7</td><td>5</td><td>4</td><td>3</td><td>≈ 19 h</td></tr>
+<tr><td><span class="tag r2">R2</span></td><td>7</td><td>8</td><td>4</td><td>2</td><td>≈ 21 h</td></tr>
+<tr><td><span class="tag r3">R3</span></td><td>7</td><td>8</td><td>4</td><td>2</td><td>≈ 21 h</td></tr>
+<tr><td><span class="tag r4">R4</span></td><td>6</td><td>8</td><td>4</td><td>2</td><td>≈ 20 h</td></tr>
+<tr><td><span class="tag r5">R5</span></td><td>6</td><td>6</td><td>7</td><td>3</td><td>≈ 22 h</td></tr>
+</table>
+<p class="small">Estimations en supposant que Claude écrit l'essentiel du code et qu'on le relit, comme dans le projet Agile Hardware. Ajouter la réunion du mardi (~1 h/semaine) et le chapitre MMDS de son thème (3, 6 ou 10).</p>
+
+<!-- ============================================================== 6 -->
+<h2 class="newpage">6. Backlog des sprints (stories S1 à S4)</h2>
+<p>Chaque ligne est une issue GitHub (<code>docs/backlog.md</code>, prêt à coller). Les critères d'acceptation sont des tests ou un fichier <code>results/</code>. Les étapes complètes pour Claude sont dans le fichier d'instructions, PARTS 4 à 8. Estimations en heures.</p>
+
+<div class="sprint-head"><h3>S1 · Algorithmes justes</h3><span class="dates">mar. 10 – mar. 17 nov. (H1 jeu. 12)</span></div>
+<p class="goal"><b>Objectif :</b> chaque algorithme donne la réponse connue sur des exemples jouets et concorde avec une librairie de référence sur l'échantillon de 1 %.</p>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Critères d'acceptation</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S1a</span></td><td>Squelette dans le dépôt du groupe (PR) ; tableau, jalons, issues</td><td>53 tests verts en CI ; chacun poste « pytest: 53 passed | data: ok » (mer. 11)</td><td>2</td></tr>
+<tr><td><span class="tag r1">R1-S1b</span></td><td>Normalisation des ingrédients v2 — <b>livraison H1 jeu. 12</b></td><td>Un test par règle (pluriels avec exceptions, adjectifs, synonymes) ; libellés avant/après et bornes des calories dans <code>data_summary.csv</code> ; 30 exemples dans la PR</td><td>5</td></tr>
+<tr><td><span class="tag r2">R2-S1</span></td><td>Shingles, MinHash (vectorisé), bandes, index, <code>similar_recipes</code></td><td>Ensembles identiques → signatures identiques ; |estimation − Jaccard| &lt; 0,1 sur 200 paires ; candidats exacts par bande ; 103 trouvée pour 102 sur les mini-données ; recouvrement avec datasketch sur l'échantillon</td><td>7</td></tr>
+<tr><td><span class="tag r3">R3-S1</span></td><td>A-Priori, PCY, règles, table des paires</td><td>Comptages connus sur 8 paniers faits main ; seuil de support exact ; PCY = A-Priori avec collisions forcées (7 buckets) ; = mlxtend sur l'échantillon</td><td>7</td></tr>
+<tr><td><span class="tag r4">R4-S1</span></td><td>Poids PMI/NPMI, fonctions de graphe</td><td>Paire calculée à la main (lift 4, PMI 2) ; deux cliques → 2 communautés, modularité &gt; 0,4 ; spectral même découpage ; le graphe nul garde les degrés ; NMI = 1 sur un étiquetage parfait</td><td>6</td></tr>
+<tr><td><span class="tag r5">R5-S1</span></td><td>Fonctions du classifieur ; document du rapport</td><td>Table de voisins de 6 recettes aux votes connus ; seuls les voisins du train votent ; NA → couverture ; copies jamais séparées ; document partagé</td><td>6</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S2 · Données complètes + évaluation</h3><span class="dates">→ mar. 24 nov. (H2 jeu. 19, GEL mar. 24)</span></div>
+<p class="goal"><b>Objectif :</b> chaque fichier de résultats et chaque figure du rapport existe, sur les données complètes, produit par du code.</p>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Critères d'acceptation</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S2</span></td><td><code>run_all.py</code> ; intégration sur les données complètes (ven. 20) ; 3 figures descriptives</td><td><code>runtime.csv</code> ; problèmes signalés aux responsables avec fichier:ligne</td><td>5</td></tr>
+<tr><td><span class="tag r2">R2-S2</span></td><td>Réglage face au Jaccard exact ; index complet ; NEIGHBOURS + DUPLICATES (<b>H2 jeu. 19</b>) ; latence</td><td><code>lsh_eval.csv</code> (4 (b, r) × 4 seuils) ; (b, r) justifiés ; <code>search_latency.csv</code> ; 3 requêtes d'exemple</td><td>8</td></tr>
+<tr><td><span class="tag r3">R3-S2</span></td><td>Benchmark A-Priori vs PCY ; PAIRS v1 (<b>H2 jeu. 19</b>), v2 (dim. 22) ; règles</td><td><code>itemsets_bench.csv</code> (3 × 3, secondes, pic en Mo, paires comptées) ; <code>rules_top.csv</code> global et par cuisine</td><td>8</td></tr>
+<tr><td><span class="tag r4">R4-S2</span></td><td>4 pondérations × Louvain/spectral ; graphe nul ; NMI face aux cuisines</td><td><code>graph_eval.csv</code> ; <code>communities.csv</code> pour la meilleure pondération ; 5 lignes d'interprétation</td><td>8</td></tr>
+<tr><td><span class="tag r5">R5-S2</span></td><td>kNN sur les données complètes ; baselines</td><td><code>classifier_eval.csv</code> (balayage de k, pondéré ou non, majoritaire, logistique, kNN exact sur 5 000) ; <code>confusion_matrix.csv</code></td><td>6</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S3 · Rédaction</h3><span class="dates">mer. 25 – dim. 29 nov. (sections ven. 27)</span></div>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Critères d'acceptation</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S3</span> <span class="tag r2">R2-S3</span> <span class="tag r3">R3-S3</span> <span class="tag r4">R4-S3</span></td><td>Sa propre section (Données 1 500 · RQ2 2 000 · RQ1 2 000 · RQ3 1 800 caractères) + ses figures ; R1 assemble le notebook final</td><td>Dans le budget (<code>count_chars.py</code>) ; chaque chiffre vient de <code>results/</code> ; notebook final « Run All » sur l'échantillon et sur les données complètes</td><td>4</td></tr>
+<tr><td><span class="tag r5">R5-S3</span></td><td>Introduction + résumé, RQ4, conclusion ; assemblage</td><td>Brouillon complet ≤ 12 500 caractères le dim. 29 ; une réponse par RQ</td><td>7</td></tr>
+</table>
+
+<div class="sprint-head"><h3>S4 · Finitions et rendu</h3><span class="dates">lun. 30 nov. – jeu. 3 déc.</span></div>
+<table>
+<thead><tr><th style="width:8%">ID</th><th style="width:36%">Story</th><th style="width:44%">Critères d'acceptation</th><th>Est.</th></tr></thead>
+<tr><td><span class="tag r1">R1-S4</span></td><td>Vérification sur clone neuf ; dossier de rendu ; tag v1.0</td><td>Un clone neuf s'installe, exécute <code>run_all.py</code> et le notebook de bout en bout</td><td>3</td></tr>
+<tr><td><span class="tag r2">R2-S4</span> <span class="tag r3">R3-S4</span> <span class="tag r4">R4-S4</span></td><td>Relecture croisée : Prompt E sur le module suivant du cercle ; commentaires sur la section suivante</td><td>Commentaires traités ou justifiés</td><td>2</td></tr>
+<tr><td><span class="tag r5">R5-S4</span></td><td>Prompt R (relecture comme le correcteur) ; noms, contributions ; rendu</td><td>Liste du Prompt R vide ou justifiée ; rendu le jeu. 3 déc.</td><td>3</td></tr>
+</table>
+
+<!-- ============================================================== 7 -->
+<h2 class="newpage">7. Comment on travaille : tableau et Git</h2>
+<h3>Le tableau (GitHub Projects)</h3>
+<p>Colonnes <b>Backlog → Sprint TODO → In progress → Review → Done</b>. Une carte = une issue = une story (modèle <code>.github/ISSUE_TEMPLATE/story.md</code>). Étiquettes : <code>R1</code>…<code>R5</code>, <code>contract</code>, <code>bug</code>, <code>hand-off</code> ; jalons S1…S4 avec les dates. Une carte ne passe en Done que quand sa PR est fusionnée.</p>
+<div class="two">
+<div class="box"><h4>Définition de « prête » (avant d'entrer dans un sprint)</h4>
+<ul><li>Critères d'acceptation écrits sous forme de tests ou d'un fichier <code>results/</code></li><li>Les fonctions et fichiers nécessaires sont dans le contrat</li><li>Un responsable, une estimation ≤ 8 h (sinon la découper)</li><li>Entrées disponibles, ou version provisoire sur l'échantillon</li></ul></div>
+<div class="box ok"><h4>Définition de « terminée »</h4>
+<ul><li>Tests écrits d'abord, verts en local et en CI</li><li>Seuls les fichiers possédés modifiés ; fichiers figés et signatures intacts</li><li>PR relue par la personne suivante du cercle + <code>/code-review</code></li><li>Fichier de résultats + entrée AI_USAGE commités ; le responsable explique chaque ligne et chaque chiffre</li></ul></div>
+</div>
+
+<h3>Rythme hebdomadaire</h3>
+<table>
+<thead><tr><th style="width:24%">Quand</th><th style="width:22%">Quoi</th><th>Comment</th></tr></thead>
+<tr><td>Mardi 20:00 (séance d'exercices)</td><td>Revue (20 min)</td><td>Chaque rôle montre ce qui est fusionné sur <code>main</code> (seul le travail fusionné compte) et les nouveaux chiffres dans <code>results/</code>.</td></tr>
+<tr><td>Mardi 20:20</td><td>Rétro + planification (20 min)</td><td>À garder / arrêter / essayer, une ligne chacun ; choisir les stories suivantes ; confirmer les dates de livraison.</td></tr>
+<tr><td>Mardi 20:40–22:00</td><td>Travail ensemble</td><td>Débogage en binôme, intégration, questions au TA.</td></tr>
+<tr><td>Chaque jour avant 10:00</td><td>Stand-up asynchrone</td><td>Dans le chat : hier / aujourd'hui / bloqué ? + la ligne de statut <code>R2-S1 | tests: 14 passed | results: lsh_eval.csv</code></td></tr>
+<tr><td>Vendredi, appel de 20 min</td><td>Point de mi-sprint</td><td>Livraisons dans les temps ? Replanifier si une story glisse.</td></tr>
+<tr><td>Dimanche soir</td><td>Jour de push</td><td>Chacun pousse sa branche, pour que les PR soient relues le lundi.</td></tr>
+</table>
+
+<h3>Règles Git</h3>
+<ul>
+<li><code>main</code> est protégée : changements uniquement par PR, <b>1 approbation + CI verte</b>, pas de force push, fusion squash. Tag <code>sprint-N</code> à chaque revue et <code>v1.0</code> au rendu. (Sur un dépôt privé, la protection de branche demande GitHub Team ou le pack Education gratuit ; sinon c'est une règle d'équipe.)</li>
+<li>Une branche par story : <code>r&lt;k&gt;/s&lt;n&gt;-&lt;slug&gt;</code>, par ex. <code>r2/s1-minhash</code>. Petites PR, fusionnées en 2 jours.</li>
+<li>Cercle de relecture : les PR de R1 → R5, de R2 → R1, de R3 → R2, de R4 → R3, de R5 → R4. Le relecteur lance le Prompt P et lit le diff.</li>
+<li>Une <code>main</code> rouge arrête tout : celui qui l'a cassée la répare d'abord.</li>
+<li>Ne jamais commiter de données (<code>data/</code> est ignoré par git), de notebooks avec des sorties énormes, ni <code>kaggle.json</code>.</li>
+</ul>
+<div class="figwrap"><!--FIG:flow-->
+<p class="caption">La vie d'une story. Les étapes vertes sont faites par Claude Code, les grises par le porteur de la story, les violettes par l'équipe et la CI.</p></div>
+
+<!-- ============================================================== 8 -->
+<h2>8. Travailler avec Claude Code</h2>
+<h3>Ce que Claude lit</h3>
+<table>
+<thead><tr><th style="width:44%">Fichier</th><th>Rôle</th></tr></thead>
+<tr><td><code>CLAUDE.md</code> (racine du dépôt)</td><td>Chargé à chaque session : commandes, règles, importe CONTRACT.md</td></tr>
+<tr><td><code>docs/CONTRACT.md</code></td><td>Fichiers figés, schémas, comportement de chaque module, tests, fichiers de résultats, répartition</td></tr>
+<tr><td><code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code></td><td>Chaque story étape par étape (PARTS 4–8), format du compte rendu, bugs connus</td></tr>
+<tr><td><code>.claude/settings.json</code></td><td>Autorise pytest, python et git (sans push) ; demande avant <code>git push</code> ; interdit la modification des fichiers figés</td></tr>
+</table>
+
+<h3>Une story, étape par étape</h3>
+<ol>
+<li>Passez la carte en « In progress ». À la racine du dépôt, ouvrez une session Claude Code <b>neuve</b> et tapez : <code>Fais la story R2-S1, les instructions sont dans docs/.</code> Pour une story de plus d'~1 h, passez d'abord en <b>plan mode</b> (Shift+Tab) et vérifiez le plan face au contrat.</li>
+<li>Claude lit le contrat et la story, crée la branche et une liste de tâches.</li>
+<li>Claude écrit les <b>tests d'abord</b> (exemples jouets à réponse connue) et les montre en échec pour la bonne raison.</li>
+<li>Claude implémente, lance pytest jusqu'au vert, écrit le fichier <code>results/</code> si la story en a un, commite, ajoute une entrée à <code>docs/AI_USAGE.md</code>, et termine par un compte rendu + la ligne de statut.</li>
+<li><b>Vous</b> lisez tout le <code>git diff main</code>, lancez <code>pytest</code> vous-même, et demandez à Claude d'expliquer ce qui n'est pas clair (Prompt E). Ne poussez pas de code ni de chiffres que vous ne savez pas expliquer.</li>
+<li>Vous poussez, ouvrez la PR (modèle), lancez <code>/code-review</code>, corrigez dans la même session, puis demandez à votre relecteur.</li>
+<li>CI verte + approbation → fusion squash → carte en Done → ligne de statut dans le chat → <code>/clear</code> avant la story suivante.</li>
+</ol>
+<div class="two">
+<div class="box"><h4>Règles pour Claude (dans CLAUDE.md)</h4>
+<ul><li>Ne jamais modifier les fichiers figés ni les signatures ; s'arrêter et expliquer</li><li>Seulement les fichiers du rôle de la story</li><li>Tests d'abord ; <b>ne jamais affaiblir, sauter ou supprimer un test</b></li><li>PCY, A-Priori, MinHash et LSH sont notre code</li><li>Pas de chemins, graines ni colonnes en dur</li><li>RQ4 : seuls les voisins du train votent ; copies jamais séparées</li><li>3 corrections ratées → stop, 3 hypothèses, 3 expériences</li><li>Commiter sur la branche ; ne jamais pousser sans demander</li></ul></div>
+<div class="box trap"><h4>Règles pour nous</h4>
+<ul><li>Une story par session ; <code>/clear</code> entre deux stories</li><li>Lire chaque diff ; lancer les tests soi-même</li><li>Si Claude « corrige » un test au lieu du code : refuser</li><li>Coller les erreurs complètes, jamais des résumés</li><li>Vérifier chaque chiffre de sa section dans son CSV</li><li>Déclarer honnêtement l'usage de l'IA ; vérifier les règles de DTU</li><li>Ne jamais coller de jetons (Kaggle, GitHub) dans une session</li></ul></div>
+</div>
+<h3>Ce que seuls les humains peuvent faire</h3>
+<p>Fusionner le squelette dans le dépôt du groupe, gérer le tableau et les issues ; pousser et fusionner ; regarder à l'œil les 30 résultats de « recipes like this one » (R2-S2) ; décider de ce que signifient les résultats ; écrire et assumer le rapport ; le rendre sur DTU Learn. Claude prépare chacune de ces tâches (commandes exactes, checklists, brouillons) mais ne les fait pas.</p>
+
+<!-- ============================================================== 9 -->
+<h2 class="newpage">9. Comment on vérifie tout</h2>
+<!--FIG:pyramid-->
+<p class="caption">Six niveaux. Les plus bas sont rapides et tournent en CI à chaque push (mini-fixtures seulement, les vraies données ne vont jamais en CI) ; les plus hauts tournent en local sur les vraies données et apportent les preuves dont le rapport a besoin.</p>
+<table>
+<thead><tr><th style="width:20%">Niveau</th><th style="width:19%">Outil</th><th style="width:37%">Ce qu'il prouve</th><th style="width:10%">Responsable</th><th>Quand</th></tr></thead>
+<tr><td>1 Tests unitaires sur exemples jouets</td><td>pytest</td><td>Réponses connues sur des entrées faites main : ensembles identiques, 8 paniers, un PMI calculé à la main, deux cliques, une table de voisins de 6 recettes</td><td>responsable du module</td><td>chaque story / CI</td></tr>
+<tr><td>2 Tests du contrat</td><td>test_contract.py</td><td>Signatures, chemins et schémas inchangés ; les fixtures nettoyées respectent les schémas</td><td>tous</td><td>toujours / CI</td></tr>
+<tr><td>3 Librairies de référence</td><td>datasketch, mlxtend</td><td>Nos MinHash/LSH et A-Priori concordent avec des implémentations établies sur l'échantillon de 1 %</td><td>R2, R3</td><td>S1 / @data</td></tr>
+<tr><td>4 Vérité exacte</td><td>Jaccard sur toutes les paires, A-Priori, kNN exact</td><td>Précision/rappel de LSH sur 5 000 recettes ; PCY = A-Priori exactement ; kNN-LSH face au kNN exact sur les mêmes recettes</td><td>R2, R3, R5</td><td>S2 / @data</td></tr>
+<tr><td>5 Modèles nuls et baselines</td><td>graphe recâblé, comptages bruts, majoritaire, logistique</td><td>Les communautés PMI battent un graphe nul et les comptages bruts ; le kNN bat la classe majoritaire et se compare à un modèle supervisé</td><td>R4, R5</td><td>S2</td></tr>
+<tr><td>6 Labels + vérifications humaines</td><td>tags de cuisine, niveaux de calories, 30 requêtes</td><td>Les résultats ont un sens réel : NMI face aux cuisines, confusions entre niveaux, recettes « similaires » qui se ressemblent</td><td>R2, R4, R5</td><td>S2</td></tr>
+</table>
+<div class="two">
+<div><h4>Propriétés vérifiées par les tests (exemples)</h4>
+<ul><li>MinHash : ensembles identiques → signatures identiques ; estimation à 0,1 près du vrai Jaccard</li><li>LSH : une paire est candidate ⇔ une bande est identique</li><li>PCY renvoie exactement les paires d'A-Priori, même avec des collisions forcées</li><li>PMI = 2 et lift = 4 sur la paire calculée à la main ; NPMI dans [−1, 1]</li><li>Louvain trouve 2 communautés sur deux cliques ; le graphe nul garde tous les degrés</li><li>kNN : les recettes de test ne votent jamais ; une copie est toujours du côté de son original</li></ul></div>
+<div><h4>Vérifié sur les vraies données</h4>
+<ul><li>Les comptages du nettoyage (231 637 recettes, signalements, terciles de calories) correspondent à ce plan</li><li>Libellés d'ingrédients avant/après normalisation rapportés</li><li>PAIRS v2 et règles recalculées sans doublons</li><li>Chaque modularité a sa valeur nulle ; chaque accuracy ses baselines</li><li>Couverture du classifieur kNN rapportée, jamais cachée</li><li>Chaque chiffre du rapport existe dans un <code>results/*.csv</code></li></ul></div>
+</div>
+<div class="box trap"><h4>Ce qu'on peut affirmer honnêtement (à reprendre dans le rapport)</h4>
+<ul>
+<li><b>Mesuré :</b> précision et rappel de LSH face au Jaccard exact sur un échantillon de 5 000 recettes ; pas sur les 2,7 × 10<sup>10</sup> paires.</li>
+<li><b>Testé :</b> notre PCY = notre A-Priori = mlxtend sur l'échantillon ; notre MinHash ≈ datasketch.</li>
+<li><b>Corrélation, pas causalité :</b> une paire à fort lift signifie « cuisinés ensemble sur Food.com », pas une règle culinaire.</li>
+<li><b>Labels imparfaits :</b> les tags de cuisine sont choisis par les utilisateurs (seules 46 028 recettes en ont un) ; la NMI face à eux est un contrôle de cohérence, pas une vérité terrain.</li>
+<li><b>Tâche difficile :</b> les listes d'ingrédients n'ont pas de quantités, donc prédire les calories à partir d'elles est limité ; une accuracy moyenne, bien expliquée, est un résultat valable.</li>
+</ul></div>
+<h3>Garder les vérifications indépendantes du code</h3>
+<ul>
+<li>Les tests viennent du contrat <b>avant</b> l'implémentation : ils décrivent la spécification, pas le code.</li>
+<li>Les librairies de référence et les calculs exacts vérifient nos algorithmes du cours ; ils ne font jamais partie du pipeline.</li>
+<li>Chaque PR est relue par un membre d'un autre rôle, et le <code>/code-review</code> de Claude tourne aussi. La CI tranche : rien ne fusionne en rouge.</li>
+<li>Le classifieur de R5 utilise les voisins de R2 : un bug de fuite se verrait par une accuracy anormalement haute, contrôlée face à la baseline kNN exacte.</li>
+</ul>
+<h3>Preuves à joindre aux PR</h3>
+<p>La ligne de résumé de pytest ; pour un fichier de résultats, la commande qui l'a produit et ses premières lignes ; pour une comparaison avec une librairie, les chiffres de recouvrement ; pour une figure, le PNG et le CSV qu'elle lit.</p>
+
+<!-- ============================================================== 10 -->
+<h2 class="newpage">10. Prompts prêts à coller</h2>
+<p>Dans le dépôt, le fichier d'instructions contient tous les détails, donc le prompt principal tient en une ligne. Les autres prompts servent dans des situations précises. Toujours coller les erreurs <b>complètes</b>.</p>
+
+<div class="prompt"><div class="ptitle">PROMPT S · Faire une story (tout le monde, chaque story)</div>
+<div class="pwhen">Session neuve à la racine du dépôt. Plan mode d'abord si la story dépasse ~1 h.</div>
+<pre>Fais la story R2-S1, les instructions sont dans docs/.</pre>
+<pre>(En anglais : "Do story R2-S1. Instructions are in docs/.")</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT S1a · Squelette dans le dépôt du groupe (R1, mar. 10 – mer. 11 nov.)</div>
+<pre>Fais la story R1-S1a, les instructions sont dans docs/. Le dépôt du groupe est cloné dans [chemin] ; le dossier du squelette est [chemin]. Je suis sur [Windows 11 / macOS / Linux]. Liste les conflits de noms de fichiers avant de copier, puis donne-moi les étapes exactes pour pousser, ouvrir la PR, créer le tableau, les jalons et les issues depuis docs/backlog.md.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT C · Reprendre après /clear ou le lendemain</div>
+<pre>Continue la story R3-S2 depuis docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt. État : [ce qui marche]. En échec : [nom du test ou script]. Dernière erreur : [coller en entier]. Vérifie d'abord git log et git status, puis reprends à la première étape non terminée.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT I · Journée d'intégration (R1, ven. 20 nov.)</div>
+<pre>Intégration du sprint 2. git pull main. Lance pytest, puis python scripts/run_all.py sur les données complètes. Pour chaque échec : quel module contredit quelle section du CONTRAT, fichier:ligne, cause en une phrase. Ne corrige que la colle dans mes fichiers ; pour la logique d'un coéquipier, rédige-lui le rapport de bug. Objectif : run_all.py va au bout et écrit tous les fichiers de résultats qui existent déjà, avec runtime.csv.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT P · Relire la PR d'un coéquipier (relecteur)</div>
+<pre>Relis la branche r2/s2-tuning face à docs/CONTRACT.md (section 3.4.2) et au « Done when » de la story R2-S2 dans le fichier d'instructions. Ne modifie AUCUN fichier. Vérifie : tests tirés du contrat (pas du code), exemples jouets à réponse connue, notre propre implémentation de l'algorithme du cours, aucun chemin/graine/colonne en dur, seulement les fichiers du responsable, aucun test affaibli ou supprimé, schemas.validate avant sauvegarde, CSV de résultats produit par du code. Lance pytest. Réponds : bloquant / à corriger / bonus, chacun avec fichier:ligne et une raison en une ligne.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT D · Déboguer un test qui échoue</div>
+<pre>Erreur complète de `pytest tests/test_itemsets.py -q` : [tout coller, traceback comprise]
+Comportement attendu (section [x] du CONTRAT) : [une phrase]
+Explique d'abord la cause en 2-3 phrases, PUIS donne la correction minimale. Ne réécris pas ce qui marche, ne touche pas au test sauf si tu montres que le contrat dit que le test est faux.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT D3 · Claude tourne en rond (3 corrections sans succès)</div>
+<pre>Stop. Tes 3 dernières corrections n'ont pas résolu [problème]. Repars du dernier commit vert (git log) + l'erreur actuelle + le comportement attendu (CONTRAT [x]).
+1. Liste 3 causes possibles différentes, classées par probabilité.
+2. Pour chacune, une mini-expérience (un test, un print, une entrée de 100 lignes) qui la confirme ou l'écarte. Lance-les. N'écris pas de correction avant les résultats.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT V · Vérifier un résultat (référence, baseline ou modèle nul)</div>
+<pre>Pour [results/graph_eval.csv, Louvain sur le graphe NPMI] : (1) recalcule le chiffre clé avec une méthode indépendante sur l'échantillon de 1 % et montre les deux valeurs ; (2) calcule le même score sur sa référence de CONTRACT 3.4 [graphe nul / pondération par comptages bruts / baseline majoritaire / kNN exact] ; (3) dis-moi en 5 lignes si le résultat est réel, faible ou un artefact (fuite ?), et quelle phrase je peux écrire honnêtement dans le rapport.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT E · Comprendre le code d'un coéquipier (15 min chacun, chaque sprint)</div>
+<pre>Explique src/foodcom/lsh.py fonction par fonction, simplement, en lien avec le chapitre 3 de MMDS et la section 3.4.2 du CONTRAT. Puis pose-moi 5 questions qu'un correcteur pourrait poser, et attends mes réponses avant de corriger.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT F · Faire une figure pour le rapport</div>
+<pre>À partir de results/[fichier].csv seulement, écris scripts/fig_[nom].py qui enregistre report/figures/[nom].png (une figure lisible dans un rapport à 2 colonnes : 8 cm de large, police >= 8 pt, pas de titre dans l'image, axes avec unités). Donne-moi une légende de 2 lignes qui dit ce que le lecteur doit voir.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT W · Rédiger une section du rapport à partir des faits</div>
+<pre>Rédige en anglais la section « [RQ1 – Ingredient pairing] » en [N] caractères hors espaces, à partir de results/[fichiers].csv, des sorties du notebook et de la section [x] du CONTRAT. Chaque chiffre doit venir d'un fichier (cite-le en commentaire). Ne réexplique pas les algorithmes vus en cours ; justifie nos choix (seuils, paramètres) ; termine par ce qui a marché, ce qui n'a pas marché et pourquoi. Anglais académique simple.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT K · Faire tenir une section dans son budget</div>
+<pre>Voici ma section ([N] caractères hors espaces, budget [B]) : [coller]. Réduis-la au budget sans perdre aucun chiffre, argument ni renvoi à une figure. Supprime d'abord les répétitions et le remplissage. Montre le nouveau compte (python scripts/count_chars.py).</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT R · Relire tout le projet comme le correcteur (R5, S4 ; n'importe qui avant le mar. 1er déc.)</div>
+<pre>Relis ce projet comme le ferait un correcteur de 02807 (critères de project.pdf) : problème pertinent et difficile ; thèmes du cours essentiels, pas accessoires ; choses implémentées nous-mêmes ; choix justifiés ; évaluation et réflexion ; méthodes hors cours identifiées et expliquées ; source et prétraitement des données ; rapport <= 12 500 caractères, concis ; notebook documenté et facile à lancer ; contributions. Lis report/, notebooks/final_notebook.ipynb, results/ et src/. Lance les commandes du README. Donne une liste priorisée, sans modifier de fichier.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT Q · Brouillon de la revue du mardi (animateur)</div>
+<pre>À partir de `git log --since="[mardi dernier]" --oneline`, des PR fusionnées et du tableau, rédige notre revue : stories finies / non finies (et pourquoi), nouveaux chiffres dans results/, livraisons à l'heure ou en retard, heures vs estimation. Puis 3 à garder / 3 à arrêter / 3 à essayer pour la rétro. Court et factuel.</pre></div>
+
+<div class="prompt"><div class="ptitle">PROMPT Z · Plan B (une story glisse ou un membre est indisponible)</div>
+<pre>La story [R?-S?] a [n] jours de retard parce que [raison]. À partir de docs/backlog.md, de la répartition de CONTRACT 3.1/3.7 et de l'ordre des coupes du plan (section 11), propose : quoi couper ou déplacer, qui reprend quel fichier (jamais deux personnes sur le même fichier), et ce qui change dans le rapport.</pre></div>
+
+<!-- ============================================================== 11 -->
+<h2 class="newpage">11. Risques, plan B et coupes de périmètre</h2>
+<table>
+<thead><tr><th style="width:20%">Risque</th><th style="width:8%">Prob.</th><th style="width:8%">Impact</th><th style="width:30%">Prévention</th><th>Plan B · responsable</th></tr></thead>
+<tr><td>Normalisation des ingrédients en retard ou trop faible (tout le monde en dépend)</td><td>moyenne</td><td>fort</td><td>R1-S1b est la première priorité ; top 300 des libellés vérifié à l'œil ; échéance jeu. 12</td><td>Garder la normalisation du squelette, tout relancer après la v2 · R1</td></tr>
+<tr><td>Livraison H2 en retard (NEIGHBOURS, PAIRS)</td><td>moyenne</td><td>fort</td><td>Sorties provisoires sur l'échantillon (dim. 15) ; point du vendredi</td><td>R5 prend des voisins exacts sur un échantillon, R4 les paires de l'échantillon ; relance après H2 · animateur</td></tr>
+<tr><td>Notre LSH / PCY trop lents en Python</td><td>moyenne</td><td>moyen</td><td>NumPy vectorisé ; Numba pour les boucles ; profilage sur l'échantillon</td><td>Lancer les données complètes la nuit ; rapporter les temps honnêtement · R2, R3</td></tr>
+<tr><td>Mémoire des portables (8 Go)</td><td>moyenne</td><td>moyen</td><td>Buckets en int32 ; signatures en uint32 ; Jaccard exact sur 5 000 recettes seulement</td><td>Tourner sur le portable qui a le plus de RAM ou les machines de DTU · R1</td></tr>
+<tr><td>Les communautés ne correspondent pas aux cuisines</td><td>moyenne</td><td>faible</td><td>4 pondérations, graphe nul, NMI prévus dès le départ</td><td>Le rapporter et l'expliquer (par ex. familles « pâtisserie vs salé ») : la réflexion est notée · R4</td></tr>
+<tr><td>Classifieur proche de la baseline majoritaire</td><td>moyenne</td><td>faible</td><td>Baselines logistique et kNN exact ; matrice de confusion</td><td>Expliquer pourquoi (pas de quantités dans les listes d'ingrédients) ; comparer au modèle supervisé · R5</td></tr>
+<tr><td>Une fuite gonfle l'accuracy</td><td>moyenne</td><td>fort</td><td>Vote des voisins du train seulement ; copies jamais séparées (tests)</td><td>Prompt V sur le classifieur ; relance avec le découpage corrigé · R5, R2</td></tr>
+<tr><td>Rapport au-delà de 12 500 caractères</td><td>forte</td><td>moyen</td><td>Budgets par section ; comptage chaque mardi</td><td>Prompt K ; déplacer les détails dans le notebook · R5</td></tr>
+<tr><td>Un membre indisponible</td><td>faible</td><td>fort</td><td>Répartition + instructions permettent à chacun de lancer n'importe quelle story</td><td>Le relecteur de ce rôle reprend ; Prompt Z · R1</td></tr>
+<tr><td>Le TA refuse un rendu sans les données</td><td>faible</td><td>moyen</td><td>Poser la question en séance le mar. 10 ou 17</td><td>Partager l'échantillon traité en privé avec les correcteurs si c'est permis · R1</td></tr>
+</table>
+<div class="two">
+<div class="box trap"><h4>Ordre des coupes (couper par le haut)</h4>
+<ol><li>Embeddings Node2Vec (option)</li><li>Shingles en mode « étapes » (garder le mode ingrédients)</li><li>PCY multistage (garder le PCY simple)</li><li>Triplets dans A-Priori (garder les paires)</li><li>Clustering spectral (garder Louvain)</li><li>Règles par cuisine (garder les règles globales)</li></ol></div>
+<div class="box ok"><h4>À ne jamais couper</h4>
+<ul><li>Nos propres PCY + A-Priori, et leur benchmark</li><li>Notre propre MinHash/LSH, réglé face au Jaccard exact</li><li>La pondération PMI et le classifieur kNN (les méthodes hors cours)</li><li>Une baseline ou un modèle nul à côté de chaque score ; le découpage sans fuite</li><li>Chaque chiffre du rapport produit par du code ; notebook « Restart &amp; Run All » ; noms et contributions</li></ul></div>
+</div>
+
+<!-- ============================================================== 12 -->
+<h2 class="newpage">12. Bugs probables et corrections</h2>
+<p>Les erreurs les plus probables avec cette pile. Les trois premières ont été rencontrées en construisant le squelette. Si l'une apparaît, appliquez la correction ; sinon utilisez le Prompt D avec l'erreur complète.</p>
+<table>
+<thead><tr><th style="width:34%">Symptôme</th><th style="width:30%">Cause</th><th>Correction</th></tr></thead>
+<tr><td>« truth value of an array is ambiguous » sur une colonne de listes</td><td>Parquet renvoie des tableaux NumPy, pas des listes</td><td><code>cleaning.load_recipes()</code> (reconvertit)</td></tr>
+<tr><td><code>assert None == nan</code> sur une cuisine manquante</td><td>pandas 3 stocke None en NaN dans les colonnes de texte</td><td><code>pd.isna(valeur)</code></td></tr>
+<tr><td>Parser toutes les recettes prend une minute</td><td><code>ast.literal_eval</code> sur 3 colonnes de listes</td><td>Lancer le nettoyage une fois, puis charger les Parquet</td></tr>
+<tr><td>Erreur scikit-learn sur <code>calorie_level</code></td><td>Colonne Int8 avec &lt;NA&gt;</td><td>Retirer d'abord les lignes NA ; ne jamais les remplir</td></tr>
+<tr><td>Résultats différents sur deux portables</td><td>Le <code>hash()</code> de Python change à chaque processus</td><td><code>lsh.stable_hash</code> (CRC32)</td></tr>
+<tr><td>Valeurs MinHash fausses, nombres négatifs</td><td>Dépassement uint32 dans <code>a·x + b</code></td><td>Calculer en int64 / uint64 avec p = 2^31 − 1</td></tr>
+<tr><td>MemoryError en comparant les recettes</td><td>Toutes les paires matérialisées</td><td>Buckets LSH ; Jaccard exact avec matrices creuses sur 5 000 recettes seulement</td></tr>
+<tr><td>PCY ≠ A-Priori sur quelques paires</td><td>Condition du bitmap ou de la passe 2 fausse</td><td>Les deux ingrédients fréquents ET le bucket fréquent ; seuil du bitmap = seuil de support</td></tr>
+<tr><td>PCY consomme plus de mémoire qu'A-Priori</td><td>Dictionnaire Python pour les buckets</td><td>Tableau NumPy int32 de n_buckets</td></tr>
+<tr><td>PMI énorme sur des paires rares</td><td>Le PMI favorise les co-occurrences rares</td><td>Paires fréquentes seulement (PAIRS) ; préférer le NPMI</td></tr>
+<tr><td>Louvain donne d'autres communautés à chaque exécution</td><td>Ordre aléatoire</td><td><code>seed=config.SEED</code> ; rapporter la moyenne sur 5 graines</td></tr>
+<tr><td>SpectralClustering « graph is not connected »</td><td>Ingrédients isolés</td><td>Plus grande composante connexe ; le signaler</td></tr>
+<tr><td>Accuracy du kNN anormalement haute</td><td>Fuite (des voisins de test ou des copies votent)</td><td>Filtre sur le train ; vérifier le découpage avec le Prompt V</td></tr>
+<tr><td><code>ModuleNotFoundError: foodcom</code></td><td>Paquet non installé dans le venv</td><td><code>pip install -e .</code></td></tr>
+<tr><td>Le notebook utilise une ancienne version d'un module</td><td>Cache du noyau</td><td>Redémarrer le noyau, ou <code>%autoreload 2</code></td></tr>
+</table>
+
+<!-- ============================================================== 13 -->
+<h2 class="newpage">13. Checklists</h2>
+<div class="two">
+<div>
+<h3>Cette semaine (avant jeu. 12 nov.)</h3>
+<ul class="check">
+<li>Remplir les 5 noms (README, CONTRACT, instructions, contributions) · <b>R1</b></li>
+<li>R1-S1a : squelette fusionné dans le dépôt du groupe ; tableau et issues · <b>R1, mer. 11</b></li>
+<li><code>pytest</code> 53 passed et chiffres du nettoyage vérifiés · <b>tout le monde, mer. 11</b></li>
+<li>Demander au TA : sujet validé ? rendu sans les CSV ? · <b>R1, mar. 10 ou 17</b></li>
+<li>Ingrédients v2 (H1) annoncés · <b>R1, jeu. 12</b></li>
+<li>Document du rapport créé avec les budgets · <b>R5</b></li>
+<li>Intégration ven. 20 et gel mar. 24 dans l'agenda de chacun</li>
+</ul>
+<h3>Gel (mar. 24 nov.)</h3>
+<ul class="check">
+<li>Les 10 fichiers de résultats de CONTRACT 3.6 existent sur <code>main</code></li>
+<li>Chaque figure du rapport dans <code>report/figures/</code>, produite par un script</li>
+<li>PAIRS v2 et règles sans doublons ; kNN sans fuite</li>
+<li><code>run_all.py</code> va au bout sur les données complètes</li>
+</ul>
+</div>
+<div>
+<h3>Rendu final (jeu. 3 déc.)</h3>
+<ul class="check">
+<li>Noms (et numéros d'étudiant) des 5 membres en page de titre</li>
+<li>Résumé + plan au début ; question principale et RQ1–RQ4 traitées dans la conclusion</li>
+<li>Méthodes hors cours (PMI, kNN) identifiées et brièvement expliquées</li>
+<li>Chaque choix justifié ; références et baselines ; réflexion sur les échecs</li>
+<li>≤ 12 500 caractères hors espaces (<code>count_chars.py</code>)</li>
+<li>Notebook documenté, instructions en haut, Run All sur un clone neuf</li>
+<li>Pas de données dans le rendu : lien Kaggle + script de téléchargement (comme convenu avec le TA)</li>
+<li>Tableau des contributions (responsable + relecteur par tâche) en annexe</li>
+<li>Déposé sur DTU Learn le jeu. 3 déc. ; tag <code>v1.0</code></li>
+</ul>
+</div>
+</div>
+
+<h3>Fichiers livrés avec ce plan</h3>
+<table>
+<thead><tr><th style="width:44%">Fichier</th><th>Usage</th></tr></thead>
+<tr><td><code>docs/FoodCom_Project_Plan_EN.pdf</code> / <code>FoodCom_Plan_Projet_FR.pdf</code></td><td>Ce plan, pour les humains</td></tr>
+<tr><td><code>docs/CONTRACT.md</code> (v2.0)</td><td>La spécification commune (fichiers figés, schémas, comportement, tests, résultats, répartition)</td></tr>
+<tr><td><code>docs/PROJECT_INSTRUCTIONS_FOR_CLAUDE_CODE.txt</code></td><td>Ce que Claude suit : installation, chaque story, format du compte rendu, bugs connus</td></tr>
+<tr><td><code>docs/backlog.md</code></td><td>Une section par story, à coller en issues GitHub</td></tr>
+<tr><td><code>CLAUDE.md</code>, <code>.claude/settings.json</code>, <code>.github/</code></td><td>Règles et permissions de Claude, CI, modèles de PR et d'issue</td></tr>
+<tr><td><code>src/</code>, <code>tests/</code>, <code>notebooks/</code>, <code>report/</code>, <code>scripts/</code></td><td>Le squelette : nettoyage et niveaux de calories faits, un module vide par rôle, 53 tests, notebook final et plan du rapport</td></tr>
+<tr><td><code>docs/plan-src/</code></td><td>Sources HTML + <code>build.py</code> : modifier, puis <code>python docs/plan-src/build.py</code> pour régénérer les deux PDF</td></tr>
+</table>
+
+</body>
+</html>

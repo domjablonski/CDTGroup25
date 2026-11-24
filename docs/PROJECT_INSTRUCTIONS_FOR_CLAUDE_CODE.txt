@@ -1,0 +1,350 @@
+=====================================================================
+ FOOD.COM PROJECT (DTU 02807) - INSTRUCTIONS FOR CLAUDE CODE
+ "Ingredient pairing and recipe similarity on Food.com"
+ Companion of: FoodCom_Project_Plan_EN.pdf / FoodCom_Plan_Projet_FR.pdf
+ Contract: docs/CONTRACT.md (= PART 3 of this file)          v2.0 - 10 Nov 2026
+=====================================================================
+
+ The user names ONE story in their message, e.g. "Do story R2-S1".
+ (French works too: "Fais la story R2-S1, les instructions sont dans docs/".)
+
+ R1 = _name_ : data, ingredient normalisation, calorie labels, reproducibility, final notebook, coordination
+ R2 = _name_ : MinHash + LSH, "recipes like this one" search (RQ2)
+ R3 = _name_ : PCY + A-Priori, association rules, benchmark (RQ1)
+ R4 = _name_ : PMI-weighted ingredient graph + Louvain, cuisine discovery (RQ3)
+ R5 = _name_ : calorie-level classifier from LSH neighbours (RQ4), report editor
+
+ Calendar (Tuesday = exercise session 20:00-22:00 = weekly review + planning):
+   S1 Algorithms correct ........ Tue 10 Nov -> Tue 17 Nov
+        Wed 11  skeleton merged into the group repo, CI green (R1)
+        Thu 12  HAND-OFF H1: recipes.parquet v2 (ingredients v2 + calorie_level) (R1 -> all)
+        Sun 15  provisional outputs on the 1 % sample (everyone)
+   S2 Full data + evaluation .... -> Tue 24 Nov
+        Thu 19  HAND-OFF H2: DUPLICATES + NEIGHBOURS (R2 -> R3, R5); PAIRS v1 (R3 -> R4)
+        Fri 20  integration on the full data (R1)
+        Sun 22  PAIRS v2 without duplicates (R3); every results/*.csv and figure v1
+        Tue 24  EXPERIMENT FREEZE (at the session)
+   S3 Writing ................... -> Sun 29 Nov  (sections Fri 27, full draft Sun 29)
+   S4 Polish and hand-in ........ -> Thu  3 Dec  (review Tue 1 Dec, submit Thu 3 Dec;
+                                                  DTU Learn deadline Fri 4 Dec 23:59)
+
+=====================================================================
+PART 0 - FOR THE HUMAN: HOW TO USE THIS FILE  (Claude: skip to PART 1)
+=====================================================================
+
+1. The group repo already exists and everyone has the data. R1 adds this skeleton to it once
+   (story R1-S1a). Then everybody:
+       git pull ; claude
+       Do story R2-S1.
+   Claude creates the story branch, writes the tests first, implements, runs pytest, commits,
+   and ends with a report. You then: read `git diff main`, run `pytest` yourself, push the
+   branch, open the PR, ask your reviewer (review circle in CONTRACT 3.7).
+
+2. One story = one fresh conversation (/clear between stories). For a story of more than
+   ~1 hour, start in plan mode (Shift+Tab until "plan mode"), read the plan, then approve.
+
+3. Controls:
+   Shift+Tab  cycle modes (manual -> accept edits -> plan).
+   Esc        stop Claude mid-action (context kept, redirect it).
+   Esc Esc / /rewind  go back to an earlier point (Claude's file edits only).
+   /clear     fresh context. After 2 failed fixes on the same bug, /clear then use PROMPT C.
+   /code-review  review the current diff before you open the PR.
+   Never use --dangerously-skip-permissions.
+
+4. Only humans can: push, merge PRs, manage the board, look at 30 "recipes like this one" results
+   by eye (R2-S2), decide what the results mean, write and submit the report on DTU Learn.
+
+5. You must be able to explain every line you submit and every number in your section: use
+   PROMPT E on a teammate's module every sprint. The report is graded, not the AI.
+
+=====================================================================
+PART 1 - INSTRUCTIONS FOR CLAUDE: GOAL AND BEHAVIOUR
+=====================================================================
+
+Context: group project of 02807 Computational Tools for Data Science (DTU, autumn 2026). Topic:
+"Ingredient pairing and recipe similarity on Food.com" (231,637 recipes). Course topics used in an
+essential way: frequent itemsets (PCY vs A-Priori, our own code), similar items (MinHash + LSH,
+our own code), graph clustering (Louvain). Outside the course: PMI/NPMI weighting of the ingredient
+graph and kNN classification of the calorie level from LSH neighbours. Graded mainly on the report
+(max 12,500 characters without spaces for 5 people) and on the documented Jupyter notebook.
+
+Stack: Python 3.11, pandas 2, pyarrow, NumPy, Numba (optional), scikit-learn, networkx, matplotlib,
+scipy, pytest. Package `foodcom` (src layout). Seed: config.SEED everywhere.
+
+How to behave:
+- The user's message names one story (e.g. "Do story R2-S1"). That is a full mandate: do every
+  step of that story in PARTS 4-8 without asking for confirmation between steps. If no story is
+  named, ask which one (list the stories of the current sprint).
+- Before coding, read docs/CONTRACT.md entirely, then the story. Check its prerequisites (e.g. a
+  hand-off file on main). If one is missing, do what can be done without it (sample, provisional
+  input) and say exactly what is blocked.
+- Git: `git switch main && git pull`, then create/switch to the story branch r<k>/s<n>-<slug>
+  (CONTRACT 3.7). Never work on main (except R1-S1a).
+- Tests first: write or extend tests/test_<module>.py from the CONTRACT (toy examples with a known
+  answer), run them, show they fail for the right reason, then implement until green.
+- Only create/edit the files OWNED by the story's role (CONTRACT 3.1). Never edit config.py,
+  schemas.py, tests/conftest.py, tests/fixtures/, tests/test_contract.py, docs/CONTRACT.md.
+  If you believe the contract must change, STOP and explain why (the team decides).
+- Never change a frozen function signature or docstring. Never hard-code a path, seed or column
+  list: use config and schemas. Call schemas.validate() before saving an exchanged file.
+- NEVER weaken, skip, delete or loosen a test or an assert to make it pass. If you think a test is
+  wrong, stop and explain with the contract section that supports you.
+- Course algorithms (MinHash/LSH, A-Priori/PCY): write them yourself. datasketch / mlxtend only in
+  tests that compare results. Louvain, spectral and logistic regression may use libraries.
+- Develop on the sample (load_*(sample=True)); run the full data only when the code works. Never
+  load the full data in a unit test (mark such tests @pytest.mark.data).
+- Always verify by running pytest (and the script that writes a results/ file) and reading the
+  output. Never claim something works without showing the summary line ("N passed").
+- Every number for the report is written to a CSV in results/ by code in the repo. Never type a
+  result by hand.
+- Same problem after 3 fix attempts: stop patching. List 3 causes ranked by likelihood, run a tiny
+  experiment for each (one test, one print, a smaller input), then fix.
+- Use a task list for the story steps. Keep explanations short.
+- Commit on the story branch every time a test turns green. Never `git push` without the user's
+  explicit OK; never force anything; never rewrite history; never delete files you don't own.
+- At the end: append an entry to docs/AI_USAGE.md and give the report of PART 9.
+
+=====================================================================
+PART 2 - SETUP (every member, once)
+=====================================================================
+
+S1. The working folder must contain pyproject.toml, src/foodcom/ and docs/ (group repo, after
+    R1-S1a is merged). If not, ask the user to `git pull`.
+S2. python -m venv .venv ; activate it ; pip install -r requirements.txt ; pip install -e .
+    Check: `pytest -q` -> all green (data tests skipped).
+S3. Data: RAW_recipes.csv and RAW_interactions.csv in data/raw/ (python -m foodcom.download with a
+    Kaggle token, or copy them by hand). Then `python -m foodcom.cleaning` (~1 min). Expected:
+    231,637 recipes; flag_minutes 3,094; flag_calories 1,049; cuisine 46,028; calorie levels
+    0: 0-218 kcal (76,905) / 1: 218-432 (76,827) / 2: 432-4,998 (76,856).
+S4. `pytest` must be green on main before starting a story. If main is red, fixing it comes first.
+
+=====================================================================
+PART 3 - SHARED CONTRACT
+=====================================================================
+
+PART 3 is docs/CONTRACT.md (CLAUDE.md imports it). Key points: frozen config.py, schemas.py,
+conftest/fixtures, test_contract.py; exchanged files DUPLICATES + NEIGHBOURS (R2), PAIRS (R3);
+our own MinHash/LSH and A-Priori/PCY; a null model or a baseline next to every score; no leakage
+through copies in RQ4; every report number from results/*.csv.
+
+=====================================================================
+PART 4 - ROLE 1: DATA, INGREDIENTS, LABELS, REPRODUCIBILITY, COORDINATION
+=====================================================================
+
+Owns: download.py, cleaning.py, tests/test_cleaning.py, scripts/run_all.py, notebooks/01_data_R1,
+notebooks/final_notebook.ipynb (assembly), README (setup), pyproject/requirements, .github/,
+CLAUDE.md, .claude/settings.json, docs/backlog.md, results/data_summary.csv, results/runtime.csv.
+
+--- R1-S1a  Skeleton into the group repo (Tue 10 - Wed 11 Nov, ~2 h) -----------------------
+ 1. In a clone of the group repo, branch r1/s1-skeleton. Copy the skeleton folders/files (src/,
+    tests/, docs/, scripts/, notebooks/, report/, results/, .github/, .claude/, CLAUDE.md,
+    pyproject.toml, requirements*.txt, .gitignore). Keep the group's existing files; if a name
+    clashes, list the clash and ask the human.
+ 2. pytest -q -> 53 passed (data tests skipped). python -m foodcom.cleaning -> numbers of PART 2 S3.
+ 3. Commit, then tell the human: push, open the PR, merge after one review; create the board
+    (Backlog, Sprint TODO, In progress, Review, Done), milestones S1-S4, issues from docs/backlog.md.
+ Done when: CI green on main; 5 members post "pytest: 53 passed | data: ok".
+
+--- R1-S1b  Ingredient normalisation v2 (-> Thu 12 Nov HAND-OFF H1, ~5 h) ------------------
+ 1. Tests first (test_cleaning.py): one test per rule: plurals ("tomatoes" -> "tomato") with an
+    exception list ("molasses", "asparagus", "couscous", "hummus", "swiss"); adjectives that do not
+    change the ingredient ("fresh basil" -> "basil", "large eggs" -> "eggs", "chopped onion" ->
+    "onion") but not those that do ("brown sugar", "sour cream", "baking soda"); synonyms from the
+    top 500 ("garlic cloves" -> "garlic", "all-purpose flour" -> "flour").
+ 2. Implement in cleaning.py (lists/dicts at the top). Print the 300 most frequent labels with
+    their normalised form; check them by eye with the human; paste 30 examples in the PR.
+ 3. results/data_summary.csv (metric,value): rows, flags, labels before/after, recipes per cuisine,
+    calorie-level bounds and sizes, mean ingredients per recipe.
+ 4. Rerun cleaning, tell the group "recipes.parquet v2 ready" (everyone reruns cleaning).
+ Done when: tests green; labels reduced and documented; H1 announced Thu 12.
+
+--- R1-S2  Full pipeline + integration (-> Tue 24 Nov, ~5 h) --------------------------------
+ 1. scripts/run_all.py: cleaning -> lsh (index, neighbours, duplicates) -> itemsets (benchmark,
+    pairs, rules) -> graphs -> classify; times each step into results/runtime.csv (+ laptop
+    CPU/RAM in the README). Steps whose code is not merged yet are skipped with a message.
+ 2. Integration day Fri 20 Nov: pull main, run_all on the full data, report breakages to owners
+    (file:line, one-sentence cause). Fix only glue in your files.
+ 3. Descriptive figures (scripts/fig_data_*.py): ingredient frequency (log-log), recipes per
+    cuisine, calorie distribution with the tertile bounds.
+
+--- R1-S3  Data section + final notebook (-> Sun 29 Nov, ~4 h) ------------------------------
+ 1. ~1,500 characters without spaces (PROMPT W): source + licence, size, cleaning decisions and
+    flags, normalisation (before/after), calorie labels, sample. Numbers from data_summary.csv.
+ 2. final_notebook.ipynb: the 5 role notebooks in report order, markdown between cells, SAMPLE
+    flag at the top, "Restart & Run All" on the sample and on the full data.
+
+--- R1-S4  Fresh-clone check + hand-in package (-> Thu 3 Dec, ~3 h) --------------------------
+ 1. Clone into a new folder, new venv, PART 2 from scratch, run_all.py, notebook Run All. Fix
+    the README if a command differs. Tag v1.0.
+ 2. Hand-in package (no data, licence): report PDF + final_notebook.ipynb (+ HTML export) + link
+    to the repo or zip without data/ (as agreed with the TA).
+
+=====================================================================
+PART 5 - ROLE 2: MINHASH + LSH (RQ2: recipe similarity, "recipes like this one")
+=====================================================================
+
+Owns: lsh.py, tests/test_lsh.py, notebooks/02_lsh_R2, results/lsh_eval.csv,
+results/search_latency.csv, config.NEIGHBOURS and config.DUPLICATES (files), report section RQ2.
+
+--- R2-S1  Shingles, MinHash, banding (-> Tue 17 Nov, ~7 h) ---------------------------------
+ 1. Read MMDS chapter 3. Tests first (test_lsh.py): stable_hash identical across calls; shingles
+    of mini recipes 102 and 103 identical; identical sets -> identical signatures; for 200 random
+    pairs of sets, |MinHash estimate - true Jaccard| < 0.1 with 200 hashes (seed 42);
+    lsh_candidate_pairs on hand-made signatures finds exactly the pairs sharing a band;
+    similar_recipes on the mini data returns 103 first for the ingredients of 102.
+ 2. Implement shingles, minhash_signatures (vectorised, int64, no overflow), lsh_candidate_pairs,
+    build_index, similar_recipes.
+ 3. 1 % sample: overlap of the candidate pairs with datasketch MinHashLSH at the same threshold
+    (test @data, importorskip("datasketch")). Provisional neighbours_table on the sample (Sun 15).
+ Done when: tests green; datasketch comparison in the PR.
+
+--- R2-S2  Tuning, search, hand-off (-> Thu 19 Nov HAND-OFF H2, then -> Tue 24, ~8 h) ---------
+ 1. Ground truth: exact Jaccard of all pairs of 5,000 random recipes (scipy.sparse); for 128 hashes
+    and (b, r) in {(32,4), (16,8), (8,16), (64,2)} and thresholds {0.5, 0.7, 0.8, 0.9}: candidates,
+    precision, recall, seconds -> results/lsh_eval.csv. Choose (b, r) and argue it with the S-curve.
+ 2. Full data: build_index on 231,637 recipes; neighbours_table(k=20) -> config.NEIGHBOURS;
+    find_duplicates(0.9) -> config.DUPLICATES (schemas.validate). Announce H2 Thu 19.
+ 3. Search latency: ms/query of similar_recipes vs brute-force exact Jaccard for n in {10k, 50k,
+    231k} -> results/search_latency.csv. 30 example queries looked at by the human; keep 3 for the
+    report (results/similar_examples.csv).
+ Done when: H2 files on main Thu 19; lsh_eval.csv and search_latency.csv committed by Sun 22.
+
+--- R2-S3  Section RQ2 (-> Sun 29 Nov, ~4 h): ~2,000 characters (PROMPT W); figures: S-curve with
+    the chosen (b, r), precision/recall per option, latency vs n.
+--- R2-S4  Cross-review (-> Thu 3 Dec, ~2 h): PROMPT E on itemsets.py; comments on R3's section.
+
+=====================================================================
+PART 6 - ROLE 3: PCY + A-PRIORI (RQ1: ingredient pairing)
+=====================================================================
+
+Owns: itemsets.py, tests/test_itemsets.py, notebooks/03_itemsets_R3, results/itemsets_bench.csv,
+results/rules_top.csv, config.PAIRS and config.RULES (files), report section RQ1.
+
+--- R3-S1  A-Priori, PCY, rules (-> Tue 17 Nov, ~7 h) ---------------------------------------
+ 1. Read MMDS chapter 6. Tests first (test_itemsets.py): 8 hand-made baskets with the expected
+    counts written in the test; support boundary (count exactly ceil(s*N) is frequent);
+    pcy == apriori(max_size=2) on random baskets (seed) for 3 supports and n_buckets = 7 (forces
+    collisions); rule metrics of a 2-item example computed by hand; pair_table columns and counts.
+ 2. Implement baskets, apriori (items, pairs, triples), pcy (np.int32 buckets + bitmap),
+    association_rules, pair_table.
+ 3. 1 % sample: same frequent itemsets as mlxtend apriori (test @data, importorskip). Provisional
+    pair_table on the sample (Sun 15) for R4.
+ Done when: tests green; mlxtend comparison in the PR.
+
+--- R3-S2  Benchmark, PAIRS, rules (-> Thu 19 HAND-OFF H2, Sun 22 PAIRS v2, ~8 h) -------------
+ 1. Benchmark on the full data: A-Priori vs PCY, min_support {0.005, 0.002, 0.001} x n_buckets
+    {1e5, 1e6, 1e7}: seconds, peak MB (tracemalloc), pairs counted in pass 2, frequent pairs ->
+    results/itemsets_bench.csv. Optional: multistage PCY (scope cut 3).
+ 2. PAIRS v1 at 0.1 % on all recipes -> config.PAIRS (Thu 19); PAIRS v2 without DUPLICATES (Sun 22).
+ 3. Rules (confidence >= 0.3) on all recipes and per cuisine (rules_by_group): distinctive rules =
+    much higher lift in the cuisine than overall; top 10 per group -> results/rules_top.csv.
+
+--- R3-S3  Section RQ1 (-> Sun 29 Nov, ~4 h): ~2,000 characters; figures: runtime/memory A-Priori
+    vs PCY; top pairings (lift) overall and for 4 cuisines.
+--- R3-S4  Cross-review (~2 h): PROMPT E on graphs.py; comments on R4's section.
+
+=====================================================================
+PART 7 - ROLE 4: PMI INGREDIENT GRAPH + LOUVAIN (RQ3: cuisine discovery)
+=====================================================================
+
+Owns: graphs.py, tests/test_graphs.py, notebooks/04_graphs_R4, results/graph_eval.csv,
+results/communities.csv, report section RQ3.
+
+--- R4-S1  Weights and graph functions (-> Tue 17 Nov, ~6 h) --------------------------------
+ 1. Read MMDS chapter 10. Tests first (test_graphs.py): pmi_weights on a hand-computed pair
+    (e.g. N=100, count_a=20, count_b=10, pair=8 -> lift 4, pmi 2, npmi = 2/log2(12.5));
+    ingredient_graph keeps only weight >= min_weight; two 5-cliques joined by one edge -> louvain
+    finds 2 communities with modularity > 0.4; spectral k=2 same split; null_graph keeps every
+    degree; evaluate_partition NMI = 1 for a perfect labelling; dominant_cuisine on mini data
+    ("coconut milk" -> "thai").
+ 2. Implement. Provisional graph from R3's sample pairs (Sun 15).
+ Done when: tests green; a first picture of the graph in the PR.
+
+--- R4-S2  Cuisine discovery on the full data (-> Tue 24 Nov, ~8 h) --------------------------
+ Prerequisite: PAIRS v1 (Thu 19); rerun on v2 (Sun 22).
+ 1. One graph per weighting (count, lift, pmi, npmi); thresholds argued with the degree
+    distribution; Louvain (5 seeds) and spectral (eigengap); modularity vs null_graph; NMI vs
+    dominant_cuisine -> results/graph_eval.csv.
+ 2. Best weighting: communities with size, top 10 ingredients, dominant cuisine ->
+    results/communities.csv. 5 lines of interpretation (cuisines? "baking" vs "savoury"?).
+ 3. Optional: Node2Vec embeddings (scope cut 1).
+
+--- R4-S3  Section RQ3 (~1,800 characters); figure: the best graph coloured by community.
+--- R4-S4  Cross-review (~2 h): PROMPT E on classify.py; comments on R5's section.
+
+=====================================================================
+PART 8 - ROLE 5: CALORIE CLASSIFIER FROM LSH NEIGHBOURS (RQ4) + REPORT EDITOR
+=====================================================================
+
+Owns: classify.py, tests/test_classify.py, notebooks/05_classify_R5, results/classifier_eval.csv,
+results/confusion_matrix.csv, report/ (assembly), report sections Introduction, RQ4, Conclusion.
+
+--- R5-S1  Classifier functions + report document (-> Tue 17 Nov, ~6 h) ----------------------
+ 1. Create the report document (Overleaf 2-column or Google Docs) with report/outline.md budgets.
+ 2. Tests first (test_classify.py): a 6-recipe neighbour table with known votes (majority and
+    Jaccard-weighted give the expected labels); test neighbours are ignored (only training
+    neighbours vote); a recipe without training neighbour -> NA and coverage < 1; a recipe and its
+    canonical copy end in the same split; evaluate_classifier on a hand-made example.
+ 3. Implement train_test_split_recipes, knn_predict, baseline_majority, baseline_logistic,
+    evaluate_classifier. Brute-force exact-Jaccard neighbours on the sample stand in for NEIGHBOURS
+    until Thu 19.
+ Done when: tests green; first numbers on the sample in the PR.
+
+--- R5-S2  Evaluation on the full data (-> Tue 24 Nov, ~6 h) ---------------------------------
+ Prerequisites: NEIGHBOURS + DUPLICATES (Thu 19).
+ 1. Split 80/20 without leakage; k in {1, 3, 5, 10, 20}, weighted or not -> classifier_eval.csv;
+    baselines: majority, logistic regression (full data), exact kNN on a 5,000-recipe sample
+    (LSH vs exact on the same recipes); confusion matrix of the best model -> confusion_matrix.csv.
+ 2. Which levels are confused, and why (no quantities in ingredient lists): 5 lines.
+
+--- R5-S3  Report assembly (-> Sun 29 Nov, ~7 h) --------------------------------------------
+ 1. Write Introduction (+ abstract/outline), RQ4 (kNN explained briefly: outside the course),
+    Conclusion (one answer per RQ). PROMPT W, then PROMPT K to fit budgets.
+ 2. Merge the 4 other sections (due Fri 27), harmonise, check every number against results/.
+
+--- R5-S4  Final review + submission (-> Thu 3 Dec, ~3 h) -----------------------------------
+ 1. PROMPT R (review as the grader); fix or justify every item. Review Tue 1 Dec at the session.
+ 2. <= 12,500 characters (scripts/count_chars.py), names and student numbers on the title page,
+    contributions table (report/contributions.md). The human submits on DTU Learn Thu 3 Dec.
+
+=====================================================================
+PART 9 - COMMIT AND FINAL REPORT (every story)
+=====================================================================
+
+- Commit on the story branch each time a test turns green, with a clear message
+  ("R2-S1: MinHash signatures, 14 tests green"). Never push without the user's OK.
+- Final report, short:
+    1. Files created/modified (owned files only).
+    2. Commands run and their result (pytest summary line, script output).
+    3. Status line for the group chat:
+       "R2-S1 | tests: 14 passed (3 skipped: data) | results: lsh_eval.csv | branch r2/s1-minhash"
+    4. Contract questions or known limitations; what the reviewer should look at first.
+    5. What the human must do now (read the diff, push, open the PR, ask the reviewer).
+- docs/AI_USAGE.md entry appended in the same commit.
+
+=====================================================================
+PART 10 - KNOWN BUGS AND FIXES
+=====================================================================
+
+ast.literal_eval is slow               -> cleaning takes ~1 min: run it once, load the Parquet files.
+Parquet list column comes back as an   -> cleaning.load_recipes() converts back to lists.
+  ndarray ("truth value is ambiguous")
+None becomes NaN in a str column       -> pandas 3: test with pd.isna(...), not "is None".
+calorie_level is Int8 with <NA>        -> drop NA before scikit-learn; never fill it.
+MemoryError on all pairs               -> never n^2 pairs: LSH buckets; scipy.sparse for exact
+                                          Jaccard on the 5,000-recipe sample only.
+Python's hash() differs between runs   -> lsh.stable_hash (CRC32).
+NumPy uint32 overflow in (a*x + b) % p -> compute in int64/uint64 with p = 2^31 - 1.
+PCY buckets use too much RAM           -> np.int32 array, n_buckets <= 1e7 (~40 MB).
+PCY != A-Priori on a few pairs         -> bitmap threshold must be >= the support count, and pass 2
+                                          must require BOTH items frequent AND the bucket frequent.
+mlxtend apriori needs one-hot data     -> TransactionEncoder on the 1 % sample only.
+PMI of a pair seen once is huge        -> only frequent pairs (PAIRS) get a weight; prefer NPMI.
+Negative PMI as an edge weight         -> keep positive associations only (weight >= min_weight > 0).
+Louvain changes between runs           -> seed=config.SEED; report the mean over 5 seeds.
+SpectralClustering "not connected"     -> largest connected component; say so.
+kNN accuracy suspiciously high         -> leakage: a test recipe voted by its copy or by test
+                                          neighbours. Check the split and the train-only filter.
+FileNotFoundError data/processed/...    -> run `python -m foodcom.cleaning` from the repo root.
+ModuleNotFoundError: foodcom            -> `pip install -e .` in the active venv.
+Notebook uses an old module version    -> restart the kernel (or %autoreload 2).
