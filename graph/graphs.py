@@ -82,6 +82,23 @@ def pairs_from_pcy(singles: pd.DataFrame, pairs: pd.DataFrame, n_baskets: int) -
     return out[PAIR_COLUMNS].sort_values(["item_a", "item_b"], ignore_index=True)
 
 
+def read_pcy_dir(pcy_dir: Path, n_recipes: int) -> pd.DataFrame:
+    """Pair table from a folder of PCY outputs. Uses pairs.parquet when it is there (written by
+    scripts/export_pcy_pairs.py, it carries the real number of baskets, e.g. after removing duplicates);
+    otherwise converts Andreas's singles + pairs files, assuming one basket per recipe (n_recipes)."""
+    full = pcy_dir / "pairs.parquet"
+    if full.exists():
+        pairs = pd.read_parquet(full)
+        missing = [c for c in PAIR_COLUMNS if c not in pairs.columns]
+        if missing:
+            raise ValueError(f"{full} is missing columns {missing}")
+        pairs = pairs[PAIR_COLUMNS].astype({"item_a": object, "item_b": object})
+        return pairs.sort_values(["item_a", "item_b"], ignore_index=True)
+    singles = pd.read_parquet(pcy_dir / "frequent_ingredients_singles.parquet")
+    pairs = pd.read_parquet(pcy_dir / "frequent_ingredients_pairs.parquet")
+    return pairs_from_pcy(singles, pairs, n_baskets=n_recipes)
+
+
 def pmi_weights(pairs: pd.DataFrame) -> pd.DataFrame:
     """pairs + lift, pmi, npmi. p(a,b) = pair_count/N, p(a) = count_a/N; lift = p(a,b)/(p(a)p(b));
     pmi = log2(lift); npmi = pmi / -log2(p(a,b)), in [-1, 1]."""

@@ -97,6 +97,25 @@ def test_pairs_from_pcy_matches_the_exact_count():
     pd.testing.assert_frame_equal(out, graphs.count_pairs(BASKETS, min_support=0.25), check_dtype=False)
 
 
+def test_read_pcy_dir_prefers_the_full_pair_table(tmp_path):
+    # pairs.parquet (export_pcy_pairs.py) carries the number of baskets after duplicate removal: 7, not 8
+    exact = graphs.count_pairs(BASKETS, min_support=0.25).assign(n_baskets=7)
+    exact.astype({"item_a": "string", "item_b": "string"}).to_parquet(tmp_path / "pairs.parquet")
+    pd.DataFrame({"ingredient": ["a"], "support": [6]}).to_parquet(tmp_path / "frequent_ingredients_singles.parquet")
+    out = graphs.read_pcy_dir(tmp_path, n_recipes=8)
+    assert (out["n_baskets"] == 7).all()
+    pd.testing.assert_frame_equal(out, exact, check_dtype=False)
+
+
+def test_read_pcy_dir_falls_back_to_the_singles_and_pairs_files(tmp_path):
+    pd.DataFrame({"ingredient": ["a", "b", "c", "d"], "support": [6, 5, 4, 2]}).to_parquet(
+        tmp_path / "frequent_ingredients_singles.parquet")
+    pd.DataFrame({"ingredient1": ["b", "a", "c"], "ingredient2": ["a", "c", "b"], "support": [4, 3, 3]}).to_parquet(
+        tmp_path / "frequent_ingredients_pairs.parquet")
+    pd.testing.assert_frame_equal(graphs.read_pcy_dir(tmp_path, n_recipes=8),
+                                  graphs.count_pairs(BASKETS, min_support=0.25), check_dtype=False)
+
+
 # --- pmi_weights ------------------------------------------------------------------------------
 
 def test_pmi_weights_hand_computed_pair():
