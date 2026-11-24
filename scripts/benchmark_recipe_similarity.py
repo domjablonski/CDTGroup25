@@ -49,11 +49,7 @@ def _exact_score_rows(corpus: RecipeCorpus, block_size: int = 128) -> Iterator[n
 def evaluate_candidates(
     corpus: RecipeCorpus, indexes: list[LSHIndex], thresholds: tuple[float, ...] = THRESHOLDS
 ) -> pd.DataFrame:
-    """Measure raw candidate precision and recall, counting each unordered pair once.
-
-    Ground truth includes every pair meeting the threshold, whether or not it
-    was retrieved by LSH. Precision describes candidates before exact reranking.
-    """
+    """Score unique LSH candidate pairs against exact Jaccard thresholds."""
     if any(index.corpus is not corpus for index in indexes):
         raise ValueError("Every index must use the benchmark corpus.")
     cutoff = np.array(thresholds)

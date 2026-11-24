@@ -1,9 +1,4 @@
-"""Ingredient-set recipe search using the team's CRC32 MinHash and LSH banding.
-
-Build an LSHIndex from a RecipeCorpus, then use query_by_id or query_ingredients.
-Both methods return up to k positive-similarity matches, sorted by exact Jaccard
-and then by recipe ID (numeric IDs first, followed by text IDs).
-"""
+"""Recipe search with CRC32 MinHash, LSH banding, and exact Jaccard reranking."""
 
 from collections import defaultdict
 from collections.abc import Iterable, Mapping, Set
@@ -128,12 +123,12 @@ class LSHIndex:
         return candidates
 
     def query_by_id(self, recipe_id: RecipeId, k: int = 5) -> list[RecipeMatch]:
-        """Look up a corpus recipe and exclude that recipe from its matches."""
+        """Positive matches by Jaccard and recipe ID, excluding the query recipe."""
         position = self.corpus.positions[recipe_id]
         return self.corpus._rank(self.corpus.ingredient_sets[position], self.candidate_positions(position), k)
 
     def query_ingredients(self, ingredients: Iterable[str], k: int = 5) -> list[RecipeMatch]:
-        """Hash a new ingredient list with the same seed, including unseen terms."""
+        """Positive matches for a new ingredient list, including unseen terms in Jaccard."""
         query = _ingredient_set(ingredients)
         candidates: Iterable[int] = ()
         if query:

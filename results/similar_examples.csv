@@ -1,0 +1,22 @@
+method,query_recipe_id,query_name,rank,matched_recipe_id,matched_name,jaccard
+lsh,132168,grilled vegetable po boys,1,115363,avocado salsa cheeseburgers,0.14814814814814814
+lsh,132168,grilled vegetable po boys,2,217223,salsa verde turkey burger,0.13043478260869565
+lsh,132168,grilled vegetable po boys,3,306832,tomatoes stuffed with chicken and mushrooms,0.12
+lsh,132168,grilled vegetable po boys,4,155706,sliced tomatoes with lemon caper sauce,0.1
+exact,132168,grilled vegetable po boys,1,97509,warm mustard potato salad,0.23809523809523808
+exact,132168,grilled vegetable po boys,2,317385,mushroom burgers  ww,0.21052631578947367
+exact,132168,grilled vegetable po boys,3,392350,not  fried zucchini,0.21052631578947367
+exact,132168,grilled vegetable po boys,4,58873,enchiladas for two,0.20833333333333334
+exact,132168,grilled vegetable po boys,5,78456,adorable veggie melts,0.20833333333333334
+lsh,391418,tunisian chicken,,,,
+exact,391418,tunisian chicken,1,216417,grilled orange chicken breasts,0.25
+exact,391418,tunisian chicken,2,246990,super bowl party red and white chili  crock pot,0.23809523809523808
+exact,391418,tunisian chicken,3,144710,cha cha s white chicken chili,0.22727272727272727
+exact,391418,tunisian chicken,4,264713,balsamic honey glazed chicken breasts,0.19047619047619047
+exact,391418,tunisian chicken,5,322912,italian stuffed chicken breast,0.18181818181818182
+lsh,190167,patty s fresh salsa,1,32906,fresh tomato salsa,0.4
+exact,190167,patty s fresh salsa,1,32906,fresh tomato salsa,0.4
+exact,190167,patty s fresh salsa,2,203863,katie s hot salsa,0.4
+exact,190167,patty s fresh salsa,3,41277,grilled salmon with charred tomato salsa,0.3333333333333333
+exact,190167,patty s fresh salsa,4,261047,corn salad delight,0.3333333333333333
+exact,190167,patty s fresh salsa,5,244471,dijon baked tomatoes,0.3
