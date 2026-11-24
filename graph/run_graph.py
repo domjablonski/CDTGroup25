@@ -43,9 +43,7 @@ WEIGHT_COLOUR = dict(zip(graphs.WEIGHTS, SERIES))
 
 def load_pairs(recipes: pd.DataFrame, pcy_dir: Path | None, min_support: float) -> tuple[pd.DataFrame, str]:
     if pcy_dir:
-        singles = pd.read_parquet(pcy_dir / "frequent_ingredients_singles.parquet")
-        pairs = pd.read_parquet(pcy_dir / "frequent_ingredients_pairs.parquet")
-        return graphs.pairs_from_pcy(singles, pairs, n_baskets=len(recipes)), f"PCY ({pcy_dir})"
+        return graphs.read_pcy_dir(pcy_dir, n_recipes=len(recipes)), f"PCY ({pcy_dir})"
     return graphs.count_pairs(recipes["ingredients_v2"], min_support), f"exact count, support {min_support:.2%}"
 
 
