@@ -1,0 +1,11 @@
+community,size,top_ingredients,top_cuisine,top_share,second_cuisine,second_share
+0,145,"butter, egg, sugar, flour, brown sugar, all-purpose flour, baking powder, baking soda, vanilla, cinnamon",southern-united-states,0.259,italian,0.153
+1,89,"garlic clove, olive oil, garlic, chicken broth, fresh parsley, extra virgin olive oil, fresh ground black pepper, dijon mustard, kosher salt, fresh lemon juice",italian,0.279,asian,0.120
+2,79,"onion, pepper, water, carrot, celery, potato, thyme, curry powder, red pepper, celery rib",southern-united-states,0.179,mexican,0.165
+3,50,"black pepper, garlic powder, paprika, worcestershire sauce, parsley, chili powder, cayenne pepper, ground beef, bay leaf, green pepper",southern-united-states,0.239,mexican,0.199
+4,48,"sour cream, tomato, green onion, cheddar cheese, mayonnaise, bacon, red onion, ground cumin, red bell pepper, fresh cilantro",mexican,0.424,southern-united-states,0.117
+5,27,"parmesan cheese, mozzarella cheese, zucchini, half-and-half, italian seasoning, sliced mushroom, pine nut, ricotta cheese, eggplant, spinach",italian,0.663,southern-united-states,0.078
+6,26,"salt, milk, warm water, active dry yeast, whipped cream, plain flour, bread flour, yeast, caster sugar, vanilla ice cream",southern-united-states,0.188,italian,0.168
+7,25,"vegetable oil, honey, oil, soy sauce, cornstarch, fresh ginger, scallion, ginger, sesame oil, cold water",asian,0.403,chinese,0.192
+8,10,"lemon juice, orange juice, lemon, lemon zest, orange, orange zest, pineapple juice, lemon, zest of, orange rind, lemon peel",southern-united-states,0.142,italian,0.121
+9,2,"cinnamon stick, whole clove",indian,0.246,african,0.148
