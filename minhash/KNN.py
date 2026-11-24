@@ -19,8 +19,10 @@ Steps
   8. Baselines: majority class and logistic regression
   9. Check: exact kNN (no LSH) on 2,000 test recipes
  10. Save the results
-"""
+ 11. Plots: validation curve + confusion matrix (results/knn_figure.pdf)
 
+
+"""
 import ast
 import time
 import zlib
@@ -235,3 +237,62 @@ print(results.round(3).to_string(index=False))
 print(f"\nchosen on validation: k={k_best}, weighted={w_best}\n{cm}")
 print(f"\nsaved {RESULTS_DIR / 'knn_results.csv'} and {RESULTS_DIR / 'knn_confusion_matrix.csv'}"
       f"  (total {time.time() - start:.0f} s)")
+
+
+# ------------------------------------------------------------- 11. plots
+step("11. Plots for the report")
+import matplotlib
+matplotlib.use("Agg")                     # save to files, no window needed
+import matplotlib.pyplot as plt
+
+
+def plot_knn(results_csv, cm_csv, out_file):
+    """(a) validation accuracy against k, (b) test confusion matrix (row %, count)."""
+    res = pd.read_csv(results_csv)
+    cm_counts = pd.read_csv(cm_csv, index_col=0).to_numpy()
+    val = res[res["split"] == "validation"]
+    chosen = res[(res["split"] == "test") & (res["model"] == "knn_lsh")].iloc[0]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.3, 2.2), gridspec_kw=dict(width_ratios=[1.5, 1]))
+
+    # (a) one line per voting rule; the chosen setting is circled
+    for weighted, color, marker, name in ((False, "#eb6834", "o", "unweighted"),
+                                          (True, "#2a78d6", "s", "weighted")):
+        d = val[val["weighted"] == weighted].sort_values("k")
+        ax1.plot(d["k"], d["accuracy"] * 100, color=color, marker=marker, ms=4, lw=1.6, mec="white")
+        ax1.text(d["k"].iloc[-1] * 1.18, d["accuracy"].iloc[-1] * 100, name, va="center", fontsize=7)
+    best = val[(val["k"] == chosen["k"]) & (val["weighted"] == chosen["weighted"])]["accuracy"].iloc[0] * 100
+    ax1.plot(chosen["k"], best, "o", ms=10, mfc="none", mec="black")
+    ax1.annotate(f"chosen: k = {int(chosen['k'])}", xy=(chosen["k"], best), xytext=(chosen["k"], best - 1.6),
+                 ha="center", fontsize=7, arrowprops=dict(arrowstyle="-", color="grey", lw=0.7, shrinkB=6))
+    ticks = sorted(val["k"].unique().astype(int))
+    ax1.set_xscale("log"); ax1.minorticks_off()
+    ax1.set_xticks([t for t in ticks if t in (1, 3, 5, 10, 20, 50, 100)])
+    ax1.set_xticklabels([t for t in ticks if t in (1, 3, 5, 10, 20, 50, 100)])
+    ax1.set_xlim(0.8, max(ticks) * 2.1)
+    ax1.set_xlabel("k (neighbours voting)", fontsize=8); ax1.set_ylabel("validation accuracy (%)", fontsize=8)
+    ax1.grid(axis="y", color="#e6e5e1", lw=0.6); ax1.set_axisbelow(True)
+    ax1.spines[["top", "right"]].set_visible(False)
+    ax1.set_title("(a) validation accuracy vs k", fontsize=8, loc="left")
+
+    # (b) confusion matrix: colour = share of the true level (row %), text = % and count
+    share = cm_counts / cm_counts.sum(axis=1, keepdims=True)
+    ax2.imshow(share, cmap="Blues", vmin=0, vmax=0.8)
+    for i in range(3):
+        for j in range(3):
+            ax2.text(j, i, f"{share[i, j]:.0%}\n{cm_counts[i, j]:,}", ha="center", va="center", fontsize=7,
+                     color="white" if share[i, j] > 0.5 else "black")
+    ax2.set_xticks(range(3), LEVELS, fontsize=7); ax2.set_yticks(range(3), LEVELS, fontsize=7)
+    ax2.set_xlabel("predicted level", fontsize=8); ax2.set_ylabel("true level", fontsize=8)
+    ax2.tick_params(length=0); [s.set_visible(False) for s in ax2.spines.values()]
+    ax2.set_title("(b) test confusion matrix", fontsize=8, loc="left")
+
+    ax1.tick_params(labelsize=7)
+    fig.tight_layout(w_pad=1.5)
+    fig.savefig(out_file)                                    # .pdf for Overleaf (sharp at any size)
+    fig.savefig(Path(out_file).with_suffix(".png"), dpi=250)  # .png for quick viewing
+    plt.close(fig)
+
+
+plot_knn(RESULTS_DIR / "knn_results.csv", RESULTS_DIR / "knn_confusion_matrix.csv", RESULTS_DIR / "knn_figure.pdf")
+print(f"   saved {RESULTS_DIR / 'knn_figure.pdf'} and .png")

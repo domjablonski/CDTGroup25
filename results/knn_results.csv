@@ -21,6 +21,6 @@ validation,knn_lsh,75.0,True,0.45815377014081415,,
 validation,knn_lsh,100.0,True,0.45818121929126293,,
 test,knn_lsh,50.0,True,0.4695604395604396,0.4706668781582108,0.9699120879120879
 test,majority_class,,,0.3316923076923077,,
-test,logistic_regression,,,0.5661098901098901,,
+test,logistic_regression,,,0.5655824175824176,,
 test,knn_exact_2000,50.0,True,0.475,,
 test,knn_lsh_same_2000,50.0,True,0.463,,
