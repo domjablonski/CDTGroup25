@@ -112,14 +112,14 @@ def apriori(baskets: Baskets, minimum: int, *, include_triples: bool = False) ->
 
 
 def _pair_bucket(a: int, b: int, buckets: int) -> int:
-    # Encoded baskets are sorted, so a < b. Same triangular hash as Andreas's PCY.
+    # Encoded baskets are sorted, so a < b in the triangular hash.
     return (b * (b - 1) // 2 + a) % buckets
 
 
 def run_pcy(
     baskets: Baskets, minimum: int, buckets: int, *, include_triples: bool = False
 ) -> Itemsets:
-    """Standalone equivalent of Andreas's structured PCY at d1eedf4."""
+    """PCY with triangular bucket hashing and exact candidate counts."""
     if minimum < 1 or buckets < 1:
         raise ValueError("Minimum support count and bucket count must be positive.")
     singleton_counts = np.zeros(len(baskets.vocabulary), dtype=np.int64)

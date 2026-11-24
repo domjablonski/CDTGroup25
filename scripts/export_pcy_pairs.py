@@ -58,7 +58,7 @@ def validate_pairs(pairs: pd.DataFrame, n_baskets: int, minimum: int) -> None:
 def pair_tables(
     baskets: Baskets, itemsets: Itemsets, minimum: int
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Return Andreas's singles/pairs files and the expanded Food.com pair table."""
+    """Build graph-compatible singles and pairs and the expanded pair table."""
     names = baskets.vocabulary
     n_baskets = len(baskets.transactions)
     singles = pd.DataFrame(
