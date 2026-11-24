@@ -1,25 +1,26 @@
-### RQ3: Does a PMI-weighted ingredient graph reveal cuisines?
+### RQ3: Do ingredient communities reveal, and predict, a recipe's cuisine?
 
-We build one graph per edge weighting from the 5,203 ingredient pairs that occur in at least 0.1 % of the
-recipes (572 ingredients, the same pairs as PCY). Edges are weighted by raw count, lift, PMI or NPMI. PMI
-is our outside-course method: pmi = log2 p(a,b)/(p(a)p(b)), and NPMI divides it by −log2 p(a,b) to remove
-the bias towards rare pairs. For lift, PMI and NPMI only positive associations are kept. Each threshold is
-the largest that keeps 90 % of the ingredients in the largest connected component, so all weightings are
-compared at the same connectivity. We cluster with Louvain (5 seeds) and spectral clustering, and compare
-modularity with two null models that keep degrees and weights: rewired edges and shuffled weights. An
-ingredient is labelled with a cuisine if at least 40 % of the tagged recipes containing it share it (179 of
-506 ingredients); we measure agreement with AMI, which unlike NMI does not grow with the number of communities.
+**Graph.** Nodes are the 572 ingredients of the 5,203 pairs found in at least 0.1 % of the recipes (the PCY
+pairs). Edges are weighted by raw count or by PMI, our outside-course method: pmi = log2 p(a,b)/(p(a)p(b))
+measures how much more often two ingredients co-occur than by chance; only positive associations are kept.
+Each threshold keeps 90 % of the ingredients connected, and Louvain finds the communities.
 
-Raw counts give 3 to 4 communities, an AMI of 0.23 and a modularity (0.23) below the rewired null model
-(0.33): common ingredients such as salt or butter link to everything, so the graph mostly encodes popularity.
-PMI doubles the AMI (0.47; lift 0.40, NPMI 0.44) and yields 7 interpretable communities: baking, American
-savoury dishes, Italian/Mediterranean, Mexican, Asian, bread and citrus (Figure X). Shuffling the PMI weights
-on the same edges drops the AMI to 0.19, so the weights rather than the topology carry the cuisines. Spectral
-clustering with the eigengap always finds k = 2 (sweet versus savoury); with Louvain's k it comes close
-(AMI 0.40). Over 9 settings of support, connectivity rule and label share, PMI-type weights always beat raw
-counts (AMI 0.27–0.52 versus 0.15–0.29), but the order among lift, PMI and NPMI changes. Limits: only 20 % of
-the recipes carry a cuisine tag, and the normalisation still separates garlic and garlic clove.
+**Do communities match cuisines?** Labelling an ingredient with its dominant cuisine, raw counts give 3 to 4
+communities and an AMI of 0.23, with a modularity below a degree-preserving null model: salt or butter link to
+everything, so the graph encodes popularity. PMI doubles the AMI (0.47) and yields baking, Italian, Mexican,
+Asian, bread and citrus communities; shuffling the PMI weights on the same edges drops it to 0.19, so the
+weights carry the cuisines. PMI beats counts in all 9 robustness settings.
 
-<!-- Sources: results/graph_eval.csv (AMI, modularity, null models, spectral), results/communities.csv
-(community names), results/sensitivity.csv (9 settings), run_graph.py output (5,203 pairs, 572 ingredients,
-179 labelled of 506). Figure X = figures/graph_pmi.png. Checked on 21 Nov: identical with R3's PCY pairs (ingredients_v2, support 0.1 %). -->
+**Can they predict it?** On the shared split (40,912 recipes, 11 cuisines, test 20 %), the graph is built
+without labels and without test recipes; a recipe becomes the share of its ingredients in each community, and a
+logistic regression predicts the cuisine. Since finer resolutions give more communities and better scores, we
+compare weightings at equal size. PMI beats counts at every size (test macro-F1 0.305, 0.388, 0.466 versus 0.290,
+0.371, 0.454 for about 10, 30, 100 communities, 5 seeds). With 100 features instead of 7,371 ingredients, it keeps
+75 % of the macro-F1 of a logistic regression on all ingredients (0.623). The trade-off is readability: with 10
+communities the Italian, Mexican and Asian ones are clear, but the score is low. Mexican (F1 0.72) and Italian
+(0.70) are easy; Caribbean (0.28) and African (0.30) are not: African recipes are mostly confused with Middle
+Eastern and Indian ones, which use the same spices, and Caribbean ones with Southern US and Mexican ones.
+
+<!-- Sources: graph/results/graph_eval.csv, communities.csv, sensitivity.csv (part 1); splits/README.md,
+graph/results/cuisine_test.csv, cuisine_per_class.csv, cuisine_communities.csv, cuisine_confusion.csv (part 2). Majority class macro-F1
+0.03. Comparison with R5's LightGBM to add at the end. -->
