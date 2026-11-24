@@ -1,0 +1,2 @@
+comparison,metric,difference,ci95_low,ci95_high,n_bootstrap
+lightgbm - logistic_regression,macro_f1,0.0245,0.0157,0.0329,2000

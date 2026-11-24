@@ -1,5 +1,6 @@
 ipykernel
 jupyterlab
+lightgbm
 matplotlib
 numpy
 pandas

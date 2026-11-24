@@ -1,0 +1,9 @@
+{
+  "logistic_C": 0.3,
+  "lightgbm": {
+    "num_leaves": 63,
+    "min_child_samples": 1,
+    "colsample_bytree": 0.2,
+    "n_estimators": 360
+  }
+}

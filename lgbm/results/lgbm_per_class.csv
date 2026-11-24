@@ -1,0 +1,12 @@
+cuisine,n_test,f1_lightgbm,f1_logistic_regression,f1_majority_class
+african,516,0.5295,0.4821,0.0000
+asian,1037,0.6549,0.5970,0.0000
+caribbean,314,0.5578,0.5256,0.0000
+chinese,396,0.5294,0.5561,0.0000
+french,428,0.5362,0.5175,0.0000
+greek,449,0.7204,0.6702,0.0000
+indian,529,0.6937,0.6727,0.0000
+italian,1461,0.8259,0.8124,0.3030
+mexican,1320,0.8563,0.8454,0.0000
+middle-eastern,382,0.5279,0.5081,0.0000
+southern-united-states,1350,0.7557,0.7312,0.0000
