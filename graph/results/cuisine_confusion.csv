@@ -1,0 +1,12 @@
+true \ predicted,african,asian,caribbean,chinese,french,greek,indian,italian,mexican,middle-eastern,southern-united-states
+african,138,13,40,6,44,25,75,23,19,94,39
+asian,23,341,74,354,34,11,114,13,25,14,34
+caribbean,9,20,119,5,33,14,24,8,31,15,36
+chinese,2,61,13,276,5,1,12,1,1,6,18
+french,10,3,28,4,207,30,19,43,7,17,60
+greek,20,1,17,1,44,227,12,54,5,50,18
+indian,47,18,22,10,19,11,304,7,24,38,29
+italian,18,7,19,7,194,117,18,923,21,64,73
+mexican,36,19,105,5,38,21,63,14,878,30,111
+middle-eastern,62,3,17,5,24,31,59,17,5,145,14
+southern-united-states,40,11,92,22,166,42,45,89,87,44,712

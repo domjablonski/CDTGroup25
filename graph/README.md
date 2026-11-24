@@ -10,7 +10,7 @@ edge weights (lift = p(a,b) / (p(a) p(b)), pmi = log2 lift, npmi = pmi / -log2 p
 From the repo root, after `python preprocessing/preprocessing.py` (needs `ingredients_v2`):
 
 ```bash
-pytest graph -q                                   # 35 tests on toy examples
+pytest graph -q                                   # 50 tests on toy examples
 python graph/run_graph.py                         # pairs counted here (same definition as PCY)
 python graph/run_graph.py --pcy-dir <folder>      # pairs from R3's PCY output files
 python graph/sensitivity.py                       # robustness: 9 parameter settings (about 75 s)
@@ -50,3 +50,31 @@ run on `ingredients_v2` with support 0.1 % of the recipes to give the pairs used
 | `results/sensitivity.csv` | Louvain AMI per weighting when support, connectivity rule or label share change |
 | `figures/graph_pmi.png`, `figures/graph_count.png` | 150 most frequent ingredients coloured by Louvain community |
 | `figures/degree_distribution.png` | degree distribution of each chosen graph |
+
+## Cuisine prediction from the communities (`run_cuisine.py`)
+
+**Question.** Can the communities of the ingredient graph predict a recipe's cuisine, and how do they compare
+with a supervised model on all ingredients (R5's LightGBM)? Same split as R5: `splits/cuisine_split.csv`
+(11 cuisines, train / val / test).
+
+1. Graph from all recipes except the test ones (no label used), weighted by count or PMI.
+2. Louvain at several resolutions; each recipe -> share of its ingredients in each community.
+3. Predictors: community -> cuisine table (with / without the cuisine's prior) and a logistic regression on the
+   profile; validation picks the logistic regression.
+4. Count and PMI compared on test **at the same number of communities** (10, 30, 100; resolution searched for each
+   graph, 5 Louvain seeds), refit on train + val. At high resolution the count graph breaks into almost one
+   community per ingredient, so comparing at equal size is the fair comparison.
+
+| Test (macro-F1, mean of 5 seeds) | ~10 communities | ~30 | ~100 |
+|---|---|---|---|
+| count graph | 0.290 | 0.371 | 0.454 |
+| PMI graph | **0.305** | **0.388** | **0.466** |
+
+References on test: majority class 0.03, logistic regression on all ingredients 0.62.
+
+```bash
+python graph/run_cuisine.py     # about 7 minutes
+```
+Outputs: `results/cuisine_val.csv` (validation sweep), `cuisine_val_references.csv`, `cuisine_test.csv`,
+`cuisine_per_class.csv`, `cuisine_confusion.csv`, `cuisine_communities.csv` (the ~10 PMI communities and their two
+main cuisines) and `figures/cuisine_resolution.png`. Tests: `graph/test_cuisine.py` (15 tests).

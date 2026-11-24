@@ -1,0 +1,9 @@
+model,method,target_k,resolution,n_communities,accuracy,accuracy_std,macro_f1,macro_f1_std
+count graph communities,logistic,10.0000,1.4762,9.2000,0.3537,0.0152,0.2902,0.0156
+pmi graph communities,logistic,10.0000,1.3571,10.0000,0.3744,0.0070,0.3053,0.0072
+count graph communities,logistic,30.0000,2.4973,28.8000,0.4304,0.0039,0.3715,0.0022
+pmi graph communities,logistic,30.0000,3.2141,28.0000,0.4495,0.0046,0.3882,0.0042
+count graph communities,logistic,100.0000,5.9691,99.8000,0.5109,0.0023,0.4536,0.0027
+pmi graph communities,logistic,100.0000,12.8776,97.8000,0.5222,0.0016,0.4657,0.0014
+majority class,-,,,,0.1786,,0.0275,
+logistic on all ingredients,-,,,,0.6780,,0.6232,
