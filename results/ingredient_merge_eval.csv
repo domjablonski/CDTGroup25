@@ -1,0 +1,19 @@
+split,method,settings,selected_by_development,n_ingredients,n_pairs,positive_pairs,accepted_count,true_merges,false_merges,missed_merges,precision,recall,f1,validation_source_rows,validation_blank_rows,validation_duplicate_rows,test_source_rows,test_blank_rows,test_duplicate_rows,original_shared_pairs,original_shared_ingredients,dev_holdout_shared_ingredients
+development,cosine_cutoff,"{""similarity"": 0.8}",False,293,152,84,122,74,48,10,0.6065573770491803,0.8809523809523809,0.7184466019417476,200,0,0,400,4,0,4,61,0
+development,token_cutoff,"{""token_jaccard"": 0.2}",False,293,152,84,147,82,65,2,0.5578231292517006,0.9761904761904762,0.70995670995671,200,0,0,400,4,0,4,61,0
+development,trigram_cutoff,"{""char_trigram"": 0.3}",False,293,152,84,136,81,55,3,0.5955882352941176,0.9642857142857143,0.7363636363636363,200,0,0,400,4,0,4,61,0
+development,all_three,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.2}",True,293,152,84,113,73,40,11,0.6460176991150443,0.8690476190476191,0.7411167512690355,200,0,0,400,4,0,4,61,0
+development,cosine_and_either,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.6}",False,293,152,84,116,74,42,10,0.6379310344827587,0.8809523809523809,0.74,200,0,0,400,4,0,4,61,0
+development,logistic_l2,"{""C"": 1.0, ""probability_cutoff"": 0.5}",False,293,152,84,89,60,29,24,0.6741573033707865,0.7142857142857143,0.6936416184971098,200,0,0,400,4,0,4,61,0
+grouped_holdout,cosine_cutoff,"{""similarity"": 0.8}",False,95,48,24,38,20,18,4,0.5263157894736842,0.8333333333333334,0.6451612903225806,200,0,0,400,4,0,4,61,0
+grouped_holdout,token_cutoff,"{""token_jaccard"": 0.2}",False,95,48,24,46,24,22,0,0.5217391304347826,1.0,0.6857142857142857,200,0,0,400,4,0,4,61,0
+grouped_holdout,trigram_cutoff,"{""char_trigram"": 0.3}",False,95,48,24,42,21,21,3,0.5,0.875,0.6363636363636364,200,0,0,400,4,0,4,61,0
+grouped_holdout,all_three,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.2}",True,95,48,24,38,20,18,4,0.5263157894736842,0.8333333333333334,0.6451612903225806,200,0,0,400,4,0,4,61,0
+grouped_holdout,cosine_and_either,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.6}",False,95,48,24,38,20,18,4,0.5263157894736842,0.8333333333333334,0.6451612903225806,200,0,0,400,4,0,4,61,0
+grouped_holdout,logistic_l2,"{""C"": 1.0, ""probability_cutoff"": 0.5}",False,95,48,24,29,19,10,5,0.6551724137931034,0.7916666666666666,0.7169811320754716,200,0,0,400,4,0,4,61,0
+original_test_exploratory,cosine_cutoff,"{""similarity"": 0.8}",False,738,392,120,187,80,107,40,0.42780748663101603,0.6666666666666666,0.5211726384364821,200,0,0,400,4,0,4,61,0
+original_test_exploratory,token_cutoff,"{""token_jaccard"": 0.2}",False,738,392,120,368,114,254,6,0.30978260869565216,0.95,0.4672131147540984,200,0,0,400,4,0,4,61,0
+original_test_exploratory,trigram_cutoff,"{""char_trigram"": 0.3}",False,738,392,120,290,97,193,23,0.33448275862068966,0.8083333333333333,0.47317073170731705,200,0,0,400,4,0,4,61,0
+original_test_exploratory,all_three,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.2}",True,738,392,120,159,68,91,52,0.4276729559748428,0.5666666666666667,0.4874551971326165,200,0,0,400,4,0,4,61,0
+original_test_exploratory,cosine_and_either,"{""char_trigram"": 0.3, ""similarity"": 0.8, ""token_jaccard"": 0.6}",False,738,392,120,163,70,93,50,0.4294478527607362,0.5833333333333334,0.49469964664310956,200,0,0,400,4,0,4,61,0
+original_test_exploratory,logistic_l2,"{""C"": 1.0, ""probability_cutoff"": 0.5}",False,738,392,120,77,43,34,77,0.5584415584415584,0.35833333333333334,0.4365482233502538,200,0,0,400,4,0,4,61,0

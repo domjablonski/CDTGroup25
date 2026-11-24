@@ -1,0 +1,880 @@
+split,method,ingredient_1,ingredient_2,similarity,token_jaccard,char_trigram,merge_label
+grouped_holdout,all_three,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,all_three,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,all_three,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,all_three,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,all_three,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,all_three,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,all_three,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,all_three,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,all_three,bourbon whiskey,whiskey,0.8703503608703613,0.5,0.38461538461538464,0
+grouped_holdout,all_three,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,all_three,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,all_three,peach jam,sugar-reduced peach jam,0.8447486162185669,0.6666666666666666,0.3333333333333333,0
+grouped_holdout,all_three,instant vanilla flavor pudding and pie filling,instant white chocolate pudding and pie filling mix,0.8304958939552307,0.5,0.4426229508196721,0
+grouped_holdout,all_three,reduced-fat cheddar cheese,reduced-fat jarlsberg cheese,0.8198105096817017,0.5,0.45454545454545453,0
+grouped_holdout,all_three,breadcrumb,unseasoned breadcrumb,0.8110954761505127,0.5,0.42105263157894735,0
+grouped_holdout,all_three,dill pickle,pickle,0.810142993927002,0.5,0.4444444444444444,0
+grouped_holdout,all_three,low-fat cheddar cheese,low-fat mexican cheese,0.8071761131286621,0.5,0.4074074074074074,0
+grouped_holdout,all_three,boneless lamb,lean boneless leg of lamb,0.8036394715309143,0.4,0.4782608695652174,0
+grouped_holdout,cosine_and_either,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,cosine_and_either,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,cosine_and_either,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,cosine_and_either,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,cosine_and_either,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,cosine_and_either,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,cosine_and_either,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,cosine_and_either,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,cosine_and_either,bourbon whiskey,whiskey,0.8703503608703613,0.5,0.38461538461538464,0
+grouped_holdout,cosine_and_either,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,cosine_and_either,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,cosine_and_either,peach jam,sugar-reduced peach jam,0.8447486162185669,0.6666666666666666,0.3333333333333333,0
+grouped_holdout,cosine_and_either,instant vanilla flavor pudding and pie filling,instant white chocolate pudding and pie filling mix,0.8304958939552307,0.5,0.4426229508196721,0
+grouped_holdout,cosine_and_either,reduced-fat cheddar cheese,reduced-fat jarlsberg cheese,0.8198105096817017,0.5,0.45454545454545453,0
+grouped_holdout,cosine_and_either,breadcrumb,unseasoned breadcrumb,0.8110954761505127,0.5,0.42105263157894735,0
+grouped_holdout,cosine_and_either,dill pickle,pickle,0.810142993927002,0.5,0.4444444444444444,0
+grouped_holdout,cosine_and_either,low-fat cheddar cheese,low-fat mexican cheese,0.8071761131286621,0.5,0.4074074074074074,0
+grouped_holdout,cosine_and_either,boneless lamb,lean boneless leg of lamb,0.8036394715309143,0.4,0.4782608695652174,0
+grouped_holdout,cosine_cutoff,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,cosine_cutoff,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,cosine_cutoff,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,cosine_cutoff,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,cosine_cutoff,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,cosine_cutoff,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,cosine_cutoff,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,cosine_cutoff,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,cosine_cutoff,bourbon whiskey,whiskey,0.8703503608703613,0.5,0.38461538461538464,0
+grouped_holdout,cosine_cutoff,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,cosine_cutoff,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,cosine_cutoff,peach jam,sugar-reduced peach jam,0.8447486162185669,0.6666666666666666,0.3333333333333333,0
+grouped_holdout,cosine_cutoff,instant vanilla flavor pudding and pie filling,instant white chocolate pudding and pie filling mix,0.8304958939552307,0.5,0.4426229508196721,0
+grouped_holdout,cosine_cutoff,reduced-fat cheddar cheese,reduced-fat jarlsberg cheese,0.8198105096817017,0.5,0.45454545454545453,0
+grouped_holdout,cosine_cutoff,breadcrumb,unseasoned breadcrumb,0.8110954761505127,0.5,0.42105263157894735,0
+grouped_holdout,cosine_cutoff,dill pickle,pickle,0.810142993927002,0.5,0.4444444444444444,0
+grouped_holdout,cosine_cutoff,low-fat cheddar cheese,low-fat mexican cheese,0.8071761131286621,0.5,0.4074074074074074,0
+grouped_holdout,cosine_cutoff,boneless lamb,lean boneless leg of lamb,0.8036394715309143,0.4,0.4782608695652174,0
+grouped_holdout,logistic_l2,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,logistic_l2,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,logistic_l2,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,logistic_l2,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,logistic_l2,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,logistic_l2,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,logistic_l2,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,logistic_l2,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,logistic_l2,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,logistic_l2,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,token_cutoff,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,token_cutoff,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,token_cutoff,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,token_cutoff,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,token_cutoff,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,token_cutoff,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,token_cutoff,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,token_cutoff,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,token_cutoff,bourbon whiskey,whiskey,0.8703503608703613,0.5,0.38461538461538464,0
+grouped_holdout,token_cutoff,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,token_cutoff,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,token_cutoff,peach jam,sugar-reduced peach jam,0.8447486162185669,0.6666666666666666,0.3333333333333333,0
+grouped_holdout,token_cutoff,instant vanilla flavor pudding and pie filling,instant white chocolate pudding and pie filling mix,0.8304958939552307,0.5,0.4426229508196721,0
+grouped_holdout,token_cutoff,reduced-fat cheddar cheese,reduced-fat jarlsberg cheese,0.8198105096817017,0.5,0.45454545454545453,0
+grouped_holdout,token_cutoff,breadcrumb,unseasoned breadcrumb,0.8110954761505127,0.5,0.42105263157894735,0
+grouped_holdout,token_cutoff,dill pickle,pickle,0.810142993927002,0.5,0.4444444444444444,0
+grouped_holdout,token_cutoff,low-fat cheddar cheese,low-fat mexican cheese,0.8071761131286621,0.5,0.4074074074074074,0
+grouped_holdout,token_cutoff,boneless lamb,lean boneless leg of lamb,0.8036394715309143,0.4,0.4782608695652174,0
+grouped_holdout,token_cutoff,butternut snap biscuit,honey snap biscuit,0.7986182570457458,0.5,0.44,0
+grouped_holdout,token_cutoff,asiago caesar salad dressing,italian salad dressing,0.7726258039474487,0.4,0.3939393939393939,0
+grouped_holdout,token_cutoff,de-fatted beef broth,ready-to-serve beef broth,0.7634263038635254,0.5,0.28125,0
+grouped_holdout,token_cutoff,dry pectin,fruit pectin,0.7589215040206909,0.3333333333333333,0.38461538461538464,0
+grouped_holdout,trigram_cutoff,cherry in syrup,cherry syrup,0.9654457569122314,0.6666666666666666,0.6428571428571429,0
+grouped_holdout,trigram_cutoff,cooked short-grain white rice,short-grain white rice,0.9279749393463135,0.75,0.7407407407407407,0
+grouped_holdout,trigram_cutoff,pineapple juice concentrate,pineapple-orange juice concentrate,0.9231038093566895,0.5,0.7272727272727273,0
+grouped_holdout,trigram_cutoff,frozen pea,frozen snow pea,0.9159491062164307,0.6666666666666666,0.5,0
+grouped_holdout,trigram_cutoff,bailey caramel irish cream,bailey original irish cream,0.897097110748291,0.6,0.48484848484848486,0
+grouped_holdout,trigram_cutoff,dried green chily,fresh green chily,0.8821152448654175,0.5,0.5,0
+grouped_holdout,trigram_cutoff,bacon bit,soy bacon bit,0.8781710267066956,0.6666666666666666,0.6363636363636364,0
+grouped_holdout,trigram_cutoff,smoked pork sausage,sweet pork sausage,0.8733944892883301,0.5,0.5,0
+grouped_holdout,trigram_cutoff,bourbon whiskey,whiskey,0.8703503608703613,0.5,0.38461538461538464,0
+grouped_holdout,trigram_cutoff,banana nut bread,nut bread,0.8546521663665771,0.6666666666666666,0.5384615384615384,0
+grouped_holdout,trigram_cutoff,summer squash,winter squash,0.8499916791915894,0.3333333333333333,0.4666666666666667,0
+grouped_holdout,trigram_cutoff,peach jam,sugar-reduced peach jam,0.8447486162185669,0.6666666666666666,0.3333333333333333,0
+grouped_holdout,trigram_cutoff,instant vanilla flavor pudding and pie filling,instant white chocolate pudding and pie filling mix,0.8304958939552307,0.5,0.4426229508196721,0
+grouped_holdout,trigram_cutoff,reduced-fat cheddar cheese,reduced-fat jarlsberg cheese,0.8198105096817017,0.5,0.45454545454545453,0
+grouped_holdout,trigram_cutoff,breadcrumb,unseasoned breadcrumb,0.8110954761505127,0.5,0.42105263157894735,0
+grouped_holdout,trigram_cutoff,dill pickle,pickle,0.810142993927002,0.5,0.4444444444444444,0
+grouped_holdout,trigram_cutoff,low-fat cheddar cheese,low-fat mexican cheese,0.8071761131286621,0.5,0.4074074074074074,0
+grouped_holdout,trigram_cutoff,boneless lamb,lean boneless leg of lamb,0.8036394715309143,0.4,0.4782608695652174,0
+grouped_holdout,trigram_cutoff,butternut snap biscuit,honey snap biscuit,0.7986182570457458,0.5,0.44,0
+grouped_holdout,trigram_cutoff,asiago caesar salad dressing,italian salad dressing,0.7726258039474487,0.4,0.3939393939393939,0
+grouped_holdout,trigram_cutoff,dry pectin,fruit pectin,0.7589215040206909,0.3333333333333333,0.38461538461538464,0
+original_test_exploratory,all_three,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,all_three,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,all_three,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,all_three,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,all_three,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,all_three,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,all_three,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,all_three,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,all_three,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,all_three,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,all_three,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,all_three,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,all_three,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,all_three,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,all_three,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,all_three,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,all_three,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,all_three,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,all_three,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,all_three,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,all_three,vanilla coffee syrup,vanilla-flavored syrup,0.87388014793396,0.25,0.3103448275862069,0
+original_test_exploratory,all_three,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,all_three,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,all_three,low-fat berry yogurt,low-fat plain yogurt,0.8621937036514282,0.5,0.44,0
+original_test_exploratory,all_three,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,all_three,mixed-grain hamburger bun,wheat hamburger bun,0.861707866191864,0.5,0.42857142857142855,0
+original_test_exploratory,all_three,hard candy,hard cinnamon candy,0.861327588558197,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,all_three,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,all_three,jell-o instant pistachio pudding mix,jell-o pudding mix,0.8594670295715332,0.6,0.48484848484848486,0
+original_test_exploratory,all_three,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,all_three,de-fatted beef broth,de-fatted chicken broth,0.8575353026390076,0.5,0.4444444444444444,0
+original_test_exploratory,all_three,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,all_three,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,all_three,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,all_three,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,all_three,kraft shredded monterey jack cheese,monterey jack and cheddar cheese blend,0.8530149459838867,0.375,0.3673469387755102,0
+original_test_exploratory,all_three,nonfat cherry yogurt,nonfat vanilla yogurt,0.8517237901687622,0.5,0.37037037037037035,0
+original_test_exploratory,all_three,black pudding,pudding,0.8499638438224792,0.5,0.45454545454545453,0
+original_test_exploratory,all_three,crystal farm monterey jack cheese,monterey jack pepper cheese,0.8484102487564087,0.5,0.4358974358974359,0
+original_test_exploratory,all_three,soy yogurt,vanilla-flavored soy yogurt,0.8482076525688171,0.6666666666666666,0.32,0
+original_test_exploratory,all_three,cooked fettuccine,fettuccine pasta,0.8478415012359619,0.3333333333333333,0.38095238095238093,0
+original_test_exploratory,all_three,sweet turkey sausage,turkey breakfast sausage,0.8458244800567627,0.5,0.3793103448275862,0
+original_test_exploratory,all_three,whole wheat bread dough,whole wheat bread machine flour,0.8449961543083191,0.5,0.47058823529411764,0
+original_test_exploratory,all_three,beef round tip steak,round steak,0.8449611663818359,0.5,0.42105263157894735,0
+original_test_exploratory,all_three,fat-free american cheese,fat-free swiss cheese,0.844421923160553,0.5,0.41379310344827586,0
+original_test_exploratory,all_three,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,all_three,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,all_three,chicken and turkey sausage,turkey breakfast sausage,0.8434703946113586,0.4,0.3142857142857143,0
+original_test_exploratory,all_three,celery soup,low-fat cream of celery soup,0.8434122800827026,0.4,0.34615384615384615,0
+original_test_exploratory,all_three,lean turkey sausage,turkey breakfast sausage,0.8400028944015503,0.5,0.39285714285714285,0
+original_test_exploratory,all_three,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,all_three,canned peach,dried peach,0.8364169597625732,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,all_three,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,all_three,vanilla chocolate chip,white chocolate chip,0.8321542739868164,0.5,0.5454545454545454,0
+original_test_exploratory,all_three,miniature milk chocolate chip,miniature semisweet chocolate chip,0.831416666507721,0.6,0.5405405405405406,0
+original_test_exploratory,all_three,low-carb tortilla,low-fat flour tortilla,0.8312538862228394,0.25,0.34615384615384615,0
+original_test_exploratory,all_three,frozen baby pea,frozen pea pod,0.8306269645690918,0.5,0.3888888888888889,0
+original_test_exploratory,all_three,smoked whitefish,whitefish,0.83033287525177,0.5,0.5,0
+original_test_exploratory,all_three,medium grain rice,whole grain brown rice,0.8301646709442139,0.4,0.34615384615384615,0
+original_test_exploratory,all_three,italian sweet sausage,sweet italian turkey sausage link,0.8299167156219482,0.6,0.47058823529411764,0
+original_test_exploratory,all_three,italian salad dressing mix,salad dressing,0.8279154896736145,0.5,0.5,0
+original_test_exploratory,all_three,low-fat monterey jack pepper cheese,reduced-fat monterey jack and cheddar cheese blend,0.8265900611877441,0.3333333333333333,0.4107142857142857,0
+original_test_exploratory,all_three,peach tea bag,tea bag,0.8254496455192566,0.6666666666666666,0.45454545454545453,0
+original_test_exploratory,all_three,9-inch double-crust pie shell,unbaked 10-inch pie shell,0.8245588541030884,0.3333333333333333,0.3157894736842105,0
+original_test_exploratory,all_three,lemon yogurt,yogurt,0.8236979246139526,0.5,0.4,0
+original_test_exploratory,all_three,apricot halve,apricot halve in juice,0.8232828378677368,0.5,0.55,0
+original_test_exploratory,all_three,oatmeal cookies,oatmeal raisin cookie dough,0.8219125270843506,0.2,0.4074074074074074,0
+original_test_exploratory,all_three,low-fat powdered nondairy creamer,powdered fat free non-dairy coffee creamer,0.8215482234954834,0.25,0.4583333333333333,0
+original_test_exploratory,all_three,creamy peanut butter,low-fat peanut butter,0.8193603157997131,0.5,0.48,0
+original_test_exploratory,all_three,frozen juice concentrate,frozen lemonade concentrate,0.8188760280609131,0.5,0.5161290322580645,0
+original_test_exploratory,all_three,cooked vermicelli,vermicelli,0.8168017864227295,0.5,0.5333333333333333,0
+original_test_exploratory,all_three,spinach,spinach pasta,0.8158242702484131,0.5,0.45454545454545453,0
+original_test_exploratory,all_three,sherry vinegar,wine vinegar,0.8153171539306641,0.3333333333333333,0.4,0
+original_test_exploratory,all_three,water chestnut,water chestnut starch,0.8132573366165161,0.6666666666666666,0.631578947368421,0
+original_test_exploratory,all_three,parsley,parsley stem,0.810792088508606,0.5,0.5,0
+original_test_exploratory,all_three,sugar-free maple syrup,sugar-free vanilla syrup,0.810572624206543,0.5,0.4482758620689655,0
+original_test_exploratory,all_three,mustard oil,mustard seed,0.8101989030838013,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,all_three,diced pickled jalapeno,pickled jalapeno pepper juice,0.8098627328872681,0.4,0.4838709677419355,0
+original_test_exploratory,all_three,low-fat cheese,lowfat parmesan cheese,0.8097991943359375,0.25,0.3333333333333333,0
+original_test_exploratory,all_three,bottled clam juice,minced clam with juice,0.8096131682395935,0.4,0.38461538461538464,0
+original_test_exploratory,all_three,canned carrot,carrot,0.8090047240257263,0.5,0.36363636363636365,0
+original_test_exploratory,all_three,mild cheddar cheese,non-dairy cheddar cheese,0.8089666366577148,0.5,0.4583333333333333,0
+original_test_exploratory,all_three,coconut cream pudding mix,sugar-free banana cream pudding mix,0.80886310338974,0.5,0.41025641025641024,0
+original_test_exploratory,all_three,italian tomato,italian-style crushed tomato,0.8082476258277893,0.25,0.35714285714285715,0
+original_test_exploratory,all_three,blueberry sauce,raspberry sauce,0.8061258792877197,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,all_three,boysenberry,boysenberry syrup,0.8034559488296509,0.5,0.6,0
+original_test_exploratory,all_three,sugar-free instant cheesecake pudding mix,sugar-free white chocolate pudding mix,0.80293208360672,0.42857142857142855,0.3962241509433965,0
+original_test_exploratory,all_three,fine noodle,somen noodle,0.801889955997467,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,all_three,beef gravy mix,brown gravy mix,0.8012121319770813,0.5,0.47058823529411764,0
+original_test_exploratory,all_three,candied violet,violet,0.8008365631103516,0.5,0.3333333333333333,0
+original_test_exploratory,all_three,pork blade steak,pork leg steak,0.8007247447967529,0.5,0.3684210526315789,0
+original_test_exploratory,cosine_and_either,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,cosine_and_either,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,cosine_and_either,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,cosine_and_either,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,cosine_and_either,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,cosine_and_either,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,cosine_and_either,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,cosine_and_either,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,cosine_and_either,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,cosine_and_either,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,cosine_and_either,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,cosine_and_either,fat free sugar free yogurt,sugar-free non-fat vanilla yogurt,0.9052568078041077,0.14285714285714285,0.34210526315789475,0
+original_test_exploratory,cosine_and_either,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,cosine_and_either,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,cosine_and_either,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,cosine_and_either,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,cosine_and_either,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,cosine_and_either,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_and_either,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_and_either,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,cosine_and_either,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,cosine_and_either,vanilla coffee syrup,vanilla-flavored syrup,0.87388014793396,0.25,0.3103448275862069,0
+original_test_exploratory,cosine_and_either,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,cosine_and_either,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,cosine_and_either,low-fat berry yogurt,low-fat plain yogurt,0.8621937036514282,0.5,0.44,0
+original_test_exploratory,cosine_and_either,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,cosine_and_either,mixed-grain hamburger bun,wheat hamburger bun,0.861707866191864,0.5,0.42857142857142855,0
+original_test_exploratory,cosine_and_either,hard candy,hard cinnamon candy,0.861327588558197,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,cosine_and_either,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,cosine_and_either,jell-o instant pistachio pudding mix,jell-o pudding mix,0.8594670295715332,0.6,0.48484848484848486,0
+original_test_exploratory,cosine_and_either,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,cosine_and_either,de-fatted beef broth,de-fatted chicken broth,0.8575353026390076,0.5,0.4444444444444444,0
+original_test_exploratory,cosine_and_either,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,cosine_and_either,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,cosine_and_either,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_and_either,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,cosine_and_either,kraft shredded monterey jack cheese,monterey jack and cheddar cheese blend,0.8530149459838867,0.375,0.3673469387755102,0
+original_test_exploratory,cosine_and_either,nonfat cherry yogurt,nonfat vanilla yogurt,0.8517237901687622,0.5,0.37037037037037035,0
+original_test_exploratory,cosine_and_either,black pudding,pudding,0.8499638438224792,0.5,0.45454545454545453,0
+original_test_exploratory,cosine_and_either,crystal farm monterey jack cheese,monterey jack pepper cheese,0.8484102487564087,0.5,0.4358974358974359,0
+original_test_exploratory,cosine_and_either,soy yogurt,vanilla-flavored soy yogurt,0.8482076525688171,0.6666666666666666,0.32,0
+original_test_exploratory,cosine_and_either,cooked fettuccine,fettuccine pasta,0.8478415012359619,0.3333333333333333,0.38095238095238093,0
+original_test_exploratory,cosine_and_either,sweet turkey sausage,turkey breakfast sausage,0.8458244800567627,0.5,0.3793103448275862,0
+original_test_exploratory,cosine_and_either,whole wheat bread dough,whole wheat bread machine flour,0.8449961543083191,0.5,0.47058823529411764,0
+original_test_exploratory,cosine_and_either,beef round tip steak,round steak,0.8449611663818359,0.5,0.42105263157894735,0
+original_test_exploratory,cosine_and_either,fat-free american cheese,fat-free swiss cheese,0.844421923160553,0.5,0.41379310344827586,0
+original_test_exploratory,cosine_and_either,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,cosine_and_either,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,cosine_and_either,chicken and turkey sausage,turkey breakfast sausage,0.8434703946113586,0.4,0.3142857142857143,0
+original_test_exploratory,cosine_and_either,celery soup,low-fat cream of celery soup,0.8434122800827026,0.4,0.34615384615384615,0
+original_test_exploratory,cosine_and_either,lean turkey sausage,turkey breakfast sausage,0.8400028944015503,0.5,0.39285714285714285,0
+original_test_exploratory,cosine_and_either,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,cosine_and_either,canned peach,dried peach,0.8364169597625732,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,cosine_and_either,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,cosine_and_either,vanilla chocolate chip,white chocolate chip,0.8321542739868164,0.5,0.5454545454545454,0
+original_test_exploratory,cosine_and_either,miniature milk chocolate chip,miniature semisweet chocolate chip,0.831416666507721,0.6,0.5405405405405406,0
+original_test_exploratory,cosine_and_either,low-carb tortilla,low-fat flour tortilla,0.8312538862228394,0.25,0.34615384615384615,0
+original_test_exploratory,cosine_and_either,frozen baby pea,frozen pea pod,0.8306269645690918,0.5,0.3888888888888889,0
+original_test_exploratory,cosine_and_either,smoked whitefish,whitefish,0.83033287525177,0.5,0.5,0
+original_test_exploratory,cosine_and_either,medium grain rice,whole grain brown rice,0.8301646709442139,0.4,0.34615384615384615,0
+original_test_exploratory,cosine_and_either,italian sweet sausage,sweet italian turkey sausage link,0.8299167156219482,0.6,0.47058823529411764,0
+original_test_exploratory,cosine_and_either,italian salad dressing mix,salad dressing,0.8279154896736145,0.5,0.5,0
+original_test_exploratory,cosine_and_either,low-fat monterey jack pepper cheese,reduced-fat monterey jack and cheddar cheese blend,0.8265900611877441,0.3333333333333333,0.4107142857142857,0
+original_test_exploratory,cosine_and_either,peach tea bag,tea bag,0.8254496455192566,0.6666666666666666,0.45454545454545453,0
+original_test_exploratory,cosine_and_either,9-inch double-crust pie shell,unbaked 10-inch pie shell,0.8245588541030884,0.3333333333333333,0.3157894736842105,0
+original_test_exploratory,cosine_and_either,lemon yogurt,yogurt,0.8236979246139526,0.5,0.4,0
+original_test_exploratory,cosine_and_either,apricot halve,apricot halve in juice,0.8232828378677368,0.5,0.55,0
+original_test_exploratory,cosine_and_either,oatmeal cookies,oatmeal raisin cookie dough,0.8219125270843506,0.2,0.4074074074074074,0
+original_test_exploratory,cosine_and_either,low-fat powdered nondairy creamer,powdered fat free non-dairy coffee creamer,0.8215482234954834,0.25,0.4583333333333333,0
+original_test_exploratory,cosine_and_either,low fat cottage cheese,low-fat cream cheese,0.8197268843650818,0.16666666666666666,0.3103448275862069,0
+original_test_exploratory,cosine_and_either,creamy peanut butter,low-fat peanut butter,0.8193603157997131,0.5,0.48,0
+original_test_exploratory,cosine_and_either,frozen juice concentrate,frozen lemonade concentrate,0.8188760280609131,0.5,0.5161290322580645,0
+original_test_exploratory,cosine_and_either,cooked vermicelli,vermicelli,0.8168017864227295,0.5,0.5333333333333333,0
+original_test_exploratory,cosine_and_either,spinach,spinach pasta,0.8158242702484131,0.5,0.45454545454545453,0
+original_test_exploratory,cosine_and_either,sherry vinegar,wine vinegar,0.8153171539306641,0.3333333333333333,0.4,0
+original_test_exploratory,cosine_and_either,water chestnut,water chestnut starch,0.8132573366165161,0.6666666666666666,0.631578947368421,0
+original_test_exploratory,cosine_and_either,parsley,parsley stem,0.810792088508606,0.5,0.5,0
+original_test_exploratory,cosine_and_either,sugar-free maple syrup,sugar-free vanilla syrup,0.810572624206543,0.5,0.4482758620689655,0
+original_test_exploratory,cosine_and_either,mustard oil,mustard seed,0.8101989030838013,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,cosine_and_either,diced pickled jalapeno,pickled jalapeno pepper juice,0.8098627328872681,0.4,0.4838709677419355,0
+original_test_exploratory,cosine_and_either,low-fat cheese,lowfat parmesan cheese,0.8097991943359375,0.25,0.3333333333333333,0
+original_test_exploratory,cosine_and_either,bottled clam juice,minced clam with juice,0.8096131682395935,0.4,0.38461538461538464,0
+original_test_exploratory,cosine_and_either,canned carrot,carrot,0.8090047240257263,0.5,0.36363636363636365,0
+original_test_exploratory,cosine_and_either,mild cheddar cheese,non-dairy cheddar cheese,0.8089666366577148,0.5,0.4583333333333333,0
+original_test_exploratory,cosine_and_either,coconut cream pudding mix,sugar-free banana cream pudding mix,0.80886310338974,0.5,0.41025641025641024,0
+original_test_exploratory,cosine_and_either,italian tomato,italian-style crushed tomato,0.8082476258277893,0.25,0.35714285714285715,0
+original_test_exploratory,cosine_and_either,blueberry sauce,raspberry sauce,0.8061258792877197,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,cosine_and_either,boysenberry,boysenberry syrup,0.8034559488296509,0.5,0.6,0
+original_test_exploratory,cosine_and_either,sugar-free instant cheesecake pudding mix,sugar-free white chocolate pudding mix,0.80293208360672,0.42857142857142855,0.3962241509433965,0
+original_test_exploratory,cosine_and_either,fine noodle,somen noodle,0.801889955997467,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,cosine_and_either,beef gravy mix,brown gravy mix,0.8012121319770813,0.5,0.47058823529411764,0
+original_test_exploratory,cosine_and_either,candied violet,violet,0.8008365631103516,0.5,0.3333333333333333,0
+original_test_exploratory,cosine_and_either,pork blade steak,pork leg steak,0.8007247447967529,0.5,0.3684210526315789,0
+original_test_exploratory,cosine_cutoff,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,cosine_cutoff,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,cosine_cutoff,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,cosine_cutoff,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,cosine_cutoff,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,cosine_cutoff,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,cosine_cutoff,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,cosine_cutoff,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,cosine_cutoff,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,cosine_cutoff,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,cosine_cutoff,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,cosine_cutoff,fat free sugar free yogurt,sugar-free non-fat vanilla yogurt,0.9052568078041077,0.14285714285714285,0.34210526315789475,0
+original_test_exploratory,cosine_cutoff,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,cosine_cutoff,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,cosine_cutoff,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,cosine_cutoff,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,cosine_cutoff,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,cosine_cutoff,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_cutoff,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_cutoff,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,cosine_cutoff,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,cosine_cutoff,vanilla coffee syrup,vanilla-flavored syrup,0.87388014793396,0.25,0.3103448275862069,0
+original_test_exploratory,cosine_cutoff,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,cosine_cutoff,seafood sauce,shrimp sauce,0.8669977188110352,0.3333333333333333,0.23529411764705882,0
+original_test_exploratory,cosine_cutoff,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,cosine_cutoff,low-fat berry yogurt,low-fat plain yogurt,0.8621937036514282,0.5,0.44,0
+original_test_exploratory,cosine_cutoff,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,cosine_cutoff,mixed-grain hamburger bun,wheat hamburger bun,0.861707866191864,0.5,0.42857142857142855,0
+original_test_exploratory,cosine_cutoff,hard candy,hard cinnamon candy,0.861327588558197,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,cosine_cutoff,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,cosine_cutoff,jell-o instant pistachio pudding mix,jell-o pudding mix,0.8594670295715332,0.6,0.48484848484848486,0
+original_test_exploratory,cosine_cutoff,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,cosine_cutoff,de-fatted beef broth,de-fatted chicken broth,0.8575353026390076,0.5,0.4444444444444444,0
+original_test_exploratory,cosine_cutoff,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,cosine_cutoff,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,cosine_cutoff,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,cosine_cutoff,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,cosine_cutoff,kraft shredded monterey jack cheese,monterey jack and cheddar cheese blend,0.8530149459838867,0.375,0.3673469387755102,0
+original_test_exploratory,cosine_cutoff,nonfat cherry yogurt,nonfat vanilla yogurt,0.8517237901687622,0.5,0.37037037037037035,0
+original_test_exploratory,cosine_cutoff,black pudding,pudding,0.8499638438224792,0.5,0.45454545454545453,0
+original_test_exploratory,cosine_cutoff,crystal farm monterey jack cheese,monterey jack pepper cheese,0.8484102487564087,0.5,0.4358974358974359,0
+original_test_exploratory,cosine_cutoff,soy yogurt,vanilla-flavored soy yogurt,0.8482076525688171,0.6666666666666666,0.32,0
+original_test_exploratory,cosine_cutoff,cooked fettuccine,fettuccine pasta,0.8478415012359619,0.3333333333333333,0.38095238095238093,0
+original_test_exploratory,cosine_cutoff,sweet turkey sausage,turkey breakfast sausage,0.8458244800567627,0.5,0.3793103448275862,0
+original_test_exploratory,cosine_cutoff,whole wheat bread dough,whole wheat bread machine flour,0.8449961543083191,0.5,0.47058823529411764,0
+original_test_exploratory,cosine_cutoff,beef round tip steak,round steak,0.8449611663818359,0.5,0.42105263157894735,0
+original_test_exploratory,cosine_cutoff,fat-free american cheese,fat-free swiss cheese,0.844421923160553,0.5,0.41379310344827586,0
+original_test_exploratory,cosine_cutoff,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,cosine_cutoff,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,cosine_cutoff,chicken and turkey sausage,turkey breakfast sausage,0.8434703946113586,0.4,0.3142857142857143,0
+original_test_exploratory,cosine_cutoff,celery soup,low-fat cream of celery soup,0.8434122800827026,0.4,0.34615384615384615,0
+original_test_exploratory,cosine_cutoff,dried basil,fresh basil,0.8405576944351196,0.3333333333333333,0.2857142857142857,0
+original_test_exploratory,cosine_cutoff,lean turkey sausage,turkey breakfast sausage,0.8400028944015503,0.5,0.39285714285714285,0
+original_test_exploratory,cosine_cutoff,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,cosine_cutoff,lemonade mix,sugar-free lemonade-flavored drink mix,0.8384231328964233,0.2,0.21052631578947367,0
+original_test_exploratory,cosine_cutoff,canned peach,dried peach,0.8364169597625732,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,cosine_cutoff,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,cosine_cutoff,vanilla chocolate chip,white chocolate chip,0.8321542739868164,0.5,0.5454545454545454,0
+original_test_exploratory,cosine_cutoff,miniature milk chocolate chip,miniature semisweet chocolate chip,0.831416666507721,0.6,0.5405405405405406,0
+original_test_exploratory,cosine_cutoff,low-carb tortilla,low-fat flour tortilla,0.8312538862228394,0.25,0.34615384615384615,0
+original_test_exploratory,cosine_cutoff,frozen baby pea,frozen pea pod,0.8306269645690918,0.5,0.3888888888888889,0
+original_test_exploratory,cosine_cutoff,smoked whitefish,whitefish,0.83033287525177,0.5,0.5,0
+original_test_exploratory,cosine_cutoff,medium grain rice,whole grain brown rice,0.8301646709442139,0.4,0.34615384615384615,0
+original_test_exploratory,cosine_cutoff,italian sweet sausage,sweet italian turkey sausage link,0.8299167156219482,0.6,0.47058823529411764,0
+original_test_exploratory,cosine_cutoff,juice,strawberry juice,0.8289133310317993,0.5,0.21428571428571427,0
+original_test_exploratory,cosine_cutoff,italian salad dressing mix,salad dressing,0.8279154896736145,0.5,0.5,0
+original_test_exploratory,cosine_cutoff,low-fat monterey jack pepper cheese,reduced-fat monterey jack and cheddar cheese blend,0.8265900611877441,0.3333333333333333,0.4107142857142857,0
+original_test_exploratory,cosine_cutoff,peach tea bag,tea bag,0.8254496455192566,0.6666666666666666,0.45454545454545453,0
+original_test_exploratory,cosine_cutoff,9-inch double-crust pie shell,unbaked 10-inch pie shell,0.8245588541030884,0.3333333333333333,0.3157894736842105,0
+original_test_exploratory,cosine_cutoff,lemon yogurt,yogurt,0.8236979246139526,0.5,0.4,0
+original_test_exploratory,cosine_cutoff,apricot halve,apricot halve in juice,0.8232828378677368,0.5,0.55,0
+original_test_exploratory,cosine_cutoff,oatmeal cookies,oatmeal raisin cookie dough,0.8219125270843506,0.2,0.4074074074074074,0
+original_test_exploratory,cosine_cutoff,nonfat fruit yogurt,raspberry low-fat yogurt,0.8218899369239807,0.2,0.25806451612903225,0
+original_test_exploratory,cosine_cutoff,low-fat powdered nondairy creamer,powdered fat free non-dairy coffee creamer,0.8215482234954834,0.25,0.4583333333333333,0
+original_test_exploratory,cosine_cutoff,low fat cottage cheese,low-fat cream cheese,0.8197268843650818,0.16666666666666666,0.3103448275862069,0
+original_test_exploratory,cosine_cutoff,creamy peanut butter,low-fat peanut butter,0.8193603157997131,0.5,0.48,0
+original_test_exploratory,cosine_cutoff,frozen juice concentrate,frozen lemonade concentrate,0.8188760280609131,0.5,0.5161290322580645,0
+original_test_exploratory,cosine_cutoff,golden rum,rum,0.8171879649162292,0.5,0.125,0
+original_test_exploratory,cosine_cutoff,cooked vermicelli,vermicelli,0.8168017864227295,0.5,0.5333333333333333,0
+original_test_exploratory,cosine_cutoff,noodle and sauce,pasta noodle,0.8164157867431641,0.25,0.2,0
+original_test_exploratory,cosine_cutoff,nonfat plain yogurt,raspberry low-fat yogurt,0.8158506155014038,0.2,0.21875,0
+original_test_exploratory,cosine_cutoff,spinach,spinach pasta,0.8158242702484131,0.5,0.45454545454545453,0
+original_test_exploratory,cosine_cutoff,beef mince,minced meat,0.8157234191894531,0.0,0.21428571428571427,0
+original_test_exploratory,cosine_cutoff,sherry vinegar,wine vinegar,0.8153171539306641,0.3333333333333333,0.4,0
+original_test_exploratory,cosine_cutoff,cooking onion,fried onion,0.8148778676986694,0.3333333333333333,0.25,0
+original_test_exploratory,cosine_cutoff,water chestnut,water chestnut starch,0.8132573366165161,0.6666666666666666,0.631578947368421,0
+original_test_exploratory,cosine_cutoff,baby plum,black plum,0.8115969896316528,0.3333333333333333,0.25,0
+original_test_exploratory,cosine_cutoff,parsley,parsley stem,0.810792088508606,0.5,0.5,0
+original_test_exploratory,cosine_cutoff,sugar-free maple syrup,sugar-free vanilla syrup,0.810572624206543,0.5,0.4482758620689655,0
+original_test_exploratory,cosine_cutoff,mustard oil,mustard seed,0.8101989030838013,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,cosine_cutoff,diced pickled jalapeno,pickled jalapeno pepper juice,0.8098627328872681,0.4,0.4838709677419355,0
+original_test_exploratory,cosine_cutoff,low-fat cheese,lowfat parmesan cheese,0.8097991943359375,0.25,0.3333333333333333,0
+original_test_exploratory,cosine_cutoff,bottled clam juice,minced clam with juice,0.8096131682395935,0.4,0.38461538461538464,0
+original_test_exploratory,cosine_cutoff,pickled pepper,pickled vegetable,0.8091264963150024,0.3333333333333333,0.2857142857142857,0
+original_test_exploratory,cosine_cutoff,canned carrot,carrot,0.8090047240257263,0.5,0.36363636363636365,0
+original_test_exploratory,cosine_cutoff,mild cheddar cheese,non-dairy cheddar cheese,0.8089666366577148,0.5,0.4583333333333333,0
+original_test_exploratory,cosine_cutoff,coconut cream pudding mix,sugar-free banana cream pudding mix,0.80886310338974,0.5,0.41025641025641024,0
+original_test_exploratory,cosine_cutoff,italian tomato,italian-style crushed tomato,0.8082476258277893,0.25,0.35714285714285715,0
+original_test_exploratory,cosine_cutoff,blueberry sauce,raspberry sauce,0.8061258792877197,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,cosine_cutoff,boysenberry,boysenberry syrup,0.8034559488296509,0.5,0.6,0
+original_test_exploratory,cosine_cutoff,sugar-free instant cheesecake pudding mix,sugar-free white chocolate pudding mix,0.80293208360672,0.42857142857142855,0.3962241509433965,0
+original_test_exploratory,cosine_cutoff,fine noodle,somen noodle,0.801889955997467,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,cosine_cutoff,pork roll,roll of pork sausage,0.8013428449630737,0.5,0.25,0
+original_test_exploratory,cosine_cutoff,beef gravy mix,brown gravy mix,0.8012121319770813,0.5,0.47058823529411764,0
+original_test_exploratory,cosine_cutoff,candied violet,violet,0.8008365631103516,0.5,0.3333333333333333,0
+original_test_exploratory,cosine_cutoff,pork blade steak,pork leg steak,0.8007247447967529,0.5,0.3684210526315789,0
+original_test_exploratory,cosine_cutoff,low-fat unsweetened yogurt,reduced-fat honey yogurt,0.8006812930107117,0.2,0.21052631578947367,0
+original_test_exploratory,logistic_l2,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,logistic_l2,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,logistic_l2,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,logistic_l2,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,logistic_l2,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,logistic_l2,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,logistic_l2,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,logistic_l2,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,logistic_l2,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,logistic_l2,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,logistic_l2,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,logistic_l2,fat free sugar free yogurt,sugar-free non-fat vanilla yogurt,0.9052568078041077,0.14285714285714285,0.34210526315789475,0
+original_test_exploratory,logistic_l2,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,logistic_l2,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,logistic_l2,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,logistic_l2,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,logistic_l2,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,logistic_l2,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,logistic_l2,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,logistic_l2,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,logistic_l2,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,logistic_l2,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,logistic_l2,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,logistic_l2,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,logistic_l2,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,logistic_l2,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,logistic_l2,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,logistic_l2,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,logistic_l2,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,logistic_l2,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,logistic_l2,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,logistic_l2,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,logistic_l2,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,logistic_l2,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,token_cutoff,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,token_cutoff,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,token_cutoff,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,token_cutoff,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,token_cutoff,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,token_cutoff,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,token_cutoff,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,token_cutoff,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,token_cutoff,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,token_cutoff,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,token_cutoff,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,token_cutoff,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,token_cutoff,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,token_cutoff,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,token_cutoff,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,token_cutoff,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,token_cutoff,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,token_cutoff,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,token_cutoff,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,token_cutoff,vanilla coffee syrup,vanilla-flavored syrup,0.87388014793396,0.25,0.3103448275862069,0
+original_test_exploratory,token_cutoff,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,token_cutoff,seafood sauce,shrimp sauce,0.8669977188110352,0.3333333333333333,0.23529411764705882,0
+original_test_exploratory,token_cutoff,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,token_cutoff,low-fat berry yogurt,low-fat plain yogurt,0.8621937036514282,0.5,0.44,0
+original_test_exploratory,token_cutoff,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,token_cutoff,mixed-grain hamburger bun,wheat hamburger bun,0.861707866191864,0.5,0.42857142857142855,0
+original_test_exploratory,token_cutoff,hard candy,hard cinnamon candy,0.861327588558197,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,token_cutoff,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,token_cutoff,jell-o instant pistachio pudding mix,jell-o pudding mix,0.8594670295715332,0.6,0.48484848484848486,0
+original_test_exploratory,token_cutoff,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,token_cutoff,de-fatted beef broth,de-fatted chicken broth,0.8575353026390076,0.5,0.4444444444444444,0
+original_test_exploratory,token_cutoff,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,token_cutoff,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,token_cutoff,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,token_cutoff,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,token_cutoff,kraft shredded monterey jack cheese,monterey jack and cheddar cheese blend,0.8530149459838867,0.375,0.3673469387755102,0
+original_test_exploratory,token_cutoff,nonfat cherry yogurt,nonfat vanilla yogurt,0.8517237901687622,0.5,0.37037037037037035,0
+original_test_exploratory,token_cutoff,black pudding,pudding,0.8499638438224792,0.5,0.45454545454545453,0
+original_test_exploratory,token_cutoff,crystal farm monterey jack cheese,monterey jack pepper cheese,0.8484102487564087,0.5,0.4358974358974359,0
+original_test_exploratory,token_cutoff,soy yogurt,vanilla-flavored soy yogurt,0.8482076525688171,0.6666666666666666,0.32,0
+original_test_exploratory,token_cutoff,cooked fettuccine,fettuccine pasta,0.8478415012359619,0.3333333333333333,0.38095238095238093,0
+original_test_exploratory,token_cutoff,sweet turkey sausage,turkey breakfast sausage,0.8458244800567627,0.5,0.3793103448275862,0
+original_test_exploratory,token_cutoff,whole wheat bread dough,whole wheat bread machine flour,0.8449961543083191,0.5,0.47058823529411764,0
+original_test_exploratory,token_cutoff,beef round tip steak,round steak,0.8449611663818359,0.5,0.42105263157894735,0
+original_test_exploratory,token_cutoff,fat-free american cheese,fat-free swiss cheese,0.844421923160553,0.5,0.41379310344827586,0
+original_test_exploratory,token_cutoff,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,token_cutoff,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,token_cutoff,chicken and turkey sausage,turkey breakfast sausage,0.8434703946113586,0.4,0.3142857142857143,0
+original_test_exploratory,token_cutoff,celery soup,low-fat cream of celery soup,0.8434122800827026,0.4,0.34615384615384615,0
+original_test_exploratory,token_cutoff,dried basil,fresh basil,0.8405576944351196,0.3333333333333333,0.2857142857142857,0
+original_test_exploratory,token_cutoff,lean turkey sausage,turkey breakfast sausage,0.8400028944015503,0.5,0.39285714285714285,0
+original_test_exploratory,token_cutoff,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,token_cutoff,lemonade mix,sugar-free lemonade-flavored drink mix,0.8384231328964233,0.2,0.21052631578947367,0
+original_test_exploratory,token_cutoff,canned peach,dried peach,0.8364169597625732,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,token_cutoff,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,token_cutoff,vanilla chocolate chip,white chocolate chip,0.8321542739868164,0.5,0.5454545454545454,0
+original_test_exploratory,token_cutoff,miniature milk chocolate chip,miniature semisweet chocolate chip,0.831416666507721,0.6,0.5405405405405406,0
+original_test_exploratory,token_cutoff,low-carb tortilla,low-fat flour tortilla,0.8312538862228394,0.25,0.34615384615384615,0
+original_test_exploratory,token_cutoff,frozen baby pea,frozen pea pod,0.8306269645690918,0.5,0.3888888888888889,0
+original_test_exploratory,token_cutoff,smoked whitefish,whitefish,0.83033287525177,0.5,0.5,0
+original_test_exploratory,token_cutoff,medium grain rice,whole grain brown rice,0.8301646709442139,0.4,0.34615384615384615,0
+original_test_exploratory,token_cutoff,italian sweet sausage,sweet italian turkey sausage link,0.8299167156219482,0.6,0.47058823529411764,0
+original_test_exploratory,token_cutoff,juice,strawberry juice,0.8289133310317993,0.5,0.21428571428571427,0
+original_test_exploratory,token_cutoff,italian salad dressing mix,salad dressing,0.8279154896736145,0.5,0.5,0
+original_test_exploratory,token_cutoff,low-fat monterey jack pepper cheese,reduced-fat monterey jack and cheddar cheese blend,0.8265900611877441,0.3333333333333333,0.4107142857142857,0
+original_test_exploratory,token_cutoff,peach tea bag,tea bag,0.8254496455192566,0.6666666666666666,0.45454545454545453,0
+original_test_exploratory,token_cutoff,9-inch double-crust pie shell,unbaked 10-inch pie shell,0.8245588541030884,0.3333333333333333,0.3157894736842105,0
+original_test_exploratory,token_cutoff,lemon yogurt,yogurt,0.8236979246139526,0.5,0.4,0
+original_test_exploratory,token_cutoff,apricot halve,apricot halve in juice,0.8232828378677368,0.5,0.55,0
+original_test_exploratory,token_cutoff,oatmeal cookies,oatmeal raisin cookie dough,0.8219125270843506,0.2,0.4074074074074074,0
+original_test_exploratory,token_cutoff,nonfat fruit yogurt,raspberry low-fat yogurt,0.8218899369239807,0.2,0.25806451612903225,0
+original_test_exploratory,token_cutoff,low-fat powdered nondairy creamer,powdered fat free non-dairy coffee creamer,0.8215482234954834,0.25,0.4583333333333333,0
+original_test_exploratory,token_cutoff,creamy peanut butter,low-fat peanut butter,0.8193603157997131,0.5,0.48,0
+original_test_exploratory,token_cutoff,frozen juice concentrate,frozen lemonade concentrate,0.8188760280609131,0.5,0.5161290322580645,0
+original_test_exploratory,token_cutoff,golden rum,rum,0.8171879649162292,0.5,0.125,0
+original_test_exploratory,token_cutoff,cooked vermicelli,vermicelli,0.8168017864227295,0.5,0.5333333333333333,0
+original_test_exploratory,token_cutoff,noodle and sauce,pasta noodle,0.8164157867431641,0.25,0.2,0
+original_test_exploratory,token_cutoff,nonfat plain yogurt,raspberry low-fat yogurt,0.8158506155014038,0.2,0.21875,0
+original_test_exploratory,token_cutoff,spinach,spinach pasta,0.8158242702484131,0.5,0.45454545454545453,0
+original_test_exploratory,token_cutoff,sherry vinegar,wine vinegar,0.8153171539306641,0.3333333333333333,0.4,0
+original_test_exploratory,token_cutoff,cooking onion,fried onion,0.8148778676986694,0.3333333333333333,0.25,0
+original_test_exploratory,token_cutoff,water chestnut,water chestnut starch,0.8132573366165161,0.6666666666666666,0.631578947368421,0
+original_test_exploratory,token_cutoff,baby plum,black plum,0.8115969896316528,0.3333333333333333,0.25,0
+original_test_exploratory,token_cutoff,parsley,parsley stem,0.810792088508606,0.5,0.5,0
+original_test_exploratory,token_cutoff,sugar-free maple syrup,sugar-free vanilla syrup,0.810572624206543,0.5,0.4482758620689655,0
+original_test_exploratory,token_cutoff,mustard oil,mustard seed,0.8101989030838013,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,token_cutoff,diced pickled jalapeno,pickled jalapeno pepper juice,0.8098627328872681,0.4,0.4838709677419355,0
+original_test_exploratory,token_cutoff,low-fat cheese,lowfat parmesan cheese,0.8097991943359375,0.25,0.3333333333333333,0
+original_test_exploratory,token_cutoff,bottled clam juice,minced clam with juice,0.8096131682395935,0.4,0.38461538461538464,0
+original_test_exploratory,token_cutoff,pickled pepper,pickled vegetable,0.8091264963150024,0.3333333333333333,0.2857142857142857,0
+original_test_exploratory,token_cutoff,canned carrot,carrot,0.8090047240257263,0.5,0.36363636363636365,0
+original_test_exploratory,token_cutoff,mild cheddar cheese,non-dairy cheddar cheese,0.8089666366577148,0.5,0.4583333333333333,0
+original_test_exploratory,token_cutoff,coconut cream pudding mix,sugar-free banana cream pudding mix,0.80886310338974,0.5,0.41025641025641024,0
+original_test_exploratory,token_cutoff,italian tomato,italian-style crushed tomato,0.8082476258277893,0.25,0.35714285714285715,0
+original_test_exploratory,token_cutoff,blueberry sauce,raspberry sauce,0.8061258792877197,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,token_cutoff,boysenberry,boysenberry syrup,0.8034559488296509,0.5,0.6,0
+original_test_exploratory,token_cutoff,sugar-free instant cheesecake pudding mix,sugar-free white chocolate pudding mix,0.80293208360672,0.42857142857142855,0.3962241509433965,0
+original_test_exploratory,token_cutoff,fine noodle,somen noodle,0.801889955997467,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,token_cutoff,pork roll,roll of pork sausage,0.8013428449630737,0.5,0.25,0
+original_test_exploratory,token_cutoff,beef gravy mix,brown gravy mix,0.8012121319770813,0.5,0.47058823529411764,0
+original_test_exploratory,token_cutoff,candied violet,violet,0.8008365631103516,0.5,0.3333333333333333,0
+original_test_exploratory,token_cutoff,pork blade steak,pork leg steak,0.8007247447967529,0.5,0.3684210526315789,0
+original_test_exploratory,token_cutoff,low-fat unsweetened yogurt,reduced-fat honey yogurt,0.8006812930107117,0.2,0.21052631578947367,0
+original_test_exploratory,token_cutoff,canned tomato sauce,whole canned tomato,0.7988871335983276,0.5,0.4782608695652174,0
+original_test_exploratory,token_cutoff,frozen potato pierogi,potato & cheese pierogi,0.798335075378418,0.4,0.3793103448275862,0
+original_test_exploratory,token_cutoff,chinese mustard,mustard seed,0.7976280450820923,0.3333333333333333,0.2777777777777778,0
+original_test_exploratory,token_cutoff,old cheddar cheese,soy cheddar cheese,0.7974673509597778,0.5,0.6470588235294118,0
+original_test_exploratory,token_cutoff,brown sugar substitute,light-brown sugar,0.7973403334617615,0.25,0.36,0
+original_test_exploratory,token_cutoff,canned pear,pear,0.7969824075698853,0.5,0.2222222222222222,0
+original_test_exploratory,token_cutoff,low-fat cheese,reduced-fat american cheese,0.7968310117721558,0.25,0.27586206896551724,0
+original_test_exploratory,token_cutoff,fat free oven-roasted turkey breast,honey roasted turkey breast,0.7963107824325562,0.2857142857142857,0.4864864864864865,0
+original_test_exploratory,token_cutoff,powdered soy protein concentrate,soy protein isolate,0.7951550483703613,0.4,0.3055555555555556,0
+original_test_exploratory,token_cutoff,fresh chinese noodle,precooked shanghai noodle,0.7951419949531555,0.2,0.1388888888888889,0
+original_test_exploratory,token_cutoff,blended red chili sauce,red pepper sauce,0.7951288223266602,0.4,0.21428571428571427,0
+original_test_exploratory,token_cutoff,chocolate,chocolate extract,0.7933498620986938,0.5,0.4666666666666667,0
+original_test_exploratory,token_cutoff,sugar-free blackberry gelatin,sugar-free blackberry jam,0.7920740842819214,0.5,0.6666666666666666,0
+original_test_exploratory,token_cutoff,macaroni and white cheddar cheese mix,simply macaroni & cheese,0.7916167974472046,0.25,0.27906976744186046,0
+original_test_exploratory,token_cutoff,garlic vinaigrette dressing,light raspberry vinaigrette dressing,0.7912070751190186,0.4,0.475,0
+original_test_exploratory,token_cutoff,instant minced garlic,liquid garlic,0.790789783000946,0.25,0.25,0
+original_test_exploratory,token_cutoff,cream cheese with chive and onion,cream cheese with vegetable,0.7907500267028809,0.42857142857142855,0.41025641025641024,0
+original_test_exploratory,token_cutoff,gluten-free chicken stock,gluten-free vegetable stock,0.7905465364456177,0.5,0.4117647058823529,0
+original_test_exploratory,token_cutoff,chinese chili sauce,tomato chili sauce,0.7903328537940979,0.5,0.45454545454545453,0
+original_test_exploratory,token_cutoff,non-fat strawberry yogurt,reduced-fat vanilla yogurt,0.7902819514274597,0.2,0.20512820512820512,0
+original_test_exploratory,token_cutoff,yellow hominy with pepper,yellow pepper,0.7900505065917969,0.5,0.4166666666666667,0
+original_test_exploratory,token_cutoff,pork bouillon cube,vegetable bouillon cube,0.7897691130638123,0.5,0.48,0
+original_test_exploratory,token_cutoff,fat-free cheddar cheese,reduced-fat extra sharp cheddar cheese,0.7896641492843628,0.3333333333333333,0.2926829268292683,0
+original_test_exploratory,token_cutoff,peach syrup,sugar syrup,0.7894690036773682,0.3333333333333333,0.2857142857142857,0
+original_test_exploratory,token_cutoff,mango in juice,sweet mango,0.7881708145141602,0.25,0.16666666666666666,0
+original_test_exploratory,token_cutoff,homemade mayonnaise,low-sodium mayonnaise,0.7872991561889648,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,fat-free cheddar cheese,low-fat cheese,0.7864663600921631,0.25,0.24,0
+original_test_exploratory,token_cutoff,brown mustard,grey poupon mustard,0.7853243350982666,0.25,0.3333333333333333,0
+original_test_exploratory,token_cutoff,low-fat sugar-free frozen vanilla yogurt,raspberry low-fat yogurt,0.7850521802902222,0.3333333333333333,0.22448979591836735,0
+original_test_exploratory,token_cutoff,dessert pear,fresh pear,0.7847104072570801,0.3333333333333333,0.2,0
+original_test_exploratory,token_cutoff,dried butter bean,dried fava bean,0.7842944860458374,0.5,0.3333333333333333,0
+original_test_exploratory,token_cutoff,fruit juice,pineapple juice,0.7842748165130615,0.3333333333333333,0.2222222222222222,0
+original_test_exploratory,token_cutoff,dried pink lentil,lentil,0.7828463315963745,0.3333333333333333,0.26666666666666666,0
+original_test_exploratory,token_cutoff,low-sodium tomato paste,low-sodium tomato sauce,0.7826183438301086,0.5,0.6153846153846154,0
+original_test_exploratory,token_cutoff,chicken sausage,spicy sausage,0.7825062274932861,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,frozen sweet pepper,mini sweet pepper,0.7818636894226074,0.5,0.5238095238095238,0
+original_test_exploratory,token_cutoff,hungry jack big flaky refrigerated biscuit,pillsbury golden layer refrigerated flaky original biscuit,0.7815791368484497,0.3,0.34285714285714286,0
+original_test_exploratory,token_cutoff,sea bass,sea bass steak,0.7815341949462891,0.6666666666666666,0.5,0
+original_test_exploratory,token_cutoff,cooked turkey breast,turkey breast tenderloin,0.7811896800994873,0.5,0.3793103448275862,0
+original_test_exploratory,token_cutoff,fat-free margarine,regular margarine,0.7796087265014648,0.3333333333333333,0.34782608695652173,0
+original_test_exploratory,token_cutoff,candied ginger,green ginger,0.7791486978530884,0.3333333333333333,0.29411764705882354,0
+original_test_exploratory,token_cutoff,cheese sauce,tomato cream sauce,0.7785711288452148,0.25,0.18181818181818182,0
+original_test_exploratory,token_cutoff,cherry in syrup,syrup,0.7785357236862183,0.3333333333333333,0.23076923076923078,0
+original_test_exploratory,token_cutoff,miniature shredded wheat cereal,puffed wheat cereal,0.7784850597381592,0.4,0.3939393939393939,0
+original_test_exploratory,token_cutoff,venison,venison roast,0.7778226137161255,0.5,0.45454545454545453,0
+original_test_exploratory,token_cutoff,chicken thigh,turkey thigh,0.777469277381897,0.3333333333333333,0.23529411764705882,0
+original_test_exploratory,token_cutoff,fat free cheese,low-fat american cheese,0.7774453163146973,0.2,0.25925925925925924,0
+original_test_exploratory,token_cutoff,cheese sauce mix,white sauce mix,0.7773195505142212,0.5,0.5,0
+original_test_exploratory,token_cutoff,lean boneless pork loin,pork loin steak,0.777143120765686,0.4,0.25925925925925924,0
+original_test_exploratory,token_cutoff,cherry cake mix,orange cake mix,0.7770010232925415,0.5,0.3684210526315789,0
+original_test_exploratory,token_cutoff,cod steak,steak,0.7768340110778809,0.5,0.42857142857142855,0
+original_test_exploratory,token_cutoff,tomato bisque soup,tomato soup,0.7763020992279053,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,token_cutoff,irish cream coffee creamer,liquid coffee creamer,0.7760944366455078,0.4,0.5,0
+original_test_exploratory,token_cutoff,diet cola,diet mountain dew soda,0.7759819030761719,0.2,0.125,0
+original_test_exploratory,token_cutoff,chocolate cool whip,strawberry cool whip,0.7759602069854736,0.5,0.2962962962962963,0
+original_test_exploratory,token_cutoff,almond flour,flour,0.7758212089538574,0.5,0.3,0
+original_test_exploratory,token_cutoff,strawberry cake mix,white cake mix,0.775164008140564,0.5,0.3181818181818182,0
+original_test_exploratory,token_cutoff,fresh jalapeno pepper,jalapeno sauce,0.7751051187515259,0.25,0.2916666666666667,0
+original_test_exploratory,token_cutoff,frozen asian-style vegetable,green giant california-style frozen vegetable,0.7746704816818237,0.3333333333333333,0.3877551020408163,0
+original_test_exploratory,token_cutoff,margarine,polyunsaturated margarine,0.7745669484138489,0.5,0.30434782608695654,0
+original_test_exploratory,token_cutoff,condensed mushroom soup,lipton beefy mushroom soup mix,0.7745559215545654,0.3333333333333333,0.32432432432432434,0
+original_test_exploratory,token_cutoff,fruit nectar,guava nectar,0.7743168473243713,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,cream cheese with herb,cream cheese with tomato and basil,0.7742083072662354,0.42857142857142855,0.4444444444444444,0
+original_test_exploratory,token_cutoff,boneless beef chuck steak,boneless lean beef,0.773948609828949,0.4,0.3448275862068966,0
+original_test_exploratory,token_cutoff,bluefish fillet,sea bass fillet,0.7731029987335205,0.25,0.23809523809523808,0
+original_test_exploratory,token_cutoff,coconut pudding mix,instant banana pudding mix,0.7728893756866455,0.4,0.3333333333333333,0
+original_test_exploratory,token_cutoff,skinless boneless turkey breast,skinless chicken breast half,0.7724640369415283,0.3333333333333333,0.3,0
+original_test_exploratory,token_cutoff,bean,vanilla bean,0.7724555730819702,0.5,0.2,0
+original_test_exploratory,token_cutoff,peppercorn,szechuan peppercorn,0.7724323272705078,0.5,0.47058823529411764,0
+original_test_exploratory,token_cutoff,corn pop cereal,grain cereal,0.7724230885505676,0.25,0.2777777777777778,0
+original_test_exploratory,token_cutoff,cooked chicken breast strip,cooked italian chicken breast,0.772236704826355,0.6,0.5294117647058824,0
+original_test_exploratory,token_cutoff,short pastry,shortcrust pastry dough,0.7714126110076904,0.25,0.4090909090909091,0
+original_test_exploratory,token_cutoff,ginger beer,ginger juice,0.7706542015075684,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,token_cutoff,french vanilla yogurt,sugar-free vanilla yogurt,0.7706141471862793,0.5,0.5,0
+original_test_exploratory,token_cutoff,baking chocolate,premium white baking chocolate,0.7701497673988342,0.5,0.5,0
+original_test_exploratory,token_cutoff,fresh sweet potato,sweet potato baby food,0.7700245976448059,0.4,0.38461538461538464,0
+original_test_exploratory,token_cutoff,frozen corn in butter sauce,frozen sweet corn,0.7697718739509583,0.3333333333333333,0.25,0
+original_test_exploratory,token_cutoff,cherry in syrup,sugar syrup,0.7697340250015259,0.25,0.2222222222222222,0
+original_test_exploratory,token_cutoff,goat cheese salad dressing,salad dressing,0.7696928977966309,0.5,0.5,0
+original_test_exploratory,token_cutoff,fruit juice,pineapple-orange juice,0.7696692943572998,0.3333333333333333,0.16,0
+original_test_exploratory,token_cutoff,oreo cookie pie crust,oreo cookies,0.7695982456207275,0.2,0.47368421052631576,0
+original_test_exploratory,token_cutoff,goat milk yogurt,greek yogurt,0.7694892883300781,0.25,0.3333333333333333,0
+original_test_exploratory,token_cutoff,pork,pork pate,0.7692194581031799,0.5,0.2857142857142857,0
+original_test_exploratory,token_cutoff,dry apple cider,unsweetened apple cider,0.7674322128295898,0.5,0.4166666666666667,0
+original_test_exploratory,token_cutoff,lettuce green,mixed baby lettuce and spring green,0.767210841178894,0.3333333333333333,0.29411764705882354,0
+original_test_exploratory,token_cutoff,beef bone,beef short rib with bone,0.7671075463294983,0.4,0.2608695652173913,0
+original_test_exploratory,token_cutoff,beef sausage,breakfast sausage patty,0.7669202089309692,0.25,0.24,0
+original_test_exploratory,token_cutoff,chili flake,sweet pepper flake,0.7665454745292664,0.25,0.19047619047619047,0
+original_test_exploratory,token_cutoff,canned pineapple,pineapple juice,0.7663094997406006,0.3333333333333333,0.35,0
+original_test_exploratory,token_cutoff,pear cider,pear juice,0.766190230846405,0.3333333333333333,0.23076923076923078,0
+original_test_exploratory,token_cutoff,fresh smoked mozzarella cheese ball,mozzarella cheese,0.7658267021179199,0.4,0.45454545454545453,0
+original_test_exploratory,token_cutoff,nonfat dry milk powder,nonfat protein powder,0.765503466129303,0.4,0.3448275862068966,0
+original_test_exploratory,token_cutoff,mild sausage,spicy sausage,0.7652426958084106,0.3333333333333333,0.4,0
+original_test_exploratory,token_cutoff,ginger syrup,honey syrup,0.7651903629302979,0.3333333333333333,0.26666666666666666,0
+original_test_exploratory,token_cutoff,fat free whole wheat tortilla,fat-free whole wheat pita bread,0.7651339769363403,0.25,0.3783783783783784,0
+original_test_exploratory,token_cutoff,creamy dill mustard,spicy mustard,0.764394998550415,0.25,0.2727272727272727,0
+original_test_exploratory,token_cutoff,green goddess salad dressing,green salad,0.7636942863464355,0.5,0.3076923076923077,0
+original_test_exploratory,token_cutoff,nonfat strawberry-banana yogurt,plain low-fat yogurt,0.7636733651161194,0.2,0.1794871794871795,0
+original_test_exploratory,token_cutoff,cranberry-grape juice,sugar-free cranberry juice,0.7635706067085266,0.25,0.34375,0
+original_test_exploratory,token_cutoff,lean sausage meat,pork sausage,0.7634162902832031,0.25,0.3157894736842105,0
+original_test_exploratory,token_cutoff,long grain white rice,minute white rice,0.7628162503242493,0.4,0.375,0
+original_test_exploratory,token_cutoff,red chili sauce,sweet asian chicken chili sauce,0.7623791098594666,0.3333333333333333,0.3448275862068966,0
+original_test_exploratory,token_cutoff,butter,nut butter,0.7618776559829712,0.5,0.5,0
+original_test_exploratory,token_cutoff,hot chili pepper,sweet chili sauce,0.7616400718688965,0.2,0.2608695652173913,0
+original_test_exploratory,token_cutoff,coarse ground beef,vegetarian ground beef,0.7615925073623657,0.5,0.38461538461538464,0
+original_test_exploratory,token_cutoff,instant butterscotch pudding mix,sugar-free instant chocolate pudding mix,0.7613533735275269,0.5,0.3076923076923077,0
+original_test_exploratory,token_cutoff,seasoned flour,white flour,0.761192798614502,0.3333333333333333,0.23529411764705882,0
+original_test_exploratory,token_cutoff,fresh chive,fresh green chily,0.7611817121505737,0.25,0.3333333333333333,0
+original_test_exploratory,token_cutoff,low-fat chocolate frozen yogurt,low-fat strawberry yogurt,0.7611308097839355,0.4,0.2682926829268293,0
+original_test_exploratory,token_cutoff,golden seedless raisin,raisin,0.7610567808151245,0.3333333333333333,0.2,0
+original_test_exploratory,token_cutoff,chocolate biscuit,coconut biscuit,0.7607378363609314,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,venison roast,venison stew meat,0.7606924772262573,0.25,0.3,0
+original_test_exploratory,token_cutoff,low-fat alfredo sauce,sun-dried tomato alfredo sauce,0.7602651119232178,0.4,0.34285714285714286,0
+original_test_exploratory,token_cutoff,fat-free chicken broth,ready-to-serve chicken broth,0.7600851655006409,0.5,0.3939393939393939,0
+original_test_exploratory,token_cutoff,marbled rye bread,rye breadcrumb,0.7599987983703613,0.25,0.35,0
+original_test_exploratory,token_cutoff,chocolate,unsweetened chocolate,0.7590951919555664,0.5,0.3684210526315789,0
+original_test_exploratory,token_cutoff,cinnamon ice cream,cookie dough ice cream,0.7588295936584473,0.4,0.2857142857142857,0
+original_test_exploratory,token_cutoff,beef tenderloin,turkey tenderloin,0.7588095664978027,0.3333333333333333,0.47368421052631576,0
+original_test_exploratory,token_cutoff,low-sodium tomato juice,reduced-sodium stewed tomato,0.7586096525192261,0.2,0.3055555555555556,0
+original_test_exploratory,token_cutoff,reduced-fat italian cheese blend,three-cheese blend,0.7585738897323608,0.2,0.2777777777777778,0
+original_test_exploratory,token_cutoff,goat milk yogurt,vanilla greek yogurt,0.7584402561187744,0.2,0.23076923076923078,0
+original_test_exploratory,token_cutoff,espresso coffee,espresso granule,0.7579301595687866,0.3333333333333333,0.35,0
+original_test_exploratory,token_cutoff,refrigerated buttermilk biscuit,refrigerated corn biscuit,0.7577387094497681,0.5,0.4857142857142857,0
+original_test_exploratory,token_cutoff,sunflower oil,sunflower seed butter,0.7570578455924988,0.25,0.36363636363636365,0
+original_test_exploratory,token_cutoff,gingernut biscuit,oat biscuit,0.7569013237953186,0.3333333333333333,0.4117647058823529,0
+original_test_exploratory,token_cutoff,9-grain bread,light whole grain bread,0.7566540837287903,0.2,0.391304347826087,0
+original_test_exploratory,token_cutoff,ginger biscuit,tea biscuit,0.7564109563827515,0.3333333333333333,0.4,0
+original_test_exploratory,token_cutoff,chocolate cookie crumb,sweet bread crumb,0.7557722330093384,0.2,0.13333333333333333,0
+original_test_exploratory,token_cutoff,apple yogurt,unsweetened plain yogurt,0.7557395696640015,0.25,0.18518518518518517,0
+original_test_exploratory,token_cutoff,egg,omega egg,0.7551062107086182,0.5,0.14285714285714285,0
+original_test_exploratory,token_cutoff,crystallized ginger,dried ginger,0.7548342943191528,0.3333333333333333,0.35,0
+original_test_exploratory,token_cutoff,cucumber salad dressing,light salad dressing,0.7547812461853027,0.5,0.5,0
+original_test_exploratory,token_cutoff,italian style breadcrumb,soft breadcrumb,0.7546030282974243,0.25,0.34615384615384615,0
+original_test_exploratory,token_cutoff,coffee syrup,simple syrup,0.754481852054596,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,token_cutoff,buttermilk pancake mix,whole wheat pancake mix,0.7544131278991699,0.4,0.3225806451612903,0
+original_test_exploratory,token_cutoff,frozen baby pea,snow pea,0.7543281316757202,0.25,0.11764705882352941,0
+original_test_exploratory,token_cutoff,low fat cottage cheese,non fat cheese,0.7543201446533203,0.4,0.391304347826087,0
+original_test_exploratory,token_cutoff,other italian pasta,tubetti pasta,0.7528307437896729,0.25,0.16666666666666666,0
+original_test_exploratory,token_cutoff,chocolate-cherry ice cream,vanilla ice cream,0.7525293231010437,0.5,0.25806451612903225,0
+original_test_exploratory,token_cutoff,pizza cheese,pizza sauce,0.75147545337677,0.3333333333333333,0.26666666666666666,0
+original_test_exploratory,token_cutoff,boneless beef rib roast,boneless lean beef,0.7514097690582275,0.4,0.37037037037037035,0
+original_test_exploratory,token_cutoff,sugar-free instant banana cream pudding mix,sugar-free vanilla pudding,0.7511168718338013,0.2857142857142857,0.30612244897959184,0
+original_test_exploratory,token_cutoff,sesame powder,sesame stick,0.7510083317756653,0.3333333333333333,0.3125,0
+original_test_exploratory,token_cutoff,butter flavoring,flavoring,0.750943660736084,0.5,0.5,0
+original_test_exploratory,token_cutoff,pineapple ice cream,pineapple topping,0.7508144378662109,0.25,0.34782608695652173,0
+original_test_exploratory,token_cutoff,cocktail smoked sausage link,smoked pork sausage,0.750593900680542,0.4,0.34375,0
+original_test_exploratory,token_cutoff,campbell's cream of mushroom soup,condensed cream of mushroom & garlic soup,0.7505074739456177,0.5,0.4,0
+original_test_exploratory,token_cutoff,canned spaghetti and sauce,cheese-flavored spaghetti sauce,0.7502484321594238,0.4,0.40540540540540543,0
+original_test_exploratory,token_cutoff,currant jelly,grape jelly,0.7501819729804993,0.3333333333333333,0.25,0
+original_test_exploratory,token_cutoff,cranberry bean,cranberry jelly,0.7501116394996643,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,whole grain oat,whole grain oatmeal,0.9658487439155579,0.5,0.7647058823529411,0
+original_test_exploratory,trigram_cutoff,chocolate mousse mix,chocolate raspberry mousse mix,0.9485009908676147,0.75,0.6071428571428571,0
+original_test_exploratory,trigram_cutoff,low-fat vanilla yogurt,plain low-fat yogurt,0.9377797842025757,0.5,0.4074074074074074,0
+original_test_exploratory,trigram_cutoff,beef sausage,sausage meat,0.9284604787826538,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,foie gra,foie gra pate,0.9261139631271362,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,trigram_cutoff,gluten flour,gluten-free flour,0.9236263036727905,0.3333333333333333,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,no-sugar-added jam,no-sugar-added raspberry jam,0.9143706560134888,0.6666666666666666,0.5555555555555556,0
+original_test_exploratory,trigram_cutoff,low fat vanilla soymilk,low-fat soymilk,0.9133283495903015,0.2,0.36,0
+original_test_exploratory,trigram_cutoff,boneless pork loin,boneless pork loin roast,0.9128555059432983,0.75,0.7272727272727273,0
+original_test_exploratory,trigram_cutoff,jelly crystal,raspberry jelly crystal,0.9105772972106934,0.6666666666666666,0.5238095238095238,0
+original_test_exploratory,trigram_cutoff,cream of chicken and mushroom soup,cream of chicken soup,0.9095889925956726,0.6666666666666666,0.5454545454545454,0
+original_test_exploratory,trigram_cutoff,fat free sugar free yogurt,sugar-free non-fat vanilla yogurt,0.9052568078041077,0.14285714285714285,0.34210526315789475,0
+original_test_exploratory,trigram_cutoff,venison,venison loin,0.8954416513442993,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,plantain,plantain leaf,0.8890982866287231,0.5,0.5454545454545454,0
+original_test_exploratory,trigram_cutoff,dry thyme leaf,fresh thyme leaf,0.8851213455200195,0.5,0.5294117647058824,0
+original_test_exploratory,trigram_cutoff,apple juice concentrate,fruit juice concentrate,0.8844494819641113,0.5,0.6153846153846154,0
+original_test_exploratory,trigram_cutoff,fat free sugar-free instant cheesecake pudding mix,fat-free sugar-free instant vanilla pudding mix,0.8829692006111145,0.4444444444444444,0.5357142857142857,0
+original_test_exploratory,trigram_cutoff,dark chocolate,dark cooking chocolate,0.8828412294387817,0.6666666666666666,0.6,0
+original_test_exploratory,trigram_cutoff,wheat flour,whole wheat flour,0.8824347853660583,0.6666666666666666,0.6,0
+original_test_exploratory,trigram_cutoff,sweet red wine,sweet wine,0.8785412311553955,0.6666666666666666,0.5384615384615384,0
+original_test_exploratory,trigram_cutoff,beef rib,beef rib roast,0.878046452999115,0.6666666666666666,0.5,0
+original_test_exploratory,trigram_cutoff,vanilla coffee syrup,vanilla-flavored syrup,0.87388014793396,0.25,0.3103448275862069,0
+original_test_exploratory,trigram_cutoff,garlic,garlic oil,0.8674795031547546,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,chocolate chip cookie,chocolate chip cookie mix,0.8656007051467896,0.75,0.8260869565217391,0
+original_test_exploratory,trigram_cutoff,low-fat berry yogurt,low-fat plain yogurt,0.8621937036514282,0.5,0.44,0
+original_test_exploratory,trigram_cutoff,98% fat-free cream of chicken soup,98% fat-free cream of mushroom soup,0.8619413375854492,0.7142857142857143,0.5476190476190477,0
+original_test_exploratory,trigram_cutoff,mixed-grain hamburger bun,wheat hamburger bun,0.861707866191864,0.5,0.42857142857142855,0
+original_test_exploratory,trigram_cutoff,hard candy,hard cinnamon candy,0.861327588558197,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,fresh pineapple chunk,pineapple chunk in juice,0.8598117828369141,0.4,0.4642857142857143,0
+original_test_exploratory,trigram_cutoff,jell-o instant pistachio pudding mix,jell-o pudding mix,0.8594670295715332,0.6,0.48484848484848486,0
+original_test_exploratory,trigram_cutoff,boneless pork,boneless pork rib,0.8591393828392029,0.6666666666666666,0.7333333333333333,0
+original_test_exploratory,trigram_cutoff,de-fatted beef broth,de-fatted chicken broth,0.8575353026390076,0.5,0.4444444444444444,0
+original_test_exploratory,trigram_cutoff,cooked short-grain rice,short-grain brown rice,0.8574361801147461,0.5,0.5185185185185185,0
+original_test_exploratory,trigram_cutoff,chicken fillet,chicken thigh fillet,0.8559420108795166,0.6666666666666666,0.5789473684210527,0
+original_test_exploratory,trigram_cutoff,green chili,green chili sauce,0.853549599647522,0.6666666666666666,0.6,0
+original_test_exploratory,trigram_cutoff,double chocolate brownie mix,milk chocolate brownie mix,0.8535491228103638,0.6,0.6666666666666666,0
+original_test_exploratory,trigram_cutoff,kraft shredded monterey jack cheese,monterey jack and cheddar cheese blend,0.8530149459838867,0.375,0.3673469387755102,0
+original_test_exploratory,trigram_cutoff,nonfat cherry yogurt,nonfat vanilla yogurt,0.8517237901687622,0.5,0.37037037037037035,0
+original_test_exploratory,trigram_cutoff,black pudding,pudding,0.8499638438224792,0.5,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,crystal farm monterey jack cheese,monterey jack pepper cheese,0.8484102487564087,0.5,0.4358974358974359,0
+original_test_exploratory,trigram_cutoff,soy yogurt,vanilla-flavored soy yogurt,0.8482076525688171,0.6666666666666666,0.32,0
+original_test_exploratory,trigram_cutoff,cooked fettuccine,fettuccine pasta,0.8478415012359619,0.3333333333333333,0.38095238095238093,0
+original_test_exploratory,trigram_cutoff,sweet turkey sausage,turkey breakfast sausage,0.8458244800567627,0.5,0.3793103448275862,0
+original_test_exploratory,trigram_cutoff,whole wheat bread dough,whole wheat bread machine flour,0.8449961543083191,0.5,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,beef round tip steak,round steak,0.8449611663818359,0.5,0.42105263157894735,0
+original_test_exploratory,trigram_cutoff,fat-free american cheese,fat-free swiss cheese,0.844421923160553,0.5,0.41379310344827586,0
+original_test_exploratory,trigram_cutoff,dark chocolate,dark chocolate melt,0.8442609310150146,0.6666666666666666,0.7058823529411765,0
+original_test_exploratory,trigram_cutoff,spaghetti,spaghetti sauce,0.8436102867126465,0.5,0.5384615384615384,0
+original_test_exploratory,trigram_cutoff,chicken and turkey sausage,turkey breakfast sausage,0.8434703946113586,0.4,0.3142857142857143,0
+original_test_exploratory,trigram_cutoff,celery soup,low-fat cream of celery soup,0.8434122800827026,0.4,0.34615384615384615,0
+original_test_exploratory,trigram_cutoff,lean turkey sausage,turkey breakfast sausage,0.8400028944015503,0.5,0.39285714285714285,0
+original_test_exploratory,trigram_cutoff,fine breadcrumb,soft breadcrumb,0.8395463228225708,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,trigram_cutoff,canned peach,dried peach,0.8364169597625732,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,trigram_cutoff,gluten-free instant vanilla pudding mix,sugar-free instant vanilla pudding mix,0.8358472585678101,0.6666666666666666,0.7380952380952381,0
+original_test_exploratory,trigram_cutoff,vanilla chocolate chip,white chocolate chip,0.8321542739868164,0.5,0.5454545454545454,0
+original_test_exploratory,trigram_cutoff,miniature milk chocolate chip,miniature semisweet chocolate chip,0.831416666507721,0.6,0.5405405405405406,0
+original_test_exploratory,trigram_cutoff,low-carb tortilla,low-fat flour tortilla,0.8312538862228394,0.25,0.34615384615384615,0
+original_test_exploratory,trigram_cutoff,frozen baby pea,frozen pea pod,0.8306269645690918,0.5,0.3888888888888889,0
+original_test_exploratory,trigram_cutoff,smoked whitefish,whitefish,0.83033287525177,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,medium grain rice,whole grain brown rice,0.8301646709442139,0.4,0.34615384615384615,0
+original_test_exploratory,trigram_cutoff,italian sweet sausage,sweet italian turkey sausage link,0.8299167156219482,0.6,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,italian salad dressing mix,salad dressing,0.8279154896736145,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,low-fat monterey jack pepper cheese,reduced-fat monterey jack and cheddar cheese blend,0.8265900611877441,0.3333333333333333,0.4107142857142857,0
+original_test_exploratory,trigram_cutoff,peach tea bag,tea bag,0.8254496455192566,0.6666666666666666,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,9-inch double-crust pie shell,unbaked 10-inch pie shell,0.8245588541030884,0.3333333333333333,0.3157894736842105,0
+original_test_exploratory,trigram_cutoff,lemon yogurt,yogurt,0.8236979246139526,0.5,0.4,0
+original_test_exploratory,trigram_cutoff,apricot halve,apricot halve in juice,0.8232828378677368,0.5,0.55,0
+original_test_exploratory,trigram_cutoff,oatmeal cookies,oatmeal raisin cookie dough,0.8219125270843506,0.2,0.4074074074074074,0
+original_test_exploratory,trigram_cutoff,low-fat powdered nondairy creamer,powdered fat free non-dairy coffee creamer,0.8215482234954834,0.25,0.4583333333333333,0
+original_test_exploratory,trigram_cutoff,low fat cottage cheese,low-fat cream cheese,0.8197268843650818,0.16666666666666666,0.3103448275862069,0
+original_test_exploratory,trigram_cutoff,creamy peanut butter,low-fat peanut butter,0.8193603157997131,0.5,0.48,0
+original_test_exploratory,trigram_cutoff,frozen juice concentrate,frozen lemonade concentrate,0.8188760280609131,0.5,0.5161290322580645,0
+original_test_exploratory,trigram_cutoff,cooked vermicelli,vermicelli,0.8168017864227295,0.5,0.5333333333333333,0
+original_test_exploratory,trigram_cutoff,spinach,spinach pasta,0.8158242702484131,0.5,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,sherry vinegar,wine vinegar,0.8153171539306641,0.3333333333333333,0.4,0
+original_test_exploratory,trigram_cutoff,water chestnut,water chestnut starch,0.8132573366165161,0.6666666666666666,0.631578947368421,0
+original_test_exploratory,trigram_cutoff,parsley,parsley stem,0.810792088508606,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,sugar-free maple syrup,sugar-free vanilla syrup,0.810572624206543,0.5,0.4482758620689655,0
+original_test_exploratory,trigram_cutoff,mustard oil,mustard seed,0.8101989030838013,0.3333333333333333,0.46153846153846156,0
+original_test_exploratory,trigram_cutoff,diced pickled jalapeno,pickled jalapeno pepper juice,0.8098627328872681,0.4,0.4838709677419355,0
+original_test_exploratory,trigram_cutoff,low-fat cheese,lowfat parmesan cheese,0.8097991943359375,0.25,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,bottled clam juice,minced clam with juice,0.8096131682395935,0.4,0.38461538461538464,0
+original_test_exploratory,trigram_cutoff,canned carrot,carrot,0.8090047240257263,0.5,0.36363636363636365,0
+original_test_exploratory,trigram_cutoff,mild cheddar cheese,non-dairy cheddar cheese,0.8089666366577148,0.5,0.4583333333333333,0
+original_test_exploratory,trigram_cutoff,coconut cream pudding mix,sugar-free banana cream pudding mix,0.80886310338974,0.5,0.41025641025641024,0
+original_test_exploratory,trigram_cutoff,italian tomato,italian-style crushed tomato,0.8082476258277893,0.25,0.35714285714285715,0
+original_test_exploratory,trigram_cutoff,blueberry sauce,raspberry sauce,0.8061258792877197,0.3333333333333333,0.5294117647058824,0
+original_test_exploratory,trigram_cutoff,boysenberry,boysenberry syrup,0.8034559488296509,0.5,0.6,0
+original_test_exploratory,trigram_cutoff,sugar-free instant cheesecake pudding mix,sugar-free white chocolate pudding mix,0.80293208360672,0.42857142857142855,0.3962241509433965,0
+original_test_exploratory,trigram_cutoff,fine noodle,somen noodle,0.801889955997467,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,trigram_cutoff,beef gravy mix,brown gravy mix,0.8012121319770813,0.5,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,candied violet,violet,0.8008365631103516,0.5,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,pork blade steak,pork leg steak,0.8007247447967529,0.5,0.3684210526315789,0
+original_test_exploratory,trigram_cutoff,canned tomato sauce,whole canned tomato,0.7988871335983276,0.5,0.4782608695652174,0
+original_test_exploratory,trigram_cutoff,frozen potato pierogi,potato & cheese pierogi,0.798335075378418,0.4,0.3793103448275862,0
+original_test_exploratory,trigram_cutoff,old cheddar cheese,soy cheddar cheese,0.7974673509597778,0.5,0.6470588235294118,0
+original_test_exploratory,trigram_cutoff,brown sugar substitute,light-brown sugar,0.7973403334617615,0.25,0.36,0
+original_test_exploratory,trigram_cutoff,fat free oven-roasted turkey breast,honey roasted turkey breast,0.7963107824325562,0.2857142857142857,0.4864864864864865,0
+original_test_exploratory,trigram_cutoff,powdered soy protein concentrate,soy protein isolate,0.7951550483703613,0.4,0.3055555555555556,0
+original_test_exploratory,trigram_cutoff,chocolate,chocolate extract,0.7933498620986938,0.5,0.4666666666666667,0
+original_test_exploratory,trigram_cutoff,sugar-free blackberry gelatin,sugar-free blackberry jam,0.7920740842819214,0.5,0.6666666666666666,0
+original_test_exploratory,trigram_cutoff,garlic vinaigrette dressing,light raspberry vinaigrette dressing,0.7912070751190186,0.4,0.475,0
+original_test_exploratory,trigram_cutoff,cream cheese with chive and onion,cream cheese with vegetable,0.7907500267028809,0.42857142857142855,0.41025641025641024,0
+original_test_exploratory,trigram_cutoff,gluten-free chicken stock,gluten-free vegetable stock,0.7905465364456177,0.5,0.4117647058823529,0
+original_test_exploratory,trigram_cutoff,chinese chili sauce,tomato chili sauce,0.7903328537940979,0.5,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,yellow hominy with pepper,yellow pepper,0.7900505065917969,0.5,0.4166666666666667,0
+original_test_exploratory,trigram_cutoff,pork bouillon cube,vegetable bouillon cube,0.7897691130638123,0.5,0.48,0
+original_test_exploratory,trigram_cutoff,homemade mayonnaise,low-sodium mayonnaise,0.7872991561889648,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,chicken flavor instant bouillon,instant chicken-flavored broth,0.7867968082427979,0.16666666666666666,0.35714285714285715,0
+original_test_exploratory,trigram_cutoff,brown mustard,grey poupon mustard,0.7853243350982666,0.25,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,dried butter bean,dried fava bean,0.7842944860458374,0.5,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,low-sodium tomato paste,low-sodium tomato sauce,0.7826183438301086,0.5,0.6153846153846154,0
+original_test_exploratory,trigram_cutoff,chicken sausage,spicy sausage,0.7825062274932861,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,frozen sweet pepper,mini sweet pepper,0.7818636894226074,0.5,0.5238095238095238,0
+original_test_exploratory,trigram_cutoff,hungry jack big flaky refrigerated biscuit,pillsbury golden layer refrigerated flaky original biscuit,0.7815791368484497,0.3,0.34285714285714286,0
+original_test_exploratory,trigram_cutoff,sea bass,sea bass steak,0.7815341949462891,0.6666666666666666,0.5,0
+original_test_exploratory,trigram_cutoff,cooked turkey breast,turkey breast tenderloin,0.7811896800994873,0.5,0.3793103448275862,0
+original_test_exploratory,trigram_cutoff,fat-free margarine,regular margarine,0.7796087265014648,0.3333333333333333,0.34782608695652173,0
+original_test_exploratory,trigram_cutoff,miniature shredded wheat cereal,puffed wheat cereal,0.7784850597381592,0.4,0.3939393939393939,0
+original_test_exploratory,trigram_cutoff,venison,venison roast,0.7778226137161255,0.5,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,cheese sauce mix,white sauce mix,0.7773195505142212,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,cherry cake mix,orange cake mix,0.7770010232925415,0.5,0.3684210526315789,0
+original_test_exploratory,trigram_cutoff,cod steak,steak,0.7768340110778809,0.5,0.42857142857142855,0
+original_test_exploratory,trigram_cutoff,cracked-wheat bread,wheat thin cracker,0.7766531705856323,0.0,0.32,0
+original_test_exploratory,trigram_cutoff,tomato bisque soup,tomato soup,0.7763020992279053,0.6666666666666666,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,irish cream coffee creamer,liquid coffee creamer,0.7760944366455078,0.4,0.5,0
+original_test_exploratory,trigram_cutoff,almond flour,flour,0.7758212089538574,0.5,0.3,0
+original_test_exploratory,trigram_cutoff,strawberry cake mix,white cake mix,0.775164008140564,0.5,0.3181818181818182,0
+original_test_exploratory,trigram_cutoff,frozen asian-style vegetable,green giant california-style frozen vegetable,0.7746704816818237,0.3333333333333333,0.3877551020408163,0
+original_test_exploratory,trigram_cutoff,margarine,polyunsaturated margarine,0.7745669484138489,0.5,0.30434782608695654,0
+original_test_exploratory,trigram_cutoff,condensed mushroom soup,lipton beefy mushroom soup mix,0.7745559215545654,0.3333333333333333,0.32432432432432434,0
+original_test_exploratory,trigram_cutoff,fruit nectar,guava nectar,0.7743168473243713,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,cream cheese with herb,cream cheese with tomato and basil,0.7742083072662354,0.42857142857142855,0.4444444444444444,0
+original_test_exploratory,trigram_cutoff,boneless beef chuck steak,boneless lean beef,0.773948609828949,0.4,0.3448275862068966,0
+original_test_exploratory,trigram_cutoff,coconut pudding mix,instant banana pudding mix,0.7728893756866455,0.4,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,skinless boneless turkey breast,skinless chicken breast half,0.7724640369415283,0.3333333333333333,0.3,0
+original_test_exploratory,trigram_cutoff,peppercorn,szechuan peppercorn,0.7724323272705078,0.5,0.47058823529411764,0
+original_test_exploratory,trigram_cutoff,cooked chicken breast strip,cooked italian chicken breast,0.772236704826355,0.6,0.5294117647058824,0
+original_test_exploratory,trigram_cutoff,short pastry,shortcrust pastry dough,0.7714126110076904,0.25,0.4090909090909091,0
+original_test_exploratory,trigram_cutoff,ginger beer,ginger juice,0.7706542015075684,0.3333333333333333,0.35714285714285715,0
+original_test_exploratory,trigram_cutoff,french vanilla yogurt,sugar-free vanilla yogurt,0.7706141471862793,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,baking chocolate,premium white baking chocolate,0.7701497673988342,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,fresh sweet potato,sweet potato baby food,0.7700245976448059,0.4,0.38461538461538464,0
+original_test_exploratory,trigram_cutoff,goat cheese salad dressing,salad dressing,0.7696928977966309,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,oreo cookie pie crust,oreo cookies,0.7695982456207275,0.2,0.47368421052631576,0
+original_test_exploratory,trigram_cutoff,goat milk yogurt,greek yogurt,0.7694892883300781,0.25,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,dry apple cider,unsweetened apple cider,0.7674322128295898,0.5,0.4166666666666667,0
+original_test_exploratory,trigram_cutoff,kraft shredded cheddar cheese,pre-shredded mozzarella cheese,0.7663484215736389,0.16666666666666666,0.3,0
+original_test_exploratory,trigram_cutoff,canned pineapple,pineapple juice,0.7663094997406006,0.3333333333333333,0.35,0
+original_test_exploratory,trigram_cutoff,fresh smoked mozzarella cheese ball,mozzarella cheese,0.7658267021179199,0.4,0.45454545454545453,0
+original_test_exploratory,trigram_cutoff,nonfat dry milk powder,nonfat protein powder,0.765503466129303,0.4,0.3448275862068966,0
+original_test_exploratory,trigram_cutoff,mild sausage,spicy sausage,0.7652426958084106,0.3333333333333333,0.4,0
+original_test_exploratory,trigram_cutoff,fat free whole wheat tortilla,fat-free whole wheat pita bread,0.7651339769363403,0.25,0.3783783783783784,0
+original_test_exploratory,trigram_cutoff,green goddess salad dressing,green salad,0.7636942863464355,0.5,0.3076923076923077,0
+original_test_exploratory,trigram_cutoff,cranberry-grape juice,sugar-free cranberry juice,0.7635706067085266,0.25,0.34375,0
+original_test_exploratory,trigram_cutoff,lean sausage meat,pork sausage,0.7634162902832031,0.25,0.3157894736842105,0
+original_test_exploratory,trigram_cutoff,gluten free vanilla,gluten-free low fat vanilla yogurt,0.763124942779541,0.14285714285714285,0.3611111111111111,0
+original_test_exploratory,trigram_cutoff,long grain white rice,minute white rice,0.7628162503242493,0.4,0.375,0
+original_test_exploratory,trigram_cutoff,red chili sauce,sweet asian chicken chili sauce,0.7623791098594666,0.3333333333333333,0.3448275862068966,0
+original_test_exploratory,trigram_cutoff,butter,nut butter,0.7618776559829712,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,coarse ground beef,vegetarian ground beef,0.7615925073623657,0.5,0.38461538461538464,0
+original_test_exploratory,trigram_cutoff,instant butterscotch pudding mix,sugar-free instant chocolate pudding mix,0.7613533735275269,0.5,0.3076923076923077,0
+original_test_exploratory,trigram_cutoff,fresh chive,fresh green chily,0.7611817121505737,0.25,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,chocolate biscuit,coconut biscuit,0.7607378363609314,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,venison roast,venison stew meat,0.7606924772262573,0.25,0.3,0
+original_test_exploratory,trigram_cutoff,low-fat alfredo sauce,sun-dried tomato alfredo sauce,0.7602651119232178,0.4,0.34285714285714286,0
+original_test_exploratory,trigram_cutoff,fat-free chicken broth,ready-to-serve chicken broth,0.7600851655006409,0.5,0.3939393939393939,0
+original_test_exploratory,trigram_cutoff,marbled rye bread,rye breadcrumb,0.7599987983703613,0.25,0.35,0
+original_test_exploratory,trigram_cutoff,reduced fat romano cheese,reduced-fat swiss cheese,0.759921669960022,0.16666666666666666,0.36363636363636365,0
+original_test_exploratory,trigram_cutoff,chocolate,unsweetened chocolate,0.7590951919555664,0.5,0.3684210526315789,0
+original_test_exploratory,trigram_cutoff,beef tenderloin,turkey tenderloin,0.7588095664978027,0.3333333333333333,0.47368421052631576,0
+original_test_exploratory,trigram_cutoff,low-sodium tomato juice,reduced-sodium stewed tomato,0.7586096525192261,0.2,0.3055555555555556,0
+original_test_exploratory,trigram_cutoff,espresso coffee,espresso granule,0.7579301595687866,0.3333333333333333,0.35,0
+original_test_exploratory,trigram_cutoff,refrigerated buttermilk biscuit,refrigerated corn biscuit,0.7577387094497681,0.5,0.4857142857142857,0
+original_test_exploratory,trigram_cutoff,sunflower oil,sunflower seed butter,0.7570578455924988,0.25,0.36363636363636365,0
+original_test_exploratory,trigram_cutoff,gingernut biscuit,oat biscuit,0.7569013237953186,0.3333333333333333,0.4117647058823529,0
+original_test_exploratory,trigram_cutoff,9-grain bread,light whole grain bread,0.7566540837287903,0.2,0.391304347826087,0
+original_test_exploratory,trigram_cutoff,ginger biscuit,tea biscuit,0.7564109563827515,0.3333333333333333,0.4,0
+original_test_exploratory,trigram_cutoff,crystallized ginger,dried ginger,0.7548342943191528,0.3333333333333333,0.35,0
+original_test_exploratory,trigram_cutoff,cucumber salad dressing,light salad dressing,0.7547812461853027,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,italian style breadcrumb,soft breadcrumb,0.7546030282974243,0.25,0.34615384615384615,0
+original_test_exploratory,trigram_cutoff,coffee syrup,simple syrup,0.754481852054596,0.3333333333333333,0.3333333333333333,0
+original_test_exploratory,trigram_cutoff,buttermilk pancake mix,whole wheat pancake mix,0.7544131278991699,0.4,0.3225806451612903,0
+original_test_exploratory,trigram_cutoff,low fat cottage cheese,non fat cheese,0.7543201446533203,0.4,0.391304347826087,0
+original_test_exploratory,trigram_cutoff,boneless beef rib roast,boneless lean beef,0.7514097690582275,0.4,0.37037037037037035,0
+original_test_exploratory,trigram_cutoff,sugar-free instant banana cream pudding mix,sugar-free vanilla pudding,0.7511168718338013,0.2857142857142857,0.30612244897959184,0
+original_test_exploratory,trigram_cutoff,sesame powder,sesame stick,0.7510083317756653,0.3333333333333333,0.3125,0
+original_test_exploratory,trigram_cutoff,butter flavoring,flavoring,0.750943660736084,0.5,0.5,0
+original_test_exploratory,trigram_cutoff,pineapple ice cream,pineapple topping,0.7508144378662109,0.25,0.34782608695652173,0
+original_test_exploratory,trigram_cutoff,cocktail smoked sausage link,smoked pork sausage,0.750593900680542,0.4,0.34375,0
+original_test_exploratory,trigram_cutoff,campbell's cream of mushroom soup,condensed cream of mushroom & garlic soup,0.7505074739456177,0.5,0.4,0
+original_test_exploratory,trigram_cutoff,canned spaghetti and sauce,cheese-flavored spaghetti sauce,0.7502484321594238,0.4,0.40540540540540543,0
+original_test_exploratory,trigram_cutoff,cranberry bean,cranberry jelly,0.7501116394996643,0.3333333333333333,0.47058823529411764,0
