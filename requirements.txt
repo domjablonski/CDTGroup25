@@ -1,5 +1,6 @@
 ipykernel
 jupyterlab
+lightgbm
 matplotlib
 numpy
 pandas
@@ -8,4 +9,3 @@ sentence-transformers
 scikit-learn
 scipy
 seaborn
-lightgbm
