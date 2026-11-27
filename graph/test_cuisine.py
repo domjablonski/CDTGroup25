@@ -138,3 +138,53 @@ def test_resolution_for_k_returns_the_closest_when_unreachable():
     from run_cuisine import resolution_for_k
 
     assert resolution_for_k(chain_of_cliques(), 4)[1] in (3, 5)  # 4 is not reachable
+
+
+# --- matrix helpers and label propagation (train_graph_cuisine.py) ------------------------------
+
+def test_incidence_and_recipe_features_average_the_ingredient_vectors():
+    index = {"basil": 0, "parmesan": 1, "ginger": 2}
+    R = cuisine.incidence([["basil", "ginger", "salt"], ["salt"], ["parmesan", "parmesan"]], index)
+    np.testing.assert_array_equal(R.toarray(), [[1, 0, 1], [0, 0, 0], [0, 1, 0]])
+    F = np.array([[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
+    np.testing.assert_allclose(cuisine.recipe_features(R, F), [[0.5, 0.5], [0, 0], [0.5, 0.5]])
+
+
+def test_hard_membership_matches_community_profiles():
+    nodes = sorted(PARTITION)
+    index = {n: i for i, n in enumerate(nodes)}
+    lists = [["basil", "parmesan", "ginger", "unknown"], ["rice"]]
+    M = cuisine.hard_membership(PARTITION, nodes)
+    np.testing.assert_allclose(cuisine.recipe_features(cuisine.incidence(lists, index), M),
+                               cuisine.community_profiles(lists, PARTITION, 2))
+
+
+def test_soft_membership_mixes_own_community_and_neighbours():
+    import networkx as nx
+
+    G = nx.Graph()
+    G.add_weighted_edges_from([("a", "b", 1.0), ("a", "c", 3.0)])  # a in community 0, b in 0, c in 1
+    nodes = ["a", "b", "c"]
+    M = cuisine.hard_membership({"a": 0, "b": 0, "c": 1}, nodes)
+    S = cuisine.soft_membership(G, nodes, M, own=0.5)
+    np.testing.assert_allclose(S[0], [0.5 + 0.5 * 0.25, 0.5 * 0.75])  # a: 1/4 of its weight to c0, 3/4 to c1
+    np.testing.assert_allclose(S.sum(axis=1), 1.0)
+
+
+def test_ingredient_cuisine_is_smoothed_towards_the_prior():
+    from train_graph_cuisine import ingredient_cuisine
+
+    R = cuisine.incidence([["x"], ["x"], ["y"]], {"x": 0, "y": 1})
+    P = ingredient_cuisine(R, ["thai", "thai", "italian"], ["italian", "thai"], prior=np.array([0.5, 0.5]), alpha=2.0)
+    np.testing.assert_allclose(P[0], [(0 + 1) / 4, (2 + 1) / 4])
+    np.testing.assert_allclose(P.sum(axis=1), 1.0)
+
+
+def test_propagation_with_beta_zero_changes_nothing():
+    import scipy.sparse as sp
+    from train_graph_cuisine import propagate
+
+    P0 = np.array([[1.0, 0.0], [0.0, 1.0]])
+    W = sp.csr_matrix(np.array([[0.0, 1.0], [1.0, 0.0]]))
+    np.testing.assert_allclose(propagate(P0, W, beta=0.0), P0)
+    np.testing.assert_allclose(propagate(P0, W, beta=0.5).sum(axis=1), 1.0)

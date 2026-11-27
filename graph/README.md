@@ -10,7 +10,7 @@ edge weights (lift = p(a,b) / (p(a) p(b)), pmi = log2 lift, npmi = pmi / -log2 p
 From the repo root, after `python preprocessing/preprocessing.py` (needs `ingredients_v2`):
 
 ```bash
-pytest graph -q                                   # 50 tests on toy examples
+pytest graph -q                                   # 55 tests on toy examples
 python graph/run_graph.py                         # pairs counted here (same definition as PCY)
 python graph/run_graph.py --pcy-dir <folder>      # pairs from R3's PCY output files
 python graph/sensitivity.py                       # robustness: 9 parameter settings (about 75 s)
@@ -77,4 +77,25 @@ python graph/run_cuisine.py     # about 7 minutes
 ```
 Outputs: `results/cuisine_val.csv` (validation sweep), `cuisine_val_references.csv`, `cuisine_test.csv`,
 `cuisine_per_class.csv`, `cuisine_confusion.csv`, `cuisine_communities.csv` (the ~10 PMI communities and their two
-main cuisines) and `figures/cuisine_resolution.png`. Tests: `graph/test_cuisine.py` (15 tests).
+main cuisines) and `figures/cuisine_resolution.png`. Tests: `graph/test_cuisine.py` (20 tests).
+
+## Does training on the annotated recipes make the graph predict better? (`train_graph_cuisine.py`)
+
+Validation only, on the agreed graph (PCY pairs at 0.1 % on all recipes, PMI). The cuisine labels of the training
+recipes are used in three ways; out-of-fold features for the training recipes, so validation scores are honest.
+
+| Method | Val macro-F1 |
+|---|---|
+| A. Louvain communities (100), logistic (method used on test) | 0.453 |
+| B. soft membership, 10 + 30 + 100 communities, logistic | 0.471 |
+| C. communities guided by the labels (edge x cuisine similarity), logistic | 0.456 |
+| D. ingredients' cuisine distributions propagated over the graph, logistic | 0.501 |
+| control: same distributions **without** the graph | **0.515** |
+
+The labels help through the ingredients themselves, not through the graph: propagating over the graph lowers the
+score (0.515 -> 0.510 -> 0.501 -> 0.484 as the propagation weight grows) and label-guided communities gain nothing.
+The graph is kept for what it does well, revealing the structure of cuisines; method A stays the one evaluated on test.
+
+```bash
+python graph/train_graph_cuisine.py   # about 12 minutes -> results/cuisine_trained_val.csv
+```

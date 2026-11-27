@@ -13,6 +13,7 @@ from collections.abc import Iterable
 import networkx as nx
 import numpy as np
 import pandas as pd
+import scipy.sparse as sp
 
 import graphs
 
@@ -77,3 +78,36 @@ def evaluate(y_true, y_pred, classes: list) -> dict:
 def class_prior(y: np.ndarray, classes: list) -> np.ndarray:
     counts = pd.Series(y).value_counts()
     return np.array([counts.get(c, 0) for c in classes], dtype=float) / len(y)
+
+
+# --- matrix helpers (used by train_graph_cuisine.py) ---------------------------------------------
+
+def incidence(ingredient_lists, index: dict) -> sp.csr_matrix:
+    """(n_recipes, n_nodes) 0/1: which graph ingredients each recipe contains."""
+    rows, cols = [], []
+    for r, ings in enumerate(ingredient_lists):
+        for i in {index[x] for x in ings if x in index}:
+            rows.append(r)
+            cols.append(i)
+    return sp.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(len(ingredient_lists), len(index)))
+
+
+def hard_membership(partition: dict, nodes: list) -> sp.csr_matrix:
+    k = max(partition.values()) + 1
+    return sp.csr_matrix((np.ones(len(nodes)), (range(len(nodes)), [partition[n] for n in nodes])), shape=(len(nodes), k))
+
+
+def soft_membership(G: nx.Graph, nodes: list, M: sp.csr_matrix, own: float = 0.5) -> np.ndarray:
+    """Each ingredient: `own` x its community + (1 - own) x share of its edge weight per community."""
+    A = nx.to_scipy_sparse_array(G, nodelist=nodes, weight="weight", format="csr")
+    S = (A @ M).toarray()
+    S = S / np.maximum(S.sum(axis=1, keepdims=True), 1e-12)
+    return own * M.toarray() + (1 - own) * S
+
+
+def recipe_features(R: sp.csr_matrix, F) -> np.ndarray:
+    """Mean of the ingredient vectors F over each recipe's graph ingredients (zeros if none)."""
+    counts = np.asarray(R.sum(axis=1)).ravel()
+    Rn = sp.diags(1 / np.maximum(counts, 1)) @ R
+    X = Rn @ F
+    return X.toarray() if sp.issparse(X) else np.asarray(X)

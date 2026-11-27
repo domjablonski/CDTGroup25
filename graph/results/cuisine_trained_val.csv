@@ -1,0 +1,14 @@
+method,macro_f1,C,n_features
+"A  communities (100), logistic",0.4527,1.0000,100.0000
+"B  soft, 10+30+100 communities, logistic",0.4705,3.0000,140.0000
+"C  label-guided communities (30), logistic",0.3992,3.0000,30.0000
+"C  label-guided communities (100), logistic",0.4564,3.0000,100.0000
+"D  propagation beta=0.0, no model (mean / prior)",0.4625,,
+"D  propagation beta=0.3, no model (mean / prior)",0.4553,,
+"D  propagation beta=0.5, no model (mean / prior)",0.4439,,
+"D  propagation beta=0.7, no model (mean / prior)",0.4289,,
+"D  propagation beta=0.0, logistic (control: no graph)",0.5150,3.0000,11.0000
+"D  propagation beta=0.3, logistic",0.5100,3.0000,11.0000
+"D  propagation beta=0.5, logistic",0.5012,3.0000,11.0000
+"D  propagation beta=0.7, logistic",0.4839,3.0000,11.0000
+"D+A propagation + communities (100), logistic",0.5087,3.0000,111.0000
